@@ -1,34 +1,36 @@
 import {GDocument} from "./glider/glider"
-import {Login, LoginData} from "./user/login"
+//import {Login, LoginData} from "./user/login"
+import {Base, BaseData} from "./user/base"
 
 
 
-function login():void{
+
+
+
+function base():void{
     
-    let login = new Login()
+    let base = new Base()
+    console.log("base")
 
 }
 
 
-function test():void{
-    
-    console.log("test")
-}
+
+
+
 
 let route = [
-    {'' : login},
-    {'/test' : test},
+    {'/' : base},
 ]
 
 
 let store = {
-    login: new LoginData(),
-    test: new LoginData()
+    base: new BaseData(),
 }
 
 
-//GDocument.stores(store)
-//GDocument.route(route)
+GDocument.stores(store)
+GDocument.route(route)
 
 
 

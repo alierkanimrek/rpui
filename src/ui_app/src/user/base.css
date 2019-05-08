@@ -1,0 +1,33 @@
+html,body { 
+  font-family: 'Open Sans', serif;
+  transition: 0.3s;
+/*  font-size: 14px;
+  font-weight: 300;
+  */
+  animation: fadeEffect 1s;
+}
+
+.navbar {
+  background-color: red;
+}
+
+
+.logo {
+    height: 3.25rem;
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+
+.baseSection{
+    padding: 0.5rem;
+}
+
+.baseContainer{
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+}
