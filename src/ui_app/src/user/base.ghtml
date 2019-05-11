@@ -9,14 +9,15 @@ approot
         i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
 
   section class=section baseSection
-    div class=container baseContainer id=baseMainContent
-      h1 class=title
-      ^ Content
-      h2 class=subtitle
-      ^ A simple container to divide your page into strongsections
 
     div class=container baseContainer id=baseMenuContent
       h1 class=title
       ^ Menu
+      h2 class=subtitle
+      ^ A simple container to divide your page into strongsections
+
+    div class=container baseContainer id=baseMainContent
+      h1 class=title
+      ^ Content
       h2 class=subtitle
       ^ A simple container to divide your page into strongsections

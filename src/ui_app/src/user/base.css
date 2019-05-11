@@ -1,6 +1,7 @@
 html,body { 
   font-family: 'Open Sans', serif;
   transition: 0.3s;
+  padding: 0.5rem;
 /*  font-size: 14px;
   font-weight: 300;
   */

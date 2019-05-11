@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../glider/glider"
 import "./base.css"
 import baseView from './base.ghtml'
 
@@ -20,6 +20,12 @@ export class Base extends GHTMLControl {
 
 
 
+    baseMenuItem: HTMLElement
+    baseMenuContent: HTMLElement
+    baseMenuButton: HTMLElement
+    baseMainContent: HTMLElement
+    baseMenuContent: HTMLElement
+
 	bindingStore:BaseData
     
 
@@ -27,25 +33,26 @@ export class Base extends GHTMLControl {
 
     constructor() {
         super({view:baseView, bindTo:"base"})
-        this.e["baseMenuItem"].addEventListener("click", this.menu.bind(this))
-        this.e["baseMenuContent"].style.display = "none"
+
+        this.baseMenuItem.addEventListener("click", this.toggleMenu.bind(this))
+        this.baseMenuContent.style.display = "none"
+
     }
 
 
-    menu(e:Event|any):void{
-        let button = this.e["baseMenuButton"]
-        let main = this.e["baseMainContent"]
-        let menu = this.e["baseMenuContent"]
-        if("fa fa-bars" == button["className"]){
-            button["className"] = "fa fa-times"
-            main.style.display = "none"
-            menu.style.display = "block"
+
+
+    toggleMenu(e:Event):void{
+
+        if("fa fa-bars" == this.baseMenuButton.className){
+            this.baseMenuButton.className = "fa fa-times"
+            this.baseMainContent.style.display = "none"
+            this.baseMenuContent.style.display = "block"
         }
         else{
-            button["className"] = "fa fa-bars"
-            main.style.display = "block"
-            menu.style.display = "none"
-
+            this.baseMenuButton.className = "fa fa-bars"
+            this.baseMainContent.style.display = "block"
+            this.baseMenuContent.style.display = "none"
         }
     }
 
@@ -55,10 +62,11 @@ export class Base extends GHTMLControl {
         //window.location.hash = "/test"
     }
     */
-
-
-
 }
+
+
+
+
 
 
 
