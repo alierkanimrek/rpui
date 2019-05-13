@@ -6,6 +6,11 @@
 
 
 
+if [[ $1 == "" ]]; then
+    echo 'update.sh <locale>'
+    echo 'update.sh en-us'
+    exit -1
+fi
 
 path=$(dirname $(readlink -f $0))
 cd $path
@@ -15,8 +20,7 @@ mo_path=mo
 json_path=json
 
 app_names=(user)
-locales=(tr)
-locale_files=(tr)
+locale=$1
 
 
 
@@ -29,24 +33,19 @@ if [[ $current != $last ]]; then
     
     for app in *.py
     do
-        cd $path
+        fn="${app%.*}"
+        echo -e "\n\n$Updating source of $app__________________________"
         mkdir -p $po_path/
-
-        echo -e  "\n\nUpdate $app.pot"
-        xgettext --language=Python --keyword=_ --from-code=UTF-8 --output=$po_path/$app.pot $app
+        echo -e  "\nUpdate pot____"
+        xgettext --language=Python --keyword=_ --from-code=UTF-8 --output=$po_path/$fn.pot $app
 
         cd $po_path
-        for locale in $locales
-        do [ -f "$locale" ]
-            mkdir -p $locale/
-            echo -e  "\nGenerating $locale"
-            msginit --input=$app.pot --locale=$locale --output-file=$locale/$app.po
-        done
-        for locale in $locale_files
-        do [ -f "$locale" ]
-            echo -e  "\nUpdating $locale"
-            msgmerge --update $locale/$app.po $app.pot
-        done    
+        mkdir -p $locale/
+        echo -e  "\nGenerating po____"
+        msginit --input=$fn.pot --locale=$locale --output-file=$locale/$fn.po
+
+        echo -e  "\nUpdating po____"
+        msgmerge --update $locale/$fn.po $fn.pot
     done
 fi
 
@@ -61,16 +60,12 @@ if [[ $current != $last ]]; then
 
     for app in *.py
     do
-        echo -e  "\n\nGenerate $app mo"
+        
+        fn="${app%.*}"
+        echo -e "\n\n$Updating translations of $app__________________________"
 
-        for locale in $locale_files
-        do [ -f "$locale" ]
-            echo -e  "\nGenerating $locale"
-            mkdir -p $mo_path/$locale/LC_MESSAGES/
-            mkdir -p $json_path/$locale/
-            msgfmt $po_path/$locale/$app.po --output-file $mo_path/$locale/LC_MESSAGES/$app.mo
-            echo -e  "\nGenerating json"
-            python3 $app
-        done
+        mkdir -p $mo_path/$locale/LC_MESSAGES/
+        mkdir -p $json_path/$locale/
+        msgfmt $po_path/$locale/$fn.po --output-file $mo_path/$locale/LC_MESSAGES/$fn.mo
     done
 fi
