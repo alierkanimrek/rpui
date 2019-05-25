@@ -24,7 +24,7 @@ export class Base extends GHTMLControl {
     baseMenuContent: HTMLElement
     baseMenuButton: HTMLElement
     baseMainContent: HTMLElement
-    baseMenuContent: HTMLElement
+
 
 	bindingStore:BaseData
     
@@ -36,6 +36,7 @@ export class Base extends GHTMLControl {
 
         this.baseMenuItem.addEventListener("click", this.toggleMenu.bind(this))
         this.baseMenuContent.style.display = "none"
+
 
     }
 
