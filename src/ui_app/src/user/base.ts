@@ -1,9 +1,12 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../glider/glider"
 import "./base.css"
 import baseView from './base.ghtml'
+import {GetText} from "../i18n/gettext"
+
+import {LangSelector} from "../widgets/lang/selector"
 
 
-
+const name = "base"
 
 
 
@@ -27,17 +30,22 @@ export class Base extends GHTMLControl {
 
 
 	bindingStore:BaseData
+    trns:GetText
     
 
 
 
     constructor() {
-        super({view:baseView, bindTo:"base"})
+        super({view:baseView, bindTo: name})
 
         this.baseMenuItem.addEventListener("click", this.toggleMenu.bind(this))
         this.baseMenuContent.style.display = "none"
+        this.trns = this.gDoc.gData("trns").t.translations(name)
+
+        new LangSelector(this.baseMenuContent.id)
 
 
+        this.trns.updateStatics()
     }
 
 

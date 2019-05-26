@@ -1,17 +1,24 @@
-import {GDocument} from "./glider/glider"
+import {GDocument, GDataObject} from "./glider/glider"
 //import {Login, LoginData} from "./user/login"
 import {Translator} from "./i18n/gettext"
 import {Base, BaseData} from "./user/base"
+import {LangSelectorData} from "./widgets/lang/selector"
 
 
 const app = "user"
-let i18n = new Translator("/app/i18n/", app, "en-us")
 
 
+/*
+    Translation objects
+*/
+export class Translation extends GDataObject {
+    public t:Translator = new Translator("/app/i18n/", app)
+}
 
+let translator = new Translation()
 
 function appReady():boolean {
-    if(!i18n.state){    return(false)}
+    if(!translator.t.state){    return(false)}
     return(true)
 }
 
@@ -22,8 +29,12 @@ function base():void{
     
     let base = new Base()
     console.log("base")
-    let _ = i18n.translations("base").get_()
-    console.log( _("loginCodeSent") )
+    //let _ = i18n.translations("base").get_()
+    //console.log( _("loginCodeSent") )
+
+
+
+
 
 }
 
@@ -38,7 +49,9 @@ let route = [
 
 
 let store = {
-    base: new BaseData()
+    base: new BaseData(),
+    langselector: new LangSelectorData(),
+    trns: translator
 }
 
 GDocument.setReadyChecker(appReady)
