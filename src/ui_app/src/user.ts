@@ -1,6 +1,7 @@
 import {GDocument, GDataObject} from "./glider/glider"
-//import {Login, LoginData} from "./user/login"
 import {Translator} from "./i18n/gettext"
+
+import {Login, LoginData} from "./user/login"
 import {Base, BaseData} from "./user/base"
 import {LangSelectorData} from "./widgets/lang/selector"
 
@@ -25,17 +26,14 @@ function appReady():boolean {
 
 
 
-function base():void{
+
+
+
+
+function login():void{
     
     let base = new Base()
-    console.log("base")
-    //let _ = i18n.translations("base").get_()
-    //console.log( _("loginCodeSent") )
-
-
-
-
-
+    let login = new Login()
 }
 
 
@@ -44,14 +42,15 @@ function base():void{
 
 
 let route = [
-    {'/' : base},
+    {'/' : login},
 ]
 
 
 let store = {
     base: new BaseData(),
     langselector: new LangSelectorData(),
-    trns: translator
+    trns: translator,
+    login: new LoginData()
 }
 
 GDocument.setReadyChecker(appReady)

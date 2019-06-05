@@ -28,6 +28,10 @@ export class Base extends GHTMLControl {
     baseMenuButton: HTMLElement
     baseMainContent: HTMLElement
 
+    emap: any = [
+        [this.baseMenuItem, "click", this.toggleMenu]
+    ]
+
 
 	bindingStore:BaseData
     trns:GetText
@@ -35,17 +39,17 @@ export class Base extends GHTMLControl {
 
 
 
+
     constructor() {
         super({view:baseView, bindTo: name})
 
-        this.baseMenuItem.addEventListener("click", this.toggleMenu.bind(this))
         this.baseMenuContent.style.display = "none"
+
         this.trns = this.gDoc.gData("trns").t.translations(name)
-
         new LangSelector(this.baseMenuContent.id)
-
-
+        
         this.trns.updateStatics()
+        this.linkEvents(this.emap)
     }
 
 

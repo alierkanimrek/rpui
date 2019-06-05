@@ -1,34 +1,30 @@
-approot
+baseMainContent
   section class=hero is-success is-fullheight
     div class=hero-body
       div class=container has-text-centered
         div class=column is-4 is-offset-4
-          h3 class=title has-text-grey 
-          ^ Login
-          p class=subtitle has-text-grey 
-          ^ Please login to proceed.
+          h3 class=title has-text-grey id=loginTitle
+          p class=subtitle has-text-grey id=loginSubTitle
           div class=box
             figure class=avatar
               img src=https://placehold.it/128x128
             form
               div class=field
                 div class=control
-                  input id=uname name=uname class=input is-large type=email required=true placeholder=Your Email
+                  input id=loginUname name=uname class=input is-large type=email required=true
               div class=field
                 div class=control
-                  input id=passw name=passw class=input is-large type=password placeholder=Your Password
-              div class=select id=selectArea
+                  input id=loginPassw name=passw class=input is-large type=password
               div class=field
                 label class=checkbox
-                  input id=remember name=remember type=checkbox 
-                  span 
-                  ^  Remember me
-              button id=submit class=button is-block is-info is-large is-fullwidth 
-              ^ Login
+                  input name=remember type=checkbox 
+                  span id=loginRemember
+              button id=loginSubmit class=button is-block is-info is-large is-fullwidth 
           p class=has-text-grey
-            a  id=signup
-            ^ Sign Up&nbsp;&nbsp;&nbsp;
-            a href=.. 
-            ^ Forgot Password&nbsp;&nbsp;&nbsp;
-            a href=.. 
-            ^ Need Help
+            a id=loginSignup
+            span
+            ^ &nbsp;&nbsp;&nbsp;
+            a id=loginForgot 
+            span
+            ^ &nbsp;&nbsp;&nbsp;
+            a id=loginHelp

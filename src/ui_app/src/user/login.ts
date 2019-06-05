@@ -1,9 +1,10 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../glider/glider"
+import {GetText} from "../i18n/gettext"
 import "./login.css"
 import loginView from './login.ghtml'
 
 
-
+const name = "login"
 
 
 
@@ -21,15 +22,17 @@ export class Login extends GHTMLControl {
 
 
 	bindingStore:LoginData
+    trns: GetText
     
 
 
 
+
     constructor() {
-        super({view:loginView, bindTo:"login"})
-        
-
-
+        super({view:loginView, bindTo:name})
+        this.trns = this.store("trns").t.translations(name)
+        this.trns.updateStatics()        
+        /*
         let select = [
             "selectArea",
             "  select id=server name=server"
@@ -42,7 +45,7 @@ export class Login extends GHTMLControl {
 
         this.createGHTML(select)
         this.up()
-
+        */
         //this.e["submit"].addEventListener("click", this.submit.bind(this))
 
     }

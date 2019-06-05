@@ -53,8 +53,6 @@ export class LangSelector extends GHTMLControl {
 
 
 
-        //this.e["submit"].addEventListener("click", this.submit.bind(this))
-
     }
 
     /*

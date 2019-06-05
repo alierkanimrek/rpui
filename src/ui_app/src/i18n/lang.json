@@ -1,3 +1,4 @@
 {
-    "English" : {"native": "English", "id":"en-us"}
+    "English" : {"native": "English", "id":"en-us"},
+    "Turkish" : {"native": "Türkçe", "id":"tr-tr"}
 }
