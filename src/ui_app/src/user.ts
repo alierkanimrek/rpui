@@ -1,22 +1,25 @@
 import {GDocument, GDataObject} from "./glider/glider"
-import {Translator} from "./i18n/gettext"
+import {Translation} from "./components/translation"
+import {viewport, VPTypes} from "./components/viewport"
+
 
 import {Login, LoginData} from "./user/login"
 import {Base, BaseData} from "./user/base"
 import {LangSelectorData} from "./widgets/lang/selector"
 
 
+
+
+
+
+
+
 const app = "user"
+const i18npath = "/app/i18n/"
+const translator = new Translation(i18npath, app)
 
 
-/*
-    Translation objects
-*/
-export class Translation extends GDataObject {
-    public t:Translator = new Translator("/app/i18n/", app)
-}
 
-let translator = new Translation()
 
 function appReady():boolean {
     if(!translator.t.state){    return(false)}

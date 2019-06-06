@@ -8,6 +8,11 @@ def text(_):
         "base": {
 
             "static":{
+                "mainMenuLgTitle" : {"textContent":_("Application Language")},
+                "mainMenuVpTitle" : {"textContent":_("Application View Mode")},
+                "mainMenuVpDesktopLabel" : {"textContent":_("Desktop")},
+                "mainMenuVpHandLabel" : {"textContent":_("Hand")},
+                "mainMenuVpWallLabel" : {"textContent":_("Wall")}
             },
 
             "dynamic":{

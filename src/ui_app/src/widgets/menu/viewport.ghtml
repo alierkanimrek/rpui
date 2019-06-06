@@ -1,0 +1,26 @@
+mainMenuContainer
+    DIV class = tile is-parent
+        DIV class = tile is-child box
+            P class=title is-5 id=mainMenuVpTitle
+            ^ View Options
+            DIV
+                NAV class=level
+                    DIV class=level-left
+                        DIV class=level-item
+                            P id=mainMenuVpDesktopLabel
+                    DIV class=level-right
+                        DIV class=level-item gid=desktopToggleContainer
+            DIV
+                NAV class=level
+                    DIV class=level-left
+                        DIV class=level-item
+                            P id=mainMenuVpHandLabel
+                    DIV class=level-right
+                        DIV class=level-item gid=handToggleContainer
+            DIV
+                NAV class=level
+                    DIV class=level-left
+                        DIV class=level-item
+                            P id=mainMenuVpWallLabel
+                    DIV class=level-right
+                        DIV class=level-item gid=wallToggleContainer

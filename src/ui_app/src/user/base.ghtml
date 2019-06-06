@@ -10,4 +10,5 @@ approot
 
   section class=section baseSection
     div class=container baseContainer id=baseMenuContent
+      DIV class=tile is-ancestor id=mainMenuContainer
     div class=container baseContainer id=baseMainContent

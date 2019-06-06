@@ -12,8 +12,11 @@ const name = "langselector"
 
 const view = `
 any
-    select gid=langSelectorSelect name=lang 
+    SELECT gid=langSelectorSelect name=lang 
 `
+
+
+
 
 
 

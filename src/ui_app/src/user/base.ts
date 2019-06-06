@@ -3,7 +3,16 @@ import "./base.css"
 import baseView from './base.ghtml'
 import {GetText} from "../i18n/gettext"
 
-import {LangSelector} from "../widgets/lang/selector"
+// Menu items
+import {LangMenuItem} from "../widgets/menu/lang"
+import {ViewportMenuItem} from "../widgets/menu/viewport"
+
+
+
+
+
+
+
 
 
 const name = "base"
@@ -39,15 +48,17 @@ export class Base extends GHTMLControl {
 
 
 
-
     constructor() {
         super({view:baseView, bindTo: name})
 
         this.baseMenuContent.style.display = "none"
 
         this.trns = this.gDoc.gData("trns").t.translations(name)
-        new LangSelector(this.baseMenuContent.id)
-        
+        //new LangSelector(this.baseMenuContent.id)
+        //new Switch(this.baseMenuContent.id)
+        new LangMenuItem()
+        new ViewportMenuItem()
+
         this.trns.updateStatics()
         this.linkEvents(this.emap)
     }
