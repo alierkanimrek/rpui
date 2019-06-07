@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+/*  For hand devices 
+*   Bigger size units
+*   Disable tablet
+*   Disasle desktop
+*/
+
+
+
+$size-1: 4rem;
+$size-2: 3.5rem;
+$size-3: 3rem;
+$size-4: 2.5rem;
+$size-5: 2.25rem;
+$size-6: 2rem;
+$size-7: 1.75rem;
+
+$weight-light: 500;
+$weight-normal: 600;
+$weight-medium: 700;
+$weight-semibold: 800;
+$weight-bold: 900;
+
+// Spacing
+
+$block-spacing: 2.5rem;
+
+
+// Responsiveness
+
+// The container horizontal gap, which acts as the offset for breakpoints
+$gap: 64px;
+// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+$tablet: 480px;
+// 960px container + 4rem
+$desktop: 600px + (2 * $gap);
+// 1152px container + 4rem
+$widescreen: 624px + (2 * $gap);
+$widescreen-enabled: true;
+// 1344px container + 4rem
+$fullhd: 960px + (2 * $gap);
+$fullhd-enabled: true;
+
+@import "../bulma/bulma.sass";
+// Import only what you need from Bulma
+@import "../bulma/sass/utilities/_all.sass";
+@import "../bulma/sass/base/_all.sass";
+@import "../bulma/sass/elements/button.sass";
+@import "../bulma/sass/elements/container.sass";
+@import "../bulma/sass/elements/title.sass";
+@import "../bulma/sass/form/_all.sass";
+@import "../bulma/sass/components/navbar.sass";
+@import "../bulma/sass/layout/hero.sass";
+@import "../bulma/sass/layout/section.sass";

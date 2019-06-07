@@ -9,7 +9,7 @@ html,body {
 }
 
 .navbar {
-  background-color: red;
+  background-color: red !important;
 }
 
 

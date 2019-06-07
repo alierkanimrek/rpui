@@ -34,13 +34,21 @@ class Viewport  {
 
 
     private cookie:string = "viewport"
-    private _current:VPTypes = defaultVP
+    private _current:VPTypes
+    private _link:HTMLElement
+    private _path:string
 
 
 
 
-    constructor() {
+    constructor(path:string) {
+        this._path = path
+        this._link = document.createElement("link")
+        this._link.setAttribute("rel", "stylesheet")
+        this._link.setAttribute("type", "text/css")
+        document.head.appendChild(this._link)
         this.discover()
+        this.load()
     }
 
 
@@ -55,10 +63,17 @@ class Viewport  {
 
 
 
+    private load():void{
+        this._link.setAttribute("href", this._path+"/"+this._current+".css")
+    }
+
+
+
 
     set current(vp:VPTypes){
         cookie.set(this.cookie, vp, 999)
         this._current = vp
+        this.load()
     }
 
 
@@ -73,4 +88,4 @@ class Viewport  {
 
 
 
-export let viewport = new Viewport()
+export let viewport = new Viewport("/app/css")
