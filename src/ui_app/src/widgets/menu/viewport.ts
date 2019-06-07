@@ -20,15 +20,20 @@ export class ViewportMenuItem extends GHTMLControl {
 
 
 
-    desktopToggleContainer:HTMLElement
-    handToggleContainer:HTMLElement
-    wallToggleContainer:HTMLElement
+    private desktopToggleContainer:HTMLElement
+    private handToggleContainer:HTMLElement
+    private wallToggleContainer:HTMLElement
 
-    desktopSw:Switch
-    handSw:Switch
-    wallSw:Switch
+    private desktopSw:Switch
+    private handSw:Switch
+    private wallSw:Switch
+    private switches:Array<Switch>
 
-    trns:GetText
+    private _value:VPTypes
+
+    private trns:GetText
+
+    private eventMap: any
 
 
 
@@ -41,10 +46,52 @@ export class ViewportMenuItem extends GHTMLControl {
         this.handSw = new Switch(this.handToggleContainer.id)
         this.wallSw = new Switch(this.wallToggleContainer.id)
 
+        this.switches = [this.desktopSw, this.handSw, this.wallSw]
+
         this.trns.updateStatics()
+
+        this.eventMap = [
+            [this.desktopSw, "change", this.toggle],
+            [this.handSw, "change", this.toggle],
+            [this.wallSw, "change", this.toggle]        
+        ]
+        this.linkEvents(this.eventMap)
+
+        this.value = viewport.current
     }
 
 
 
+
+    toggle(e:Switch){
+
+        if(e.checked){    
+            this.switches.forEach((sw:Switch)=>{
+                if(sw==e){
+                    e.freeze = true
+                    if(e == this.desktopSw){    viewport.current = VPTypes.Desktop    } 
+                    if(e == this.handSw){    viewport.current = VPTypes.Hand    }                         
+                    if(e == this.wallSw){    viewport.current = VPTypes.Wall    } 
+                }
+                else{
+                    sw.freeze = false
+                    sw.checked = false
+                }
+            })
+        }
+    }
+
+
+
+    set value(val:VPTypes){
+        if(val == VPTypes.Desktop){    this.desktopSw.checked = true    }
+        if(val == VPTypes.Hand){    this.handSw.checked = true    }
+        if(val == VPTypes.Wall){    this.wallSw.checked = true    }
+    }
+
+
+    get value():VPTypes{
+        return(this._value)
+    }
 
 }
