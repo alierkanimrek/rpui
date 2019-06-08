@@ -8,13 +8,50 @@ html,body {
   animation: fadeEffect 1s;
 }
 
+
+
+.container{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: none !important;
+  width: 100% !important; 
+}
+
 .navbar {
   background-color: red !important;
 }
 
+.navbar .container {
+  display: block !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.navbar .container .navmenu{
+  flex-grow: 1 !important; 
+  flex-shrink: 0 !important; 
+  display: flex !important;
+}
+
+.navbar .container .navmenu .nmitem{
+  justify-content: flex-end !important; 
+  margin-left: auto !important; 
+  display: flex !important; 
+  font-size: 2rem !important;
+  padding: 0 !important;
+  padding-right: 0.5rem !important;
+}
+
+.navbar .container .navbar-brand .navbrandlogoitem {
+  padding: 0 !important;
+}
+
 
 .logo {
-    height: 3.25rem;
+  padding-left: 0.5rem !important;
+  max-height: 2.75rem !important;
 }
 
 @keyframes fadeEffect {
@@ -24,7 +61,7 @@ html,body {
 
 
 .baseSection{
-    padding: 0.5rem;
+    padding: 0.5rem !important;
 }
 
 .baseContainer{

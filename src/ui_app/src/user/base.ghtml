@@ -1,14 +1,13 @@
 approot
-  nav class=navbar is-fixed-top role=navigation aria-label=main navigation
-    div class=navbar-brand
-      a class=navbar-item
-        img class=logo src=/app/logo/rplexus-96.png
-  
-    div class=navbar-end
-      a class=navbar-item id=baseMenuItem
-        i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
-
-  section class=section baseSection
-    div class=container baseContainer id=baseMenuContent
+  NAV class=navbar is-fixed-top role=navigation aria-label=main navigation
+    DIV class=container
+      DIV class=navbar-brand
+        A class=navbar-item navbrandlogoitem
+          img class=logo src=/app/logo/rplexus-96.png  
+        DIV class=navmenu
+          A class=navbar-item nmitem id=baseMenuItem
+            i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
+  SECTION class=section baseSection
+    DIV class=container baseContainer id=baseMenuContent
       DIV class=tile is-ancestor id=mainMenuContainer
-    div class=container baseContainer id=baseMainContent
+    DIV class=container baseContainer id=baseMainContent
