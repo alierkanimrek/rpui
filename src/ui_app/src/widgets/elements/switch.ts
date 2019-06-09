@@ -9,12 +9,13 @@ import {GHTMLControl} from "../../glider/glider"
 
 const view = `
 any
-    DIV class=field has-addons
-        DIV class=tile is-ancestor
-            DIV class=tile
-                A class=button is-small is-text gid=left
-            DIV class=tile
-                A class=button is-small is-light gid=right
+    TABLE class=table is-narrow
+        TBODY
+            TR
+                TD style=padding-right: 0;
+                    A class=button is-small is-text gid=left
+                TD style=padding-left: 0;
+                    A class=button is-small is-light gid=right
 
 `
 

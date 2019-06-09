@@ -12,7 +12,9 @@ const name = "langselector"
 
 const view = `
 any
-    SELECT gid=langSelectorSelect name=lang 
+  DIV class=select
+    SELECT gid=langSelectorSelect name=lang
+
 `
 
 
@@ -29,6 +31,7 @@ export class LangSelector extends GHTMLControl {
     langSelectorSelect:HTMLInputElement
 	bindingStore:LangSelectorData
     trns:Translator
+
     
 
 
@@ -64,6 +67,8 @@ export class LangSelector extends GHTMLControl {
         //window.location.hash = "/test"
     }
     */
+
+
 
 }
 

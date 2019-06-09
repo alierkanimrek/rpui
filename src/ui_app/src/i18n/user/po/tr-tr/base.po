@@ -1,0 +1,46 @@
+# Language tr-tr translations for rplexus package.
+# Copyright (C) 2019 THE rplexus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the rplexus package.
+# Ali Erkan IMREK <rplexus1@gmail.com>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rplexus 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-06 22:45+0300\n"
+"PO-Revision-Date: 2019-06-09 13:50+0300\n"
+"Last-Translator: Ali Erkan IMREK <rplexus1@gmail.com>\n"
+"Language-Team: Language tr-tr\n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: base.py:11
+msgid "Application Language"
+msgstr "Uygulama Dili"
+
+#: base.py:12
+msgid "Application View Mode"
+msgstr "Uygulama Görüntüleme Biçimi"
+
+#: base.py:13
+msgid "Desktop"
+msgstr "Masaüstü"
+
+#: base.py:14
+msgid "Hand"
+msgstr "El Cihazı"
+
+#: base.py:15
+msgid "Wall"
+msgstr "Duvar Cihazı"
+
+#: base.py:19
+msgid "Login code sent to your email"
+msgstr ""
+
+#: base.py:20
+msgid "Not permitted."
+msgstr ""
