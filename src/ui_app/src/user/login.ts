@@ -23,15 +23,20 @@ export class Login extends GHTMLControl {
 
 	bindingStore:LoginData
     trns: GetText
-    
 
+    loginSignup:HTMLElement
+
+    emap: any = [
+        [this.loginSignup, "click", this.signUp]
+    ]
 
 
 
     constructor() {
         super({view:loginView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
-        this.trns.updateStatics()        
+        this.trns.updateStatics()
+        this.linkEvents(this.emap)    
         /*
         let select = [
             "selectArea",
@@ -56,6 +61,22 @@ export class Login extends GHTMLControl {
         //window.location.hash = "/test"
     }
     */
+
+    signUp(e:Event){
+        this.gDoc.navigate("/signup")
+        //console.log(window.location)
+        //window.location.hash = "https://localhost/signup"
+
+
+
+
+
+
+
+
+
+
+    }
 
 }
 

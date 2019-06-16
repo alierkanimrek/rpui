@@ -1,5 +1,5 @@
 baseMainContent
-  section class=hero is-success is-fullheight
+  section class=hero is-fullheight
     div class=hero-body
       div class=container has-text-centered
         div class=column is-4 is-offset-4
@@ -21,7 +21,7 @@ baseMainContent
                   span id=loginRemember
               button id=loginSubmit class=button is-block is-info is-large is-fullwidth 
           p class=has-text-grey
-            a id=loginSignup
+            a id=loginSignup gid=loginSignup
             span
             ^ &nbsp;&nbsp;&nbsp;
             a id=loginForgot 

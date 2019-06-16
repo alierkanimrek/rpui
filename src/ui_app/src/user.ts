@@ -2,10 +2,12 @@ import {GDocument, GDataObject} from "./glider/glider"
 import {Translation} from "./components/translation"
 import {viewport, VPTypes} from "./components/viewport"
 
-
-import {Login, LoginData} from "./user/login"
-import {Base, BaseData} from "./user/base"
 import {LangSelectorData} from "./widgets/lang/selector"
+
+import {Base, BaseData} from "./user/base"
+import {Login, LoginData} from "./user/login"
+import {Signup, SignupData} from "./user/signup"
+
 
 
 
@@ -40,12 +42,19 @@ function login():void{
 }
 
 
+function signup():void{
+    
+    let base = new Base()
+    let signup = new Signup()
+}
+
 
 
 
 
 let route = [
     {'/' : login},
+    {'/signup': signup}
 ]
 
 
@@ -53,7 +62,8 @@ let store = {
     base: new BaseData(),
     langselector: new LangSelectorData(),
     trns: translator,
-    login: new LoginData()
+    login: new LoginData(),
+    signup: new SignupData()
 }
 
 GDocument.setReadyChecker(appReady)

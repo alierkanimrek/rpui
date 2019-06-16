@@ -1,0 +1,79 @@
+baseMainContent
+  section class=hero is-fullheight
+    div class=hero-body
+      div class=container has-text-centered
+        div class=column is-4 is-offset-4
+          h3 class=title has-text-grey id=signupTitle
+          ^ Sign up
+          p class=subtitle has-text-grey id=signupSubTitle
+          ^ Get started with a free account
+          div class=box
+            form
+
+              div class=field
+                p class=control has-icons-left has-icons-right 
+                  label class=is-left is-size-4
+                  ^ Email
+                p class=control has-icons-left has-icons-right
+                  input class=input is-large type=email name=email placeholder=Email
+                  span class=icon is-small is-left
+                    i class=fas fa-envelope
+                  span class=icon is-small is-right
+                    i class=fas fa-spinner fa-spin
+                p class=control has-icons-left 
+                  label class=is-left has-text-danger is-size-6 has-text-weight-light
+                  ^ Message
+
+              div class=field
+                p class=control has-icons-left has-icons-right 
+                  label class=is-left is-size-4
+                  ^ Username
+                p class=control has-icons-left has-icons-right
+                  input class=input is-large type=text name=uname placeholder=Username
+                  span class=icon is-small is-left
+                    i class=fas fa-user
+                  span class=icon is-small is-right
+                    i class=fas fa-check
+                p class=control has-icons-left
+                  label class=is-left has-text-danger is-size-6 has-text-weight-light
+                  ^ Message
+
+              div class=field
+                p class=control has-icons-left has-icons-right 
+                  label class=is-left is-size-4
+                  ^ Password
+                  span class=icon is-small is-right
+                    i class=far fa-eye-slash
+                p class=control has-icons-left
+                  input class=input is-large type=password name=passw placeholder=Password
+                  span class=icon is-small is-left
+                    i class=fas fa-lock
+                p class=control has-icons-left
+                  label class=is-left has-text-danger is-size-6 has-text-weight-light
+                  ^ Message
+
+              p class=control has-icons-left
+                span class=is-left is-size-6 has-text-weight-light
+                ^ By clicking Get Started now, you agree to Rplexus's 
+                  a 
+                  ^ User Agreement
+                  span
+                  ^ , 
+                  a
+                  ^ Privacy Policy
+                  span 
+                  ^ and 
+                  a
+                  ^ Cookie Policy
+                  span
+                  ^ .  
+              br
+              button id=signupSubmit class=button is-block is-info is-large is-fullwidth
+              ^ Get started
+          p class=has-text-grey
+            a id=signupHelp
+            ^ Help
+            span
+            ^ &nbsp;&nbsp;&nbsp;
+            a
+            ^ Login
