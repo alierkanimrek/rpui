@@ -1,0 +1,23 @@
+[LOG]
+log_file = /var/rplexus/rplexus.log
+log_level = DEBUG 
+
+[SERVER]
+domain = rplexus.net
+server_name = server
+server_node = root
+run_path = /var/rplexus/net/u
+template_path = /var/rplexus/u/template
+outgoing_path = /var/rplexus/outgoing
+db_ip = 127.0.0.1
+db_username = rpadmin
+db_password=
+db_port = 27017
+signup = yes
+u_maintenance = no
+r_maintenance = no
+
+[USERS]
+cookie_exp_logincode = 60
+cookie_exp_user = 2500000
+signup_verify_timeout = 480
