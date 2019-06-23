@@ -7,3 +7,4 @@ npm install --save-dev awesome-typescript-loader
 npm install --save-dev style-loader
 npm install --save-dev css-loader
 npm install --save-dev raw-loader
+sudo npm install -g sass

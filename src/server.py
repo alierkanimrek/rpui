@@ -35,7 +35,7 @@ db = None
 
 
 
-try:
+if True:#try:
     print("rplexus server initializing...")
 
     conf = KBConfig("config","./")
@@ -47,7 +47,7 @@ try:
         "log_level:"+conf.LOG.log_level, 
         "maintenance:"+conf.SERVER.maintenance)
 
-except Exception as inst:
+else:#except Exception as inst:
     print("Initializing failed")
     print(type(inst))
     print(inst.args)
@@ -56,7 +56,7 @@ except Exception as inst:
 
 
 
-try:
+if True:#try:
     stage1.i("DB Connecting",     
         str(conf.SERVER.db_ip), 
         str(conf.SERVER.db_port)
@@ -70,7 +70,7 @@ try:
     
     stage1.d("DB connected")
 
-except Exception as inst:
+else:#except Exception as inst:
     stage1.e("DB connection error", type(inst), str(inst.args))
     sys.exit(-1)
 
@@ -105,7 +105,7 @@ application = web.Application(
     db = db,
     cookie_secret = "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
     xsrf_cookies = True, 
-    template_path = "app",
+    template_path = "template",
     )
 
 

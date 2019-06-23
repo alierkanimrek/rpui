@@ -59,6 +59,10 @@ class Viewport  {
         if(c == VPTypes.Desktop || c == VPTypes.Hand || c == VPTypes.Wall){
             this._current = c
         }
+        else{
+            // Discover needs development
+            this._current = VPTypes.Desktop
+        }
     }
 
 
@@ -88,4 +92,4 @@ class Viewport  {
 
 
 
-export let viewport = new Viewport("/app/css")
+export let viewport = new Viewport("/heap/css")

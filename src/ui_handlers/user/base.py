@@ -34,7 +34,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.log = self.settings['log']
         self.conf = self.settings['conf']
         self.t = int(time.time())
-        self.job = self.log.job("UI base handling")
+        self.job = self.log.job("User base")
         #self.uid = ""
         #self.stack = Stack()
         #self.cstack = Stack()
@@ -77,5 +77,5 @@ class BaseHandler(tornado.web.RequestHandler):
             self.render("user.html",
                 xsrf_value = self.xsrf_token)
         except Exception as inst:
-            self.job.e("Render error", template, str(inst.args))
+            self.job.e("Render error", str(inst.args))
         

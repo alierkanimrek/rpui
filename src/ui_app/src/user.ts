@@ -15,9 +15,8 @@ import {Signup, SignupData} from "./user/signup"
 
 
 
-
 const app = "user"
-const i18npath = "/app/i18n/"
+const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
 
 

@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         filename: "[name].[hash].js",
-        path: path.resolve(__dirname, 'dist/app'),
+        path: path.resolve(__dirname, 'dist/heap'),
     },
     devtool: 'source-map',
     module: {

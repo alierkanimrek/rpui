@@ -3,7 +3,7 @@ approot
     DIV class=container
       DIV class=navbar-brand
         A class=navbar-item navbrandlogoitem
-          img class=logo src=/app/logo/rplexus-96.png  
+          img class=logo src=/heap/logo/rplexus-96.png  
         DIV class=navmenu
           A class=navbar-item nmitem id=baseMenuItem
             i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
