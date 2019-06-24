@@ -20,8 +20,6 @@ def text(_):
             },
 
             "dynamic":{
-                "loginCodeSent" : _("Login code sent to your email"),
-                "loginAuthError" : _("Not permitted.")
             }
         }
     }

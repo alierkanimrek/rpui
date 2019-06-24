@@ -1,0 +1,28 @@
+baseMainContent
+  section class=hero is-fullheight
+    div class=hero-body
+      div class=container has-text-centered
+        div class=column is-4 is-offset-4
+          h3 class=title has-text-grey id=forgotTitle
+          p class=subtitle has-text-grey id=forgotSubTitle
+          div class=box
+            form
+
+              div class=field
+                p class=control has-icons-left has-icons-right 
+                  label class=is-left is-size-4 id=forgotEmailUname
+                p class=control has-icons-left has-icons-right
+                  input class=input is-large type=text name=emailuname id=forgotEmailUnameInput 
+                p class=control has-icons-left 
+                  label class=is-left has-text-danger is-size-6 has-text-weight-light
+                  ^ Message
+
+              p class=control has-icons-left
+                span class=is-left is-size-6 has-text-weight-light id=forgotInfo
+              br
+              button id=forgotSubmit class=button is-block is-info is-large is-fullwidth
+          p class=has-text-grey
+            a id=forgotHelp gid=helpLink
+            span
+            ^ &nbsp;&nbsp;&nbsp;
+            a id=forgotLogin gid=loginLink

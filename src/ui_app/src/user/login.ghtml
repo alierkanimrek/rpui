@@ -21,10 +21,10 @@ baseMainContent
                   span id=loginRemember
               button id=loginSubmit class=button is-block is-info is-large is-fullwidth 
           p class=has-text-grey
-            a id=loginSignup gid=loginSignup
+            a id=loginSignup gid=signupLink
             span
             ^ &nbsp;&nbsp;&nbsp;
-            a id=loginForgot 
+            a id=loginForgot gid=forgotLink
             span
             ^ &nbsp;&nbsp;&nbsp;
-            a id=loginHelp
+            a id=loginHelp gid=helpLink

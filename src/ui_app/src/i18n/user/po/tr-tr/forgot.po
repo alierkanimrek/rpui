@@ -1,0 +1,58 @@
+# Language tr-tr translations for rplexus package.
+# Copyright (C) 2019 THE rplexus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the rplexus package.
+# ali <ali@worksys1>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rplexus 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-24 21:25+0300\n"
+"PO-Revision-Date: 2019-06-24 21:25+0300\n"
+"Last-Translator: ali <ali@worksys1>\n"
+"Language-Team: Language tr-tr\n"
+"Language: tr-tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forgot.py:11
+msgid "Trouble Logging In?"
+msgstr ""
+
+#: forgot.py:12
+msgid "You can reset your password."
+msgstr ""
+
+#: forgot.py:13
+msgid "Email or Username"
+msgstr ""
+
+#: forgot.py:14
+msgid "email or user name"
+msgstr ""
+
+#: forgot.py:15
+msgid ""
+"We'll send your inbox or spam box an information to reset your password."
+msgstr ""
+
+#: forgot.py:16
+msgid "Send"
+msgstr ""
+
+#: forgot.py:17
+msgid "Help"
+msgstr ""
+
+#: forgot.py:18
+msgid "Login"
+msgstr ""
+
+#: forgot.py:22
+msgid "Login code sent to your email"
+msgstr ""
+
+#: forgot.py:23
+msgid "Not permitted."
+msgstr ""

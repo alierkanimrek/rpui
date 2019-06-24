@@ -24,6 +24,13 @@ export class Signup extends GHTMLControl {
 	bindingStore:SignupData
     trns: GetText
     
+    signupHelp:HTMLElement
+    signupLogin:HTMLElement
+
+    emap: any = [
+        [this.signupHelp, "click", this.footer],
+        [this.signupLogin, "click", this.footer]
+    ]
 
 
 
@@ -32,11 +39,26 @@ export class Signup extends GHTMLControl {
         super({view:signupView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
         this.trns.updateStatics()        
-
+        this.linkEvents(this.emap)        
     }
 
 
+
+
+    footer(e:MouseEvent){
+        let t = <HTMLElement>e.target
+        if(t == this.signupLogin){
+            this.gDoc.navigate("/user/login")
+        }
+        if(t == this.signupHelp){
+            this.gDoc.navigate("/user/help")
+        }
+    }
 }
+
+
+
+
 
 
 
@@ -44,19 +66,20 @@ export class Signup extends GHTMLControl {
 export class SignupData extends GDataObject {
 	
 	
-    uname : string = "admin"
-    passw : string = "123456"
-    email : string = "Test2"
+    uname : string = ""
+    passw : string = ""
+    email : string = ""
 
-
-    uname_valFalMessages:ValFalMessages = {
-        valueMissing:"Bu olmadı"
-    }
 
 
 
     /*
-    uname_validation:ValidationRules = {
+ 
+    uname_valFalMessages:ValFalMessages = {
+        valueMissing:"Bu olmadı"
+    }
+
+   uname_validation:ValidationRules = {
 		required: {required:true, message:"Required"},
 		matches: {regex:"regex", equal:"abc", message:"not valid"},
 		standard: {standard: "email", message:"not standard"},

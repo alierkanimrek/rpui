@@ -24,11 +24,16 @@ export class Login extends GHTMLControl {
 	bindingStore:LoginData
     trns: GetText
 
-    loginSignup:HTMLElement
+    signupLink:HTMLElement
+    forgotLink:HTMLElement
+    helpLink:HTMLElement
 
     emap: any = [
-        [this.loginSignup, "click", this.signUp]
+        [this.signupLink, "click", this.footer],
+        [this.forgotLink, "click", this.footer],
+        [this.helpLink, "click", this.footer]
     ]
+
 
 
 
@@ -62,23 +67,25 @@ export class Login extends GHTMLControl {
     }
     */
 
-    signUp(e:Event){
-        this.gDoc.navigate("/signup")
-        //console.log(window.location)
-        //window.location.hash = "https://localhost/signup"
-
-
-
-
-
-
-
-
-
-
+    footer(e:Event){
+        let t = <HTMLElement>e.target
+        switch (t) {
+            case this.signupLink:
+                this.gDoc.navigate("/user/signup")
+                break;
+            case this.forgotLink:
+                this.gDoc.navigate("/user/forgotpassw")
+                break;
+            case this.helpLink:
+                this.gDoc.navigate("/user/help")
+                break;
+        }
     }
-
 }
+
+
+
+
 
 
 
@@ -86,11 +93,9 @@ export class Login extends GHTMLControl {
 export class LoginData extends GDataObject {
 	
 	
-    uname : string = "admin"
-    passw : string = "123456"
-    server : string = "Test2"
+    uname : string = ""
+    passw : string = ""
     remember : boolean = true
-    servers : Array<string> = ["Test1", "Test2", "Test3"]
 
 
     uname_valFalMessages:ValFalMessages = {

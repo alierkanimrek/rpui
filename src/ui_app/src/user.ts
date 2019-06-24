@@ -1,12 +1,12 @@
 import {GDocument, GDataObject} from "./glider/glider"
 import {Translation} from "./components/translation"
 import {viewport, VPTypes} from "./components/viewport"
-
 import {LangSelectorData} from "./widgets/lang/selector"
 
 import {Base, BaseData} from "./user/base"
 import {Login, LoginData} from "./user/login"
 import {Signup, SignupData} from "./user/signup"
+import {Forgot, ForgotData} from "./user/forgot"
 
 
 
@@ -18,6 +18,10 @@ import {Signup, SignupData} from "./user/signup"
 const app = "user"
 const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
+
+
+
+
 
 
 
@@ -41,6 +45,8 @@ function login():void{
 }
 
 
+
+
 function signup():void{
     
     let base = new Base()
@@ -50,11 +56,26 @@ function signup():void{
 
 
 
+function forgot():void{
+    
+    let base = new Base()
+    let forgot = new Forgot()
+}
+
+
+
+
+
+
+
 
 let route = [
-    {'/' : login},
-    {'/signup': signup}
+    {'/user/login' : login},
+    {'/user/signup': signup},
+    {'/user/forgotpassw': forgot}
 ]
+
+
 
 
 let store = {
@@ -62,8 +83,16 @@ let store = {
     langselector: new LangSelectorData(),
     trns: translator,
     login: new LoginData(),
-    signup: new SignupData()
+    signup: new SignupData(),
+    forgot: new ForgotData()
 }
+
+
+
+
+
+
+
 
 GDocument.setReadyChecker(appReady)
 GDocument.stores(store)
