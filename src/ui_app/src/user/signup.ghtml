@@ -3,28 +3,28 @@ baseMainContent
     div class=hero-body
       div class=container has-text-centered
         div class=column is-4 is-offset-4
-          h3 class=title has-text-grey id=signupTitle
-          p class=subtitle has-text-grey id=signupSubTitle
+          h3 class=title has-text-grey gid=title
+          p class=subtitle has-text-grey gid=subTitle
           div class=box
             form
 
               div class=field
                 p class=control has-icons-left has-icons-right 
-                  label id=signupEmail class=is-left is-size-4
+                  label gid=email class=is-left is-size-4
                 p class=control has-icons-left has-icons-right
-                  input id=signupEmailInput class=input is-large type=email name=email
+                  input gid=emailInput class=input is-large type=email name=email required=true 
                   span class=icon is-small is-left
                     i class=fas fa-envelope
                   span class=icon is-small is-right
-                    i class=fas fa-spinner fa-spin
+                    i class=fas fa-spinner fa-spin gid=emailStatus
                 p class=control has-icons-left 
                   label gid=emailMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
               div class=field
                 p class=control has-icons-left has-icons-right 
-                  label id=signupUname class=is-left is-size-4
+                  label gid=uname class=is-left is-size-4
                 p class=control has-icons-left has-icons-right
-                  input id=signupUnameInput class=input is-large type=text name=uname
+                  input gid=unameInput class=input is-large type=text name=uname required=true
                   span class=icon is-small is-left
                     i class=fas fa-user
                   span class=icon is-small is-right
@@ -34,22 +34,22 @@ baseMainContent
 
               div class=field
                 p class=control has-icons-left has-icons-right 
-                  label id=signupPassword class=is-left is-size-4
+                  label gid=password class=is-left is-size-4
                   span class=icon is-small is-right
                     i class=far fa-eye-slash
                 p class=control has-icons-left
-                  input id=signupPasswordInput class=input is-large type=password name=passw
+                  input gid=passwordInput class=input is-large type=password name=passw required=true
                   span class=icon is-small is-left
                     i class=fas fa-lock
                 p class=control has-icons-left
                   label gid=passwMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
               p class=control has-icons-left
-                span id=signupInfo class=is-left is-size-6 has-text-weight-light
+                span gid=info class=is-left is-size-6 has-text-weight-light
               br
-              button id=signupSubmit class=button is-block is-info is-large is-fullwidth
-          p id=signupFooter class=has-text-grey
-            a id=signupHelp gid=signupHelp
+              button gid=submit class=button is-block is-info is-large is-fullwidth
+          p gid=footer class=has-text-grey
+            a gid=help
             span
             ^ &nbsp;&nbsp;&nbsp;
-            a id=signupLogin gid=signupLogin
+            a gid=login

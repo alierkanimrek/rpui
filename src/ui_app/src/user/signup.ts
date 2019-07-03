@@ -6,8 +6,11 @@ import signupView from './signup.ghtml'
 
 const name = "signup"
 
-
-
+const classSpinnerSpin = "fas fa-spinner fa-spin"
+const classSpinner = "fas fa-spinner"
+const classOk = "fas fa-check"
+const classEyeSlash = "far fa-eye-slash"
+const classEye = "far fa-eye"
 
 
 
@@ -24,12 +27,14 @@ export class Signup extends GHTMLControl {
 	bindingStore:SignupData
     trns: GetText
     
-    signupHelp:HTMLElement
-    signupLogin:HTMLElement
+    help:HTMLElement
+    login:HTMLElement
+    emailInput:HTMLInputElement
+
 
     emap: any = [
-        [this.signupHelp, "click", this.footer],
-        [this.signupLogin, "click", this.footer]
+        [this.help, "click", this.footerNav],
+        [this.login, "click", this.footerNav]
     ]
 
 
@@ -38,22 +43,61 @@ export class Signup extends GHTMLControl {
     constructor() {
         super({view:signupView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
-        this.trns.updateStatics()        
+        this.trns.updateStatics(this)        
         this.linkEvents(this.emap)        
     }
 
 
 
-
-    footer(e:MouseEvent){
+    footerNav(e:MouseEvent){
         let t = <HTMLElement>e.target
-        if(t == this.signupLogin){
+        if(t == this.login){
             this.gDoc.navigate("/user/login")
         }
-        if(t == this.signupHelp){
+        if(t == this.help){
             this.gDoc.navigate("/user/help")
         }
     }
+
+
+
+
+    input(event:GHTMLInputEvent):void{
+        switch (event.name) {
+            case "email":
+                this.checkEmail()
+                break;
+            case "passw":
+                this.checkPassw()
+                break;
+            case "uname":
+                this.checkUname()
+                break;
+        }
+    }
+
+
+
+
+
+    checkEmail():void{
+        console.log(this.emailInput)
+    }
+
+
+
+
+    checkPassw():void{
+        console.log(this.bindingStore.passw)
+    }
+
+
+
+    checkUname():void{
+        console.log(this.bindingStore.uname)
+    }
+
+
 }
 
 
@@ -70,33 +114,13 @@ export class SignupData extends GDataObject {
     passw : string = ""
     email : string = ""
 
+    inputInterval:number = 800
 
-
-
-    /*
- 
     uname_valFalMessages:ValFalMessages = {
         valueMissing:"Bu olmadı"
     }
 
-   uname_validation:ValidationRules = {
-		required: {required:true, message:"Required"},
-		matches: {regex:"regex", equal:"abc", message:"not valid"},
-		standard: {standard: "email", message:"not standard"},
-		length: {min:8, max:12, message:"min:8 max: 12 char"},
-		items: {min:1, max:3, message:"min:1, max:3 items"},
-		range: {min:0, max:100, message:"Allowed range is 0-100 "}
-    }*/
 
-
-
-
-    input(event:GHTMLInputEvent):void{
-        console.log(event.name+" : "+String(event.value))
-        console.log(this)
-        console.log(event.element)
-        console.log(event.control)
-    }
 
     change(event:GHTMLInputEvent):void{
         console.log(event.name+" : "+String(event.value))

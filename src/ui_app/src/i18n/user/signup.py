@@ -8,18 +8,18 @@ def text(_):
         "signup": {
 
             "static":{
-                "signupTitle" : {"textContent":_("Join to rplexus network")},
-                "signupSubTitle" : {"textContent":_("Get started with a free account")},
-                "signupEmail" : {"textContent":_("Email")},
-                "signupEmailInput" : {"placeholder":_("email")},
-                "signupUname" : {"textContent":_("User name")},
-                "signupUnameInput" : {"placeholder":_("User name")},
-                "signupPassword" : {"textContent":_("Password")},
-                "signupPasswordInput" : {"placeholder":_("Password")},
-                "signupInfo" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/user/agreement'>User Agreement</a>, <a href='/user/privacyp'>Privacy Policy</a> and <a href='/user/cookiep'>Cookie Policy</a>.")},
-                "signupSubmit" : {"textContent":_("Get started")},
-                "signupHelp" : {"textContent":_("Help")},
-                "signupLogin" : {"textContent":_("Login")}
+                "title" : {"textContent":_("Join to rplexus network")},
+                "subTitle" : {"textContent":_("Get started with a free account")},
+                "email" : {"textContent":_("Email")},
+                "emailInput" : {"placeholder":_("email")},
+                "uname" : {"textContent":_("User name")},
+                "unameInput" : {"placeholder":_("User name")},
+                "password" : {"textContent":_("Password")},
+                "passwordInput" : {"placeholder":_("Password")},
+                "info" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/user/agreement'>User Agreement</a>, <a href='/user/privacyp'>Privacy Policy</a> and <a href='/user/cookiep'>Cookie Policy</a>.")},
+                "submit" : {"textContent":_("Get started")},
+                "help" : {"textContent":_("Help")},
+                "login" : {"textContent":_("Login")}
             },
 
             "dynamic":{

@@ -17,7 +17,7 @@ from tornado import gen, ioloop, web
 from kitbox.conf import KBConfig
 from kitbox.log import KBLogger
 
-from db import Db
+from lib.store import Store
 
 from ui_handlers.user.routing import userRouting
 
@@ -34,8 +34,11 @@ db = None
 
 
 
+"""
+    Init configuration and Log system 
 
-if True:#try:
+"""
+try:
     print("rplexus server initializing...")
 
     conf = KBConfig("config","./")
@@ -47,7 +50,7 @@ if True:#try:
         "log_level:"+conf.LOG.log_level, 
         "maintenance:"+conf.SERVER.maintenance)
 
-else:#except Exception as inst:
+except Exception as inst:
     print("Initializing failed")
     print(type(inst))
     print(inst.args)
@@ -56,21 +59,35 @@ else:#except Exception as inst:
 
 
 
-if True:#try:
+
+
+
+"""
+    Init Db connection
+
+"""
+try:
     stage1.i("DB Connecting",     
         str(conf.SERVER.db_ip), 
         str(conf.SERVER.db_port)
     )
 
-    db = Db(
+    db = Store()
+
+    def initStatus(f):
+        if(not f.exception()):
+            stage1.d("DB connected")
+        else:
+            stage1.e("DB connection error", str(f.exception()))
+
+    db.connect(
         conf.SERVER.db_ip, 
         conf.SERVER.db_username, 
         conf.SERVER.db_password,
-        conf.SERVER.db_port)
-    
-    stage1.d("DB connected")
+        conf.SERVER.db_port,
+        initStatus)
 
-else:#except Exception as inst:
+except Exception as inst:
     stage1.e("DB connection error", type(inst), str(inst.args))
     sys.exit(-1)
 
@@ -115,7 +132,7 @@ if __name__ == "__main__":
     application.listen(8000)
     stage1.i("Server listening...")
     mainloop = ioloop.IOLoop.instance()
-    mainloop.reloader = ioloop.PeriodicCallback(reload, 60000)
-    mainloop.add_callback(reload)
+    #mainloop.reloader = ioloop.PeriodicCallback(reload, 60000)
+    #mainloop.add_callback(reload)
     mainloop.start()
     
