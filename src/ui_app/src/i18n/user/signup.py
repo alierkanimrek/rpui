@@ -15,7 +15,7 @@ def text(_):
                 "uname" : {"textContent":_("User name")},
                 "unameInput" : {"placeholder":_("User name")},
                 "password" : {"textContent":_("Password")},
-                "passwordInput" : {"placeholder":_("Password")},
+                "passwInput" : {"placeholder":_("Password")},
                 "info" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/user/agreement'>User Agreement</a>, <a href='/user/privacyp'>Privacy Policy</a> and <a href='/user/cookiep'>Cookie Policy</a>.")},
                 "submit" : {"textContent":_("Get started")},
                 "help" : {"textContent":_("Help")},
@@ -23,11 +23,14 @@ def text(_):
             },
 
             "dynamic":{
-                "emailInvalid" : _("Email is not valid"),
-                "emailHas" : _("Email has already been recorded, please login."),
-                "unameInvalid" : _("User name must be 5-24 length and lowercase alphanumeric characters."),
-                "unameHas" : _("User name has already been taken."),
-                "passwInvalid" : _("Password must be minimum 8 character length.")
+                "email_typeMismatch" : _("Email is not valid"),
+                "email_valueMissing" : _("Please enter your email"),
+                "email_customError" : _("Email has already been recorded, please login."),
+                "uname_typeMismatch" : _("User name must be 5-24 length and lowercase alphanumeric characters."),
+                "uname_valueMissing" : _("Please specify your user name"),
+                "uname_customError" : _("User name has already been taken."),
+                "passw_typeMismatch" : _("Password must be minimum 8 character length."),
+                "passw_valueMissing" : _("Please specify your user name")
             }
         }
     }

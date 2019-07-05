@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 //import "./login.css"
 import signupView from './signup.ghtml'
@@ -25,17 +25,23 @@ export class Signup extends GHTMLControl {
 
 
 	bindingStore:SignupData
+    elm: any = this
     trns: GetText
-    
-    help:HTMLElement
-    login:HTMLElement
-    emailInput:HTMLInputElement
+    _: Function
 
+    emailInput:HTMLInputElement
+    unameInput:HTMLInputElement
+    passwInput:HTMLInputElement
 
     emap: any = [
-        [this.help, "click", this.footerNav],
-        [this.login, "click", this.footerNav]
+        [this.elm.help, "click", this.footerNav],
+        [this.elm.login, "click", this.footerNav]
     ]
+
+    email_validityMessages:ValidityMessages
+    uname_validityMessages:ValidityMessages
+    passw_validityMessages:ValidityMessages
+
 
 
 
@@ -44,17 +50,26 @@ export class Signup extends GHTMLControl {
         super({view:signupView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
         this.trns.updateStatics(this)        
-        this.linkEvents(this.emap)        
+        this.linkEvents(this.emap)
+        
+        this._ = this.trns.get_()
+
+        //this.email_validityMessages.typeMismatch = _("email_typeMismatch")
+        this.email_validityMessages = this.store("trns").getValidityMessages(name, "email")
+        this.uname_validityMessages = this.store("trns").getValidityMessages(name, "uname")
+        this.passw_validityMessages = this.store("trns").getValidityMessages(name, "passw")
     }
+
+
 
 
 
     footerNav(e:MouseEvent){
         let t = <HTMLElement>e.target
-        if(t == this.login){
+        if(t == this.elm.login){
             this.gDoc.navigate("/user/login")
         }
-        if(t == this.help){
+        if(t == this.elm.help){
             this.gDoc.navigate("/user/help")
         }
     }
@@ -65,13 +80,19 @@ export class Signup extends GHTMLControl {
     input(event:GHTMLInputEvent):void{
         switch (event.name) {
             case "email":
-                this.checkEmail()
+                if(this.emailInput.validity.valid && !this.bindingStore.checkEmail()){
+                    this.emailInput.setCustomValidity(this._("email_customError"))
+                }
+                this.elm.emailMsg.innerText = this.emailInput.validationMessage
                 break;
             case "passw":
-                this.checkPassw()
+                if(this.passwInput.validity.valid && !this.bindingStore.checkPassw()){
+                    this.passwInput.setCustomValidity(this._("passw_customError"))
+                }
+                this.elm.passwMsg.innerText = this.passwInput.validationMessage
                 break;
             case "uname":
-                this.checkUname()
+                this.elm.unameMsg.innerText = this.unameInput.validationMessage
                 break;
         }
     }
@@ -79,23 +100,6 @@ export class Signup extends GHTMLControl {
 
 
 
-
-    checkEmail():void{
-        console.log(this.emailInput)
-    }
-
-
-
-
-    checkPassw():void{
-        console.log(this.bindingStore.passw)
-    }
-
-
-
-    checkUname():void{
-        console.log(this.bindingStore.uname)
-    }
 
 
 }
@@ -116,9 +120,27 @@ export class SignupData extends GDataObject {
 
     inputInterval:number = 800
 
-    uname_valFalMessages:ValFalMessages = {
-        valueMissing:"Bu olmadı"
+
+
+
+    checkEmail():boolean{
+        return(false)
     }
+
+
+
+
+    checkPassw():boolean{
+        return(false)
+    }
+
+
+
+
+    checkUname():boolean{
+        return(false)
+    }
+
 
 
 

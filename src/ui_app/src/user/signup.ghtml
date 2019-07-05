@@ -38,7 +38,7 @@ baseMainContent
                   span class=icon is-small is-right
                     i class=far fa-eye-slash
                 p class=control has-icons-left
-                  input gid=passwordInput class=input is-large type=password name=passw required=true
+                  input gid=passwInput class=input is-large type=password name=passw required=true
                   span class=icon is-small is-left
                     i class=fas fa-lock
                 p class=control has-icons-left
