@@ -2,7 +2,7 @@ mainMenuContainer
   DIV class = tile is-parent
     DIV class = tile is-child box
       P class=title is-5 id=mainMenuVpTitle
-      ^ View Options
+      | View Options
       DIV
         TABLE class=table is-fullwidth
           TBODY

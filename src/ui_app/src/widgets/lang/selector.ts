@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../../glider/glider"
 import {Translator} from "../../i18n/gettext"
 //import "./selector.css"
 

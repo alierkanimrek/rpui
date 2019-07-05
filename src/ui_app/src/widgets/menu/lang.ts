@@ -26,19 +26,19 @@ mainMenuContainer
             TR
               TD style=width: 100%; vertical-align: middle; padding-bottom:0;
                 LABEL gid=enLabel
-                ^ English
+                | English
               TD style=padding-bottom:0;
                 A class=button is-light gid=enButton value=en-us
-                ^ English
+                | English
         TABLE class=table is-fullwidth style=margin: 0;
           TBODY
             TR
               TD style=width: 100%; vertical-align: middle; padding-top:0;
                 LABEL gid=trLabel
-                ^ Türkçe
+                | Türkçe
               TD style=padding-bottom:0;
                 A class=button is-light gid=trButton value=tr-tr
-                ^ Turkish
+                | Turkish
 
 `
 
