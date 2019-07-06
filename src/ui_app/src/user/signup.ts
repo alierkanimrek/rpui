@@ -1,7 +1,15 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
+import {Port, Connection, ResponseHandler} from "../components/connection"
+import {RpMessage} from "../components/msg"
 //import "./login.css"
 import signupView from './signup.ghtml'
+
+
+
+
+
+
 
 
 const name = "signup"
@@ -9,6 +17,7 @@ const name = "signup"
 const classSpinnerSpin = "fas fa-spinner fa-spin"
 const classSpinner = "fas fa-spinner"
 const classOk = "fas fa-check"
+const classBan = "fas fa-ban"
 const classEyeSlash = "far fa-eye-slash"
 const classEye = "far fa-eye"
 
@@ -77,14 +86,45 @@ export class Signup extends GHTMLControl {
 
 
 
+
+
+
+
     input(event:GHTMLInputEvent):void{
-        switch (event.name) {
-            case "email":
-                if(this.emailInput.validity.valid && !this.bindingStore.checkEmail()){
+        /*
+            Form input controls
+        */
+        let emailCheckResult:CheckCallback = (status:boolean)=>{
+            if(status){
+                // Not valid
+                if(this.emailInput.validity.valid){
+                    // It has at server
                     this.emailInput.setCustomValidity(this._("email_customError"))
                 }
-                this.elm.emailMsg.innerText = this.emailInput.validationMessage
+                this.elm.emailStatus.className = classBan
+            }
+            else{
+                this.elm.emailStatus.className = classOk
+            }
+            // Show message
+            this.elm.emailMsg.innerText = this.emailInput.validationMessage
+        }
+
+
+        // Form control selector
+        switch (event.name) {
+            
+            case "email":
+                if(this.emailInput.validity.valid){
+                    // Check from server
+                    this.elm.emailStatus.className = classSpinnerSpin
+                    this.bindingStore.checkEmail(emailCheckResult)
+                }
+                else{
+                    emailCheckResult(true)
+                }
                 break;
+            
             case "passw":
                 if(this.passwInput.validity.valid && !this.bindingStore.checkPassw()){
                     this.passwInput.setCustomValidity(this._("passw_customError"))
@@ -111,6 +151,19 @@ export class Signup extends GHTMLControl {
 
 
 
+interface CheckCallback {
+    // status = false // It's not found
+    // status = true  // It has
+    (status:boolean):void
+}
+
+
+
+
+
+
+
+
 export class SignupData extends GDataObject {
 	
 	
@@ -123,8 +176,18 @@ export class SignupData extends GDataObject {
 
 
 
-    checkEmail():boolean{
-        return(false)
+    checkEmail(getStatus:CheckCallback):void{
+        
+        let response:ResponseHandler = (msg:RpMessage) => {
+            getStatus(true)
+        }
+
+        let data = {"type":"email", "data":this.email}
+        let conn = new Connection({
+            port:Port.check, 
+            name:name, 
+            responseHandler:response.bind(this)})
+        conn.run({ObjectData: data})
     }
 
 
@@ -152,3 +215,20 @@ export class SignupData extends GDataObject {
     }
 
 }
+
+
+
+/*
+        let testStack = new RpStack()
+
+        let test1Source = createRpSource("test1", "ali", "home")
+        let test2Source = createRpSource("test2", "ali", "home")
+        testStack.append(test1Source, {a: "OK", b:1, c:2})
+        testStack.update('alis/home/test1', {a: "NONE", b:3, c:4})
+        //log.debug(testStack.data('ali/home/test1'))
+        //testStack.delete('ali/home/test1')
+        //log.debug(testStack.data('ali/home/test1'))
+        testStack.append(test2Source, {data:["NONE", 3, 4]})
+        log.debug(this.message, testStack.stack)
+        log.debug("", new RpMessage("ali", "admin", testStack).json)
+*/
