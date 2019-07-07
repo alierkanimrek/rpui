@@ -21,9 +21,9 @@ class LoaderHandler(BaseHandler):
 
 
 
-    @gen.coroutine
-    def get(self):
-        self.render_page()
+    
+    async def get(self):
+        await self.render_page()
 
 
 

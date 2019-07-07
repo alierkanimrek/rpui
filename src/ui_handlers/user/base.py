@@ -12,10 +12,9 @@
 
 import json
 import time
-
 import tornado
 
-
+from lib.msg import *
 
 
 
@@ -34,10 +33,10 @@ class BaseHandler(tornado.web.RequestHandler):
         self.log = self.settings['log']
         self.conf = self.settings['conf']
         self.t = int(time.time())
-        self.job = self.log.job("User base")
+        self.__log = self.log.job("UBase")
         #self.uid = ""
-        #self.stack = Stack()
-        #self.cstack = Stack()
+        self.stack = Stack()
+        self.cstack = Stack()
         #self.alive = self.settings['alive']
         #self.owners = self.settings['owners']
         #self.coms = self.settings["coms"]
@@ -48,6 +47,32 @@ class BaseHandler(tornado.web.RequestHandler):
         #    "id": ""}
 
 
+
+
+    def prepare(self):
+        if(self.request.method=="POST"):
+            if( not self.parseMsg()):
+                self.finish()
+
+
+
+
+
+
+    def parseMsg(self):
+        try:
+            stack = tornado.escape.json_decode(self.request.body)
+            self.cstack.load(stack["stack"])
+            self.__log.d(self.cstack.stack)
+            return(True)
+        except:
+            self.__log.e("Message not parsed : "+self.request.body[:20]+"...")
+            return(False)
+
+
+
+
+    
 
     """
     def get_current_user(self):
@@ -70,12 +95,36 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
-    def render_page(self):
+    async def render_page(self):
         try:
             #if self.current_user:
                 #db["uname"] = self.current_user
-            self.render("user.html",
+            await self.render("user.html",
                 xsrf_value = self.xsrf_token)
         except Exception as inst:
-            self.job.e("Render error", str(inst.args))
-        
+            self.__log.e("Render error", str(inst.args))
+
+
+
+    
+    def stackAppend(self, data, name="user"):
+        self.stack.append({
+            "uname": "root", 
+            "nname" : "server",
+            "name": name,
+            "id": ""}, 
+            data)
+
+
+
+
+    def getMsg(self):
+        msg = Message( uname="root", nname="server", stack=self.stack)
+        return(msg.json())
+
+
+
+
+    async def stackAppendAndSend(self, data, name=None):
+        self.stackAppend(data, name)
+        self.write(self.getMsg())
