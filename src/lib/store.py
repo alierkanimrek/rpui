@@ -39,4 +39,6 @@ class Store(object):
 
 
 
-
+    async def getUser(self, uid=None, uname=None, email=None):
+        rec = await self._db.getUser(uid, uname, email)
+        return(rec)
