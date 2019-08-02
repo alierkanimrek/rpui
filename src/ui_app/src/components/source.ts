@@ -36,7 +36,7 @@ export interface RpSourceShape {
 
 
 
-export default function createRpSource(uname: string, nname: string, name: string): RpSourceShape{
+export function createRpSource(uname: string, nname: string, name: string): RpSourceShape{
     let newSource = {
         id: getUri(uname, nname, name),
         name: name,

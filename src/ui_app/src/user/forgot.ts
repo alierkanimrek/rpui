@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 //import "./login.css"
 import forgotView from './forgot.ghtml'

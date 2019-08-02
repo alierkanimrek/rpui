@@ -28,15 +28,15 @@ baseMainContent
                   span class=icon is-small is-left
                     i class=fas fa-user
                   span class=icon is-small is-right
-                    i class=fas fa-check
+                    i class=fas fa-check gid=unameStatus
                 p class=control has-icons-left
                   label gid=unameMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
               div class=field
                 p class=control has-icons-left has-icons-right 
                   label gid=password class=is-left is-size-4
-                  span class=icon is-small is-right
-                    i class=far fa-eye-slash
+                  span class=icon is-small is-right gid=passwHideBtn
+                    i class=far fa-eye-slash gid=passwHide
                 p class=control has-icons-left
                   input gid=passwInput class=input is-large type=password name=passw required=true
                   span class=icon is-small is-left

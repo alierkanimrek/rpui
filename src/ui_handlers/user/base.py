@@ -62,14 +62,26 @@ class BaseHandler(tornado.web.RequestHandler):
     def parseMsg(self):
         try:
             stack = tornado.escape.json_decode(self.request.body)
+        except:
+            self.__log.e("Message not parsed : "+str(self.request.body)[:20]+"...")
+            return(False)
+        try:
             self.cstack.load(stack["stack"])
             self.__log.d(self.cstack.stack)
             return(True)
         except:
-            self.__log.e("Message not parsed : "+self.request.body[:20]+"...")
+            pass
+        try:
+            self.cstack.append({
+                "uname": "", 
+                "nname" : "",
+                "name": "",
+                "id": ""}, 
+                stack)
+            return(True)
+        except:
+            self.__log.e("Message not parsed : "+str(self.request.body)[:20]+"...")
             return(False)
-
-
 
 
     

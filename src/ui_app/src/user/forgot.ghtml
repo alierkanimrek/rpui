@@ -15,7 +15,7 @@ baseMainContent
                   input class=input is-large type=text name=emailuname id=forgotEmailUnameInput 
                 p class=control has-icons-left 
                   label class=is-left has-text-danger is-size-6 has-text-weight-light
-                  ^ Message
+                  | Message
 
               p class=control has-icons-left
                 span class=is-left is-size-6 has-text-weight-light id=forgotInfo
@@ -24,5 +24,5 @@ baseMainContent
           p class=has-text-grey
             a id=forgotHelp gid=helpLink
             span
-            ^ &nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;
             a id=forgotLogin gid=loginLink

@@ -15,7 +15,7 @@ from .base import BaseHandler
 
 
 
-class XHRCheckHandler(BaseHandler):
+class XHRUserCheckHandler(BaseHandler):
     
 
 
@@ -23,7 +23,7 @@ class XHRCheckHandler(BaseHandler):
     
     async def post(self):
         #'data': {'type': 'email|uname', 'data': '...'}
-        self.__log = self.log.job("XHRCheck")
+        self.__log = self.log.job("XHRUCheck")
         try:
             data = self.cstack.stack[0]["data"]
             if(data["type"] == "email"):
@@ -34,6 +34,6 @@ class XHRCheckHandler(BaseHandler):
                 resp = {"result" : True}
             else:
                 resp = {"result" : False}
-            await self.stackAppendAndSend(resp, "xhrcheck")
+            await self.stackAppendAndSend(resp, "xhrucheck")
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)

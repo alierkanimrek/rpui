@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValFalMessages} from "../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 import "./login.css"
 import loginView from './login.ghtml'
@@ -97,10 +97,6 @@ export class LoginData extends GDataObject {
     passw : string = ""
     remember : boolean = true
 
-
-    uname_valFalMessages:ValFalMessages = {
-        valueMissing:"Bu olmadı"
-    }
 
 
 

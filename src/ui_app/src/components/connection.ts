@@ -1,5 +1,5 @@
-import {RpMessage, RpStack, createRpMessage, createRpStack} from "./msg"
-import createRpSource from "./source"
+import {RpMessage, RpStack, createRpMessage, createRpStack, parseStack} from "./msg"
+import {createRpSource} from "./source"
 
 
 
@@ -15,11 +15,11 @@ const Name = ""
 
 
 export enum Port{
-    "check" = "/xhr/check"
+    "ucheck" = "/xhr/ucheck"
 }
 
 export interface ResponseHandler {
-    (msg:RpMessage):void
+    (msg:RpStack):void
 }
 
 interface RunConfig{
@@ -27,7 +27,8 @@ interface RunConfig{
     StringData?:string,
     ObjectData?:object,
     RPStack?: RpStack,
-    responseHandler?:ResponseHandler
+    responseHandler?:ResponseHandler,
+    full?:boolean
 }
 
 interface ConnConfig{
@@ -59,7 +60,7 @@ export class Connection {
         let { 
             port="", 
             name="", 
-            responseHandler=(s:RpMessage):void => {} } = cfg
+            responseHandler=(s:RpStack):void => {} } = cfg
         
         this.port = cfg.port
         this.name = cfg.name
@@ -74,6 +75,15 @@ export class Connection {
         /*
             
         */
+
+        //Default values
+        let { 
+            JsonData = null, 
+            ObjectData = null,
+            StringData = null,
+            RPStack = null,
+            responseHandler = null,
+            full = false } = cfg
         
         if(cfg.responseHandler){this.responseHandler = cfg.responseHandler}
         
@@ -83,7 +93,7 @@ export class Connection {
         if(cfg.ObjectData){
             stack.append(src, cfg.ObjectData)
         }
-        
+
         let msg = new RpMessage(Uname, Nname, stack)
         const xhr = new XMLHttpRequest()
 
@@ -91,7 +101,12 @@ export class Connection {
         xhr.setRequestHeader("Content-type", "application/json; charset=utf-8")
         xhr.setRequestHeader("X-XSRFToken", msg.xsrf)
         xhr.onreadystatechange = this.xhrLoad.bind(this, xhr)
-        xhr.send(msg.toString)
+        if(cfg.full){
+            xhr.send(msg.toString)
+        }
+        else{
+            xhr.send(JSON.stringify(stack.data(src.id)))
+        }
     }
 
 
@@ -100,7 +115,7 @@ export class Connection {
     private xhrLoad(xhr:XMLHttpRequest):void{
         if (xhr.readyState == 4) {
             if (xhr.status == 200) { 
-                console.log(xhr.response)
+                this.responseHandler(parseStack(xhr.response))
             }
             else{
                 console.error("[Connection] Error : "+xhr.responseURL+", "+xhr.statusText)

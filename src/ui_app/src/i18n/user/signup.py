@@ -25,7 +25,7 @@ def text(_):
             "dynamic":{
                 "email_typeMismatch" : _("Email is not valid"),
                 "email_valueMissing" : _("Please enter your email"),
-                "email_customError" : _("Email has already been recorded, please login."),
+                "email_customError" : _("You are already member, please login."),
                 "uname_typeMismatch" : _("User name must be 5-24 length and lowercase alphanumeric characters."),
                 "uname_valueMissing" : _("Please specify your user name"),
                 "uname_customError" : _("User name has already been taken."),

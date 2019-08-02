@@ -24,7 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-import {RpSourceShape} from 'source'
+import {RpSourceShape, createRpSource, getUri} from './source'
 
 
 
@@ -51,8 +51,13 @@ export interface RpMessageShape{
 }
 
 
-
-
+export interface RpStackData{
+    id : string
+    name : string
+    uname : string
+    nname : string
+    data : any 
+}
 
 
 
@@ -91,6 +96,32 @@ export function createRpMessage(uname: string, nname: string, stack: RpStack): R
     }
     return newMessage as RpMessageShape
 }
+
+
+
+
+export function parseStack(msg:string):RpStack{
+
+    let result = new RpStack()
+    let src = createRpSource("","","")
+    let stack:Array<Object>
+
+    try{
+        stack = JSON.parse(msg)["stack"]
+        stack.forEach((d:RpStackData) => {
+            src.id = getUri(d.uname,d.nname,d.name)
+            src.name = d.name
+            src.uname = d.uname
+            src.nname = d.nname
+            result.append(src, d.data)
+        })
+    }
+    catch{
+        console.error("[Rplib/Msg] Message not parsed : " +msg)
+    }
+    return(result)
+}
+
 
 
 
@@ -155,6 +186,24 @@ export class RpStack {
 
 
 
+    public dataVar(vr:string, id?:string): any{
+        try{
+            if(id){
+                return(this.data(id)[vr])
+            }
+            else{
+                let keys = Object.keys(this._stack)
+                let d = this._stack[keys[0]]["data"] as any
+                return(d[vr])
+            }
+        }
+        catch{
+            console.error("[Rplib/Msg] Unknown id or var : "+id+" - "+vr)   
+            return(null)
+        }
+    }
+
+
 
     public delete(id: string): void{
         if (this._stack.hasOwnProperty(id) ) {
@@ -204,3 +253,6 @@ export class RpMessage {
         return JSON.stringify(this._msg)
     }
 }
+
+
+

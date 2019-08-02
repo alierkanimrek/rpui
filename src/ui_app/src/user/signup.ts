@@ -1,7 +1,7 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler} from "../components/connection"
-import {RpMessage} from "../components/msg"
+import {RpStack} from "../components/msg"
 //import "./login.css"
 import signupView from './signup.ghtml'
 
@@ -44,7 +44,8 @@ export class Signup extends GHTMLControl {
 
     emap: any = [
         [this.elm.help, "click", this.footerNav],
-        [this.elm.login, "click", this.footerNav]
+        [this.elm.login, "click", this.footerNav],
+        [this.elm.passwHideBtn, "click", this.passwHideSw]
     ]
 
     email_validityMessages:ValidityMessages
@@ -72,7 +73,6 @@ export class Signup extends GHTMLControl {
 
 
 
-
     footerNav(e:MouseEvent){
         let t = <HTMLElement>e.target
         if(t == this.elm.login){
@@ -86,15 +86,12 @@ export class Signup extends GHTMLControl {
 
 
 
-
-
-
-
     input(event:GHTMLInputEvent):void{
         /*
             Form input controls
         */
         let emailCheckResult:CheckCallback = (status:boolean)=>{
+
             if(status){
                 // Not valid
                 if(this.emailInput.validity.valid){
@@ -108,6 +105,24 @@ export class Signup extends GHTMLControl {
             }
             // Show message
             this.elm.emailMsg.innerText = this.emailInput.validationMessage
+        }
+
+
+        let unameCheckResult:CheckCallback = (status:boolean)=>{
+            
+            if(status){
+                // Not valid
+                if(this.unameInput.validity.valid){
+                    // It has at server
+                    this.unameInput.setCustomValidity(this._("uname_customError"))
+                }
+                this.elm.unameStatus.className = classBan
+            }
+            else{
+                this.elm.unameStatus.className = classOk
+            }
+            // Show message
+            this.elm.unameMsg.innerText = this.unameInput.validationMessage
         }
 
 
@@ -132,7 +147,14 @@ export class Signup extends GHTMLControl {
                 this.elm.passwMsg.innerText = this.passwInput.validationMessage
                 break;
             case "uname":
-                this.elm.unameMsg.innerText = this.unameInput.validationMessage
+                if(this.unameInput.validity.valid){
+                    // Check from server
+                    this.elm.unameStatus.className = classSpinnerSpin
+                    this.bindingStore.checkUname(unameCheckResult)
+                }
+                else{
+                    unameCheckResult(true)
+                }
                 break;
         }
     }
@@ -140,7 +162,15 @@ export class Signup extends GHTMLControl {
 
 
 
-
+    passwHideSw(e:MouseEvent){
+        console.log(e)
+        if(this.elm.passwHide.className == classEye){
+            this.elm.passwHide.className = classEyeSlash
+        }
+        else{
+            this.elm.passwHide.className = classEye
+        }
+    }
 
 }
 
@@ -178,15 +208,36 @@ export class SignupData extends GDataObject {
 
     checkEmail(getStatus:CheckCallback):void{
         
-        let response:ResponseHandler = (msg:RpMessage) => {
-            getStatus(true)
+        let response:ResponseHandler = (stack:RpStack) => {
+            getStatus(stack.dataVar("result"))    
         }
 
         let data = {"type":"email", "data":this.email}
+        this.check(data, response.bind(this))
+    }
+
+
+
+
+    checkUname(getStatus:CheckCallback):void{
+        
+        let response:ResponseHandler = (stack:RpStack) => {
+            getStatus(stack.dataVar("result"))    
+        }
+
+        let data = {"type":"uname", "data":this.uname}
+        this.check(data, response.bind(this))
+    }
+
+
+
+
+    private check(data: any, cb: ResponseHandler):void{
+
         let conn = new Connection({
-            port:Port.check, 
+            port:Port.ucheck, 
             name:name, 
-            responseHandler:response.bind(this)})
+            responseHandler:cb})
         conn.run({ObjectData: data})
     }
 
@@ -200,9 +251,6 @@ export class SignupData extends GDataObject {
 
 
 
-    checkUname():boolean{
-        return(false)
-    }
 
 
 

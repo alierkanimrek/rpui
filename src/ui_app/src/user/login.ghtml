@@ -23,8 +23,8 @@ baseMainContent
           p class=has-text-grey
             a id=loginSignup gid=signupLink
             span
-            ^ &nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;
             a id=loginForgot gid=forgotLink
             span
-            ^ &nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;
             a id=loginHelp gid=helpLink
