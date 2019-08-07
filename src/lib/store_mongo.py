@@ -31,6 +31,7 @@ class RpMongoClient(object):
         self._uri = None
         self._db = None
         self._users = None
+        self._auth = None
 
 
 
@@ -51,6 +52,9 @@ class RpMongoClient(object):
         if(not f.exception()):
             self._users = self._db.users
             self._users.create_index([("uname", 1), ("email", 1)])
+            
+            self._auth = self._db.auth
+            self._auth.create_index([("uname", 1)])
 
 
 
@@ -62,3 +66,34 @@ class RpMongoClient(object):
         elif(email):
             rec = await self._users.find_one({'email': email})
         return(rec)
+
+
+
+
+    async def createUser(self, uname, email, passw):
+        rec = {
+            "uname" : uname,
+            "email" : email,
+            "passw" : passw
+        }
+        result = await self._users.insert_one(rec)
+        if(result):
+            return(result.inserted_id)
+        else:
+            return(None)
+
+
+
+
+    async def createSession(self, data):
+        result = await self._auth.insert_one(data)
+        if(result):            return(result.inserted_id)
+        else:            return(None)
+
+
+
+
+    async def getSession(self, selector):
+        data = await self._auth.find_one({"_id" : ObjectId(selector)})
+        if(data):   return(data)
+        else:   return(False)

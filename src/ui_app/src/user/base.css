@@ -69,3 +69,8 @@ html,body {
     max-width: 100%;
     width: 100%;
 }
+
+
+.is-pointer{
+  pointer-events: all !important;
+}

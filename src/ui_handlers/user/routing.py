@@ -9,6 +9,7 @@ from tornado import gen
 from .base import BaseHandler
 from .login import LoginHandler
 from .xhr import XHRUserCheckHandler
+from .xhr import XHRUserCreateHandler
 
 
 
@@ -41,6 +42,7 @@ userRouting = [
     (r"/user/agreement", LoaderHandler),
     (r"/user/privacyp", LoaderHandler),
     (r"/user/cookiep", LoaderHandler),
-    (r"/xhr/ucheck", XHRUserCheckHandler)
+    (r"/xhr/ucheck", XHRUserCheckHandler),
+    (r"/xhr/ucreate", XHRUserCreateHandler)
     ]
   

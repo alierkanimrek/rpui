@@ -45,7 +45,8 @@ export class Signup extends GHTMLControl {
     emap: any = [
         [this.elm.help, "click", this.footerNav],
         [this.elm.login, "click", this.footerNav],
-        [this.elm.passwHideBtn, "click", this.passwHideSw]
+        [this.elm.passwHideBtn, "click", this.passwHideSw],
+        [this.elm.submit, "click", this.send]
     ]
 
     email_validityMessages:ValidityMessages
@@ -68,6 +69,8 @@ export class Signup extends GHTMLControl {
         this.email_validityMessages = this.store("trns").getValidityMessages(name, "email")
         this.uname_validityMessages = this.store("trns").getValidityMessages(name, "uname")
         this.passw_validityMessages = this.store("trns").getValidityMessages(name, "passw")
+
+        this.elm.submitStatus.style.visibility = "hidden"
     }
 
 
@@ -141,11 +144,15 @@ export class Signup extends GHTMLControl {
                 break;
             
             case "passw":
-                if(this.passwInput.validity.valid && !this.bindingStore.checkPassw()){
-                    this.passwInput.setCustomValidity(this._("passw_customError"))
+                if(this.passwInput.validity.valid){
+                    this.elm.passwStatus.className = classOk
+                }
+                else{
+                    this.elm.passwStatus.className = classBan
                 }
                 this.elm.passwMsg.innerText = this.passwInput.validationMessage
                 break;
+
             case "uname":
                 if(this.unameInput.validity.valid){
                     // Check from server
@@ -163,14 +170,62 @@ export class Signup extends GHTMLControl {
 
 
     passwHideSw(e:MouseEvent){
-        console.log(e)
-        if(this.elm.passwHide.className == classEye){
-            this.elm.passwHide.className = classEyeSlash
+        if(this.elm.passwHideBtn.className == classEye){
+            this.elm.passwHideBtn.className = classEyeSlash
+            this.passwInput.type = "password"
         }
         else{
-            this.elm.passwHide.className = classEye
+            this.elm.passwHideBtn.className = classEye
+            this.passwInput.type = "text"
         }
     }
+
+
+
+
+    send(e:Event){
+        if(this.unameInput.validity.valid && 
+            this.passwInput.validity.valid &&
+            this.emailInput.validity.valid){
+
+            this.elm.submit.style.visibility = "hidden"
+            this.elm.submit.style.height = "0"
+            this.elm.submitStatus.style.visibility = "visible"
+            this.elm.submitMsg.textContent = this._("submitMsg")
+            
+            this.bindingStore.submit(this.submitResult.bind(this))
+        }
+    }
+
+
+
+
+    submitResult(success:boolean){
+
+        let restore = ()=>{
+            this.elm.submit.style.visibility = "visible"
+            this.elm.submit.style.height = ""
+            this.elm.submitStatus.style.visibility = "hidden"                        
+        }
+
+        let nav = ()=>{
+            console.log("Navigate...")
+        }
+
+        if(success){
+            this.elm.submitStatusIcon.className = classOk + " has-text-success"
+            this.elm.submitMsg.className = " has-text-success"
+            this.elm.submitMsg.textContent = this._("submitReady")
+            setTimeout(nav.bind(this), 1500)
+        }
+        else{
+            this.elm.submitStatusIcon.className = classBan + " has-text-danger"
+            this.elm.submitMsg.className = " has-text-danger"
+            this.elm.submitMsg.textContent = this._("submitError")
+            setTimeout(restore.bind(this), 3000)
+        }
+    }
+
 
 }
 
@@ -251,6 +306,22 @@ export class SignupData extends GDataObject {
 
 
 
+    submit(cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            cb(stack.dataVar("result"))    
+        }
+
+        let data = {"uname": this.uname, "email":this.email, "passw":this.passw}
+
+        let conn = new Connection({
+            port:Port.ucreate, 
+            name:name, 
+            responseHandler:response})
+
+        conn.run({ObjectData: data})
+        
+    }
 
 
 
@@ -266,17 +337,3 @@ export class SignupData extends GDataObject {
 
 
 
-/*
-        let testStack = new RpStack()
-
-        let test1Source = createRpSource("test1", "ali", "home")
-        let test2Source = createRpSource("test2", "ali", "home")
-        testStack.append(test1Source, {a: "OK", b:1, c:2})
-        testStack.update('alis/home/test1', {a: "NONE", b:3, c:4})
-        //log.debug(testStack.data('ali/home/test1'))
-        //testStack.delete('ali/home/test1')
-        //log.debug(testStack.data('ali/home/test1'))
-        testStack.append(test2Source, {data:["NONE", 3, 4]})
-        log.debug(this.message, testStack.stack)
-        log.debug("", new RpMessage("ali", "admin", testStack).json)
-*/

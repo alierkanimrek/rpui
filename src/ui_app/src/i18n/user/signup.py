@@ -19,7 +19,8 @@ def text(_):
                 "info" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/user/agreement'>User Agreement</a>, <a href='/user/privacyp'>Privacy Policy</a> and <a href='/user/cookiep'>Cookie Policy</a>.")},
                 "submit" : {"textContent":_("Get started")},
                 "help" : {"textContent":_("Help")},
-                "login" : {"textContent":_("Login")}
+                "login" : {"textContent":_("Login")},
+                "submitMsg" : {"textContent":_("Preparing your account...")}
             },
 
             "dynamic":{
@@ -29,8 +30,11 @@ def text(_):
                 "uname_typeMismatch" : _("User name must be 5-24 length and lowercase alphanumeric characters."),
                 "uname_valueMissing" : _("Please specify your user name"),
                 "uname_customError" : _("User name has already been taken."),
-                "passw_typeMismatch" : _("Password must be minimum 8 character length."),
-                "passw_valueMissing" : _("Please specify your user name")
+                "passw_tooShort" : _("Password must be minimum 8 character length."),
+                "passw_valueMissing" : _("Please specify your password"),
+                "submitMsg" :_("Preparing your account..."),
+                "submitError" :_("Something went wrong"),
+                "submitReady" : _("Let's get it started")
             }
         }
     }

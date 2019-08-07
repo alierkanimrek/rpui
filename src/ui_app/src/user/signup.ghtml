@@ -16,7 +16,7 @@ baseMainContent
                   span class=icon is-small is-left
                     i class=fas fa-envelope
                   span class=icon is-small is-right
-                    i class=fas fa-spinner fa-spin gid=emailStatus
+                    i class=fas fa-ban gid=emailStatus
                 p class=control has-icons-left 
                   label gid=emailMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
@@ -28,26 +28,33 @@ baseMainContent
                   span class=icon is-small is-left
                     i class=fas fa-user
                   span class=icon is-small is-right
-                    i class=fas fa-check gid=unameStatus
+                    i class=fas fa-ban gid=unameStatus
                 p class=control has-icons-left
                   label gid=unameMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
               div class=field
                 p class=control has-icons-left has-icons-right 
                   label gid=password class=is-left is-size-4
-                  span class=icon is-small is-right gid=passwHideBtn
-                    i class=far fa-eye-slash gid=passwHide
-                p class=control has-icons-left
-                  input gid=passwInput class=input is-large type=password name=passw required=true
+                  span class=icon is-small is-right is-pointer
+                    i class=far fa-eye-slash gid=passwHideBtn
+                p class=control has-icons-left has-icons-right
+                  input gid=passwInput class=input is-large type=password name=passw required=true minlength=8
                   span class=icon is-small is-left
                     i class=fas fa-lock
+                  span class=icon is-small is-right
+                    i class=fas fa-ban gid=passwStatus                    
                 p class=control has-icons-left
                   label gid=passwMsg class=is-left has-text-danger is-size-6 has-text-weight-light
 
               p class=control has-icons-left
                 span gid=info class=is-left is-size-6 has-text-weight-light
               br
-              button gid=submit class=button is-block is-info is-large is-fullwidth
+              button gid=submit type=button class=button is-block is-info is-large is-fullwidth
+              p class=has-icons-left has-icons-right gid=submitStatus
+                span class=icon is-right
+                  i class=fas fa-spinner fa-spin gid=submitStatusIcon
+                label gid=submitMsg class=is-left
+                | Please wait...
           p gid=footer class=has-text-grey
             a gid=help
             span

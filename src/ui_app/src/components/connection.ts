@@ -15,7 +15,8 @@ const Name = ""
 
 
 export enum Port{
-    "ucheck" = "/xhr/ucheck"
+    "ucheck" = "/xhr/ucheck",
+    "ucreate" = "/xhr/ucreate"
 }
 
 export interface ResponseHandler {
