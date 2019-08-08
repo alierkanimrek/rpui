@@ -20,7 +20,7 @@ export enum VPTypes {
 
 
 
-let defaultVP = VPTypes.Desktop
+let defaultVP = VPTypes.Hand
 
 
 
@@ -61,7 +61,7 @@ class Viewport  {
         }
         else{
             // Discover needs development
-            this._current = VPTypes.Desktop
+            this._current = defaultVP
         }
     }
 

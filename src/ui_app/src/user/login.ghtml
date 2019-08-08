@@ -11,13 +11,13 @@ baseMainContent
             form
               div class=field
                 div class=control
-                  input id=loginUname name=uname class=input is-large type=text  required=true
+                  input id=loginUname name=uname class=input is-medium type=text  required=true
               div class=field
                 div class=control
-                  input id=loginPassw name=passw class=input is-large type=password required=true 
+                  input id=loginPassw name=passw class=input is-medium type=password required=true 
               div class=field
                 label class=checkbox
-                  input name=remember type=checkbox 
+                  input name=remember type=checkbox id=remember
                   span id=loginRemember
               button id=loginSubmit type=button class=button is-block is-info is-large is-fullwidth 
               p class=has-icons-left has-icons-right gid=loginStatus

@@ -8,7 +8,10 @@ html,body {
   animation: fadeEffect 1s;
 }
 
-
+input[type=checkbox] {
+    transform: scale(1.5);
+    margin: 0.5rem;
+}
 
 .container{
   margin-left: 0 !important;

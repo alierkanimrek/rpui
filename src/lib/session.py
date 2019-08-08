@@ -47,7 +47,7 @@ class SessionManager(object):
             data["expires"] = timestamp value of expires, stored to auth db
         '''
         #Create sessin data and save it
-        data = getSessionData(persistent, days=self.conf.USER.persistent_session_days, minutes=self.conf.USER.session_timeout)
+        data = getSessionData(persistent, days=self.conf.USERS.persistent_session_days, minutes=self.conf.USERS.session_timeout)
         data["uname"] = uname
         validator = data["validator"]
         del data["validator"]
@@ -82,9 +82,9 @@ class SessionManager(object):
 
     async def setSession(self, uname, selector, validator, persistent=False):
         if(persistent):
-            self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=self.conf.USER.persistent_session_days)
-            self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=self.conf.USER.persistent_session_days)
-            self.baseHandler.set_secure_cookie("user", str(uname), expires_days=self.conf.USER.persistent_session_days)
+            self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=self.conf.USERS.persistent_session_days)
+            self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=self.conf.USERS.persistent_session_days)
+            self.baseHandler.set_secure_cookie("user", str(uname), expires_days=self.conf.USERS.persistent_session_days)
         else:
             self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=None)
             self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=None)
@@ -119,7 +119,7 @@ class SessionManager(object):
             if(checkSessionData(validator, data["hashedValidator"], data["expires"])):
                 diff = int(data["expires"] - datetime.datetime.now().timestamp())
                 print(diff)
-                if(diff < (self.conf.USER.session_timeout * 60) and diff > 0):
+                if(diff < (self.conf.USERS.session_timeout * 60) and diff > 0):
                     # in range of 0-5 minutes update session
                     print("update")
                     await self.createSession(user)

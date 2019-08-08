@@ -2,7 +2,6 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../g
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
-//import "./login.css"
 import signupView from './signup.ghtml'
 
 
@@ -71,6 +70,7 @@ export class Signup extends GHTMLControl {
         this.passw_validityMessages = this.store("trns").getValidityMessages(name, "passw")
 
         this.elm.submitStatus.style.visibility = "hidden"
+
     }
 
 
