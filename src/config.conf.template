@@ -16,8 +16,9 @@ db_port = 27017
 signup = yes
 u_maintenance = no
 r_maintenance = no
+pass_key = 12345678
+cookie_key = 12345678
 
 [USERS]
-cookie_exp_logincode = 60
-cookie_exp_user = 2500000
-signup_verify_timeout = 480
+session_timeout= 5
+persistent_session_days = 30

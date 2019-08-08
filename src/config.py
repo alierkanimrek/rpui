@@ -88,27 +88,38 @@ SERVER["maintenance"] = {
 	"default" : "no"
 	}
 
+SERVER["pass_key"] = {
+	"type" : "str", 
+	"values" : [],
+	"default" : ""
+	}
+
+SERVER["cookie_key"] = {
+	"type" : "str", 
+	"values" : [],
+	"default" : ""
+	}
+
+SERVER["special_names"] = {
+	"type" : "str", 
+	"values" : [],
+	"default" : "admin"
+	}
+
 
 
 USERS = {}
 
-USERS["cookie_exp_logincode"] = {
+USERS["session_timeout"] = {
 	"type" : "int", 
 	"values" : [],
-	"range" : [60,120],
-	"default" : 60
+	"range" : [2,60],
+	"default" : 5
 	}
 
-USERS["cookie_exp_user"] = {
+USERS["persistent_session_days"] = {
 	"type" : "int", 
 	"values" : [],
-	"range" : [2500000,9500000],
-	"default" : 2500000
-	}
-
-USERS["signup_verify_timeout"] = {
-	"type" : "int", 
-	"values" : [],
-	"range" : [480,1000],
-	"default" : 480
+	"range" : [1,90],
+	"default" : 30
 	}

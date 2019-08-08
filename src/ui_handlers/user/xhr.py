@@ -8,6 +8,7 @@
 
 
 from .base import BaseHandler
+from lib.passlock import PasswordLock
 
 
 
@@ -29,7 +30,10 @@ class XHRUserCheckHandler(BaseHandler):
             if(data["type"] == "email"):
                 user = await self.db.getUser(email=data["data"])
             elif(data["type"] == "uname"):
-                user = await self.db.getUser(uname=data["data"])
+                if(not data["data"] in self.conf.SERVER.special_names.split(" ")):
+                    user = await self.db.getUser(uname=data["data"])
+                else:
+                    user = True
             if(user):
                 resp = {"result" : True}
             else:
@@ -69,14 +73,54 @@ class XHRUserCreateHandler(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         # Create User
-        # FIX Key, get it from config
-        result = await self.db.createUser(data, "1234567812345678")
+        result = await self.db.createUser(data, self.conf.SERVER.pass_key)
         if(result):
             self.__log.i("New user recorded", data["uname"])
+            await self.session.createSession(data["uname"])                
             resp = {"result" : True}
-        await self.createSession(data["uname"])                
+        else:
+            self.__log.w("User could not recorded", data["uname"])
+        
         await self.stackAppendAndSend(resp, "xhrucreate")
 
 
 
 
+
+
+
+
+
+
+
+class XHRUserLogin(BaseHandler):
+    
+
+
+
+    
+    async def post(self):
+        #data = {"uname": ..., "passw":...}
+        self.__log = self.log.job("XHRULogin")
+        resp = {"result" : False}
+
+        try:
+            data = self.cstack.stack[0]["data"]
+            #Get user
+            if("@" in data["uname"]):
+                user = await self.db.getUser(email=data["uname"]) 
+            else:
+                user = await self.db.getUser(uname=data["uname"]) 
+
+            #Verify Password
+            p = PasswordLock()
+            if(p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
+                resp = {"result" : True}
+                await self.session.createSession(user["uname"])                
+                self.__log.i("User logged in", user["uname"])
+            else:
+                self.__log.d("Unauthorized login attempt", user["uname"])
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrulogin")

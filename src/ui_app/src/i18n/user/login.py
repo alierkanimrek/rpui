@@ -16,10 +16,15 @@ def text(_):
                 "loginSubmit" : {"textContent":_("Login")},
                 "loginSignup" : {"textContent":_("Sign up")},
                 "loginForgot" : {"textContent":_("Forgot Password")},
-                "loginHelp" : {"textContent":_("Need Help")}
+                "loginHelp" : {"textContent":_("Need Help")},
+                "loginMsg" : {"textContent":_("Logging in...")}
+
             },
 
             "dynamic":{
+                "loginMsg" :_("Logging in..."),
+                "loginError" :_("Unauthhorized"),
+                "loginReady" : _("Welcome")            
             }
         }
     }

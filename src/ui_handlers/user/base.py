@@ -13,9 +13,11 @@
 import json
 import time
 import tornado
+import datetime
 
 from lib.msg import *
 from lib.passlock import *
+from lib.session import SessionManager
 
 
 
@@ -35,6 +37,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.conf = self.settings['conf']
         self.t = int(time.time())
         self.__log = self.log.job("UBase")
+        self.session = SessionManager(self)
         #self.uid = ""
         self.stack = Stack()
         self.cstack = Stack()
@@ -134,53 +137,3 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
-
-    async def createSession(self, uname, persistent=False):
-        '''
-            Session policy
-
-            data["selector"] = auth db id, set as cookie
-            validator = random string, set as cookie
-            data["hashedValidator"] = hashed validator, stored to auth db
-            data["uname"] = user name, stored to auth db            
-            data["expires"] = timestamp value of expires, stored to auth db
-        '''
-        #Create sessin data and save it
-        data = getSessionData(persistent)
-        data["uname"] = uname
-        validator = data["validator"]
-        del data["validator"]
-        selector = await self.db.createSession(data)
-        if(selector):
-            #Set session to browser
-            await self.setSession(uname, selector, validator, persistent)
-
-
-
-
-    async def checkSession(self, uname, selector, validator):
-        #Get cookies
-        user = self.get_secure_cookie("user")
-        selector = self.get_secure_cookie("selector")
-        validator = self.get_secure_cookie("validator")
-        if(user and selector and validator):
-            #Get auth data and check it
-            data = await self.db.getSession(selector, user)
-            if(checkSessionData(validator, data["hashedValidator"], data["expires"])):
-                return(True)
-            else:
-                self.__log.d("Session invalid or expired")
-                return(False)                
-
-
-
-
-    async def setSession(self, uname, selector, validator, persistent=False):
-        if(persistent):
-            self.set_secure_cookie("selector", str(selector), expires_days=30)
-            self.set_secure_cookie("validator", str(validator), expires_days=30)
-            self.set_secure_cookie("user", str(uname), expires_days=30)
-        else:
-            self.set_secure_cookie("selector", str(selector), expires_days=None)
-            self.set_secure_cookie("validator", str(validator), expires_days=None)
-            self.set_secure_cookie("user", str(uname), expires_days=None)

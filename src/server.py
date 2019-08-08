@@ -121,7 +121,7 @@ application = web.Application(
     conf = conf,
     log = log,
     db = db,
-    cookie_secret = "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+    cookie_secret = conf.SERVER.cookie_key,
     xsrf_cookies = True, 
     template_path = "template",
     )

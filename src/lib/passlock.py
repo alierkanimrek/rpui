@@ -9,7 +9,7 @@ import hashlib
 import binascii
 import base64
 import random
-import datetime
+
 
 
 
@@ -56,51 +56,11 @@ class PasswordLock(object):
 
 
 
-def getSessionData(persistent=False, days=30, minutes=5):
-
-    # Generate session validator
-    validator = ""
-    for x in range(10): 
-        validator += str(random.randint(1, 101))
-    validator = validator.encode()
-    m = hashlib.sha256()
-    m.update(validator)
-    hashedValidator = m.digest()
-
-    # session is same as DB id
-
-    # timestamp for expires
-    if(persistent):
-        expires = datetime.datetime.now() + datetime.timedelta(days=days)
-    else:
-        expires = datetime.datetime.now() + datetime.timedelta(minutes=minutes)
-
-    data = {
-    "validator": validator,
-    "hashedValidator": hashedValidator,
-    "expires": expires.timestamp()}
-
-    return(data)
 
 
 
 
 
-
-
-
-def checkSessionData(validator, hashedValidator, expires):
-    m = hashlib.sha256()
-    m.update(validator.encode())
-    hValidator = m.digest()
-    if(hValidator != hashedValidator):
-        return(False)
-    
-    diff = expires - datetime.datetime.now().timestamp()
-    if(diff <= 0):
-        return(False)
-
-    return(True)
 
 
 

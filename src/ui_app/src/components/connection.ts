@@ -16,12 +16,18 @@ const Name = ""
 
 export enum Port{
     "ucheck" = "/xhr/ucheck",
-    "ucreate" = "/xhr/ucreate"
+    "ucreate" = "/xhr/ucreate",
+    "ulogin" = "/xhr/ulogin"
 }
 
 export interface ResponseHandler {
     (msg:RpStack):void
 }
+
+export interface ErrorHandler {
+    (msg:string):void
+}
+
 
 interface RunConfig{
     JsonData?:JSON, 
@@ -29,13 +35,15 @@ interface RunConfig{
     ObjectData?:object,
     RPStack?: RpStack,
     responseHandler?:ResponseHandler,
+    errorHandler?:ErrorHandler,
     full?:boolean
 }
 
 interface ConnConfig{
     port:Port, 
     name?:string, 
-    responseHandler?:ResponseHandler
+    responseHandler?:ResponseHandler,
+    errorHandler?:ErrorHandler
 }
 
 
@@ -51,6 +59,7 @@ export class Connection {
     private port: Port
     private name: string
     public responseHandler: ResponseHandler
+    public errorHandler: ErrorHandler
 
 
 
@@ -61,11 +70,13 @@ export class Connection {
         let { 
             port="", 
             name="", 
-            responseHandler=(s:RpStack):void => {} } = cfg
+            responseHandler=(s:RpStack):void => {},
+            errorHandler=(s:string):void => {}} = cfg
         
         this.port = cfg.port
         this.name = cfg.name
         this.responseHandler = cfg.responseHandler
+        this.errorHandler = cfg.errorHandler
 
     }
 
@@ -84,9 +95,11 @@ export class Connection {
             StringData = null,
             RPStack = null,
             responseHandler = null,
+            errorHandler = null,
             full = false } = cfg
         
         if(cfg.responseHandler){this.responseHandler = cfg.responseHandler}
+        if(cfg.errorHandler){this.errorHandler = cfg.errorHandler}
         
         let stack = new RpStack()
         let src = createRpSource(Uname, Nname, this.name)
@@ -120,6 +133,7 @@ export class Connection {
             }
             else{
                 console.error("[Connection] Error : "+xhr.responseURL+", "+xhr.statusText)
+                this.errorHandler(xhr.statusText)
             }
         }
 

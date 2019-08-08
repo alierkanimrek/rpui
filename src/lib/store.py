@@ -71,3 +71,9 @@ class Store(object):
             return(data)
         else:
             return(False)
+
+
+
+
+    async def removeSession(self, selector):
+        return(await self._db.removeSession(selector))

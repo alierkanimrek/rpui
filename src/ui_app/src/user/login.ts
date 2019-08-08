@@ -1,5 +1,7 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
+import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
+import {RpStack} from "../components/msg"
 import "./login.css"
 import loginView from './login.ghtml'
 
@@ -10,7 +12,12 @@ const name = "login"
 
 
 
-
+const classSpinnerSpin = "fas fa-spinner fa-spin"
+const classSpinner = "fas fa-spinner"
+const classOk = "fas fa-check"
+const classBan = "fas fa-ban"
+const classEyeSlash = "far fa-eye-slash"
+const classEye = "far fa-eye"
 
 
 
@@ -23,15 +30,25 @@ export class Login extends GHTMLControl {
 
 	bindingStore:LoginData
     trns: GetText
+    _: Function
 
     signupLink:HTMLElement
     forgotLink:HTMLElement
     helpLink:HTMLElement
+    loginSubmit:HTMLElement
+    loginUname: HTMLInputElement
+    loginPassw: HTMLInputElement
+    loginStatus: HTMLElement
+    loginMsg: HTMLElement
+    loginStatusIcon: HTMLElement
+
+
 
     emap: any = [
         [this.signupLink, "click", this.footer],
         [this.forgotLink, "click", this.footer],
-        [this.helpLink, "click", this.footer]
+        [this.helpLink, "click", this.footer],
+        [this.loginSubmit, "click", this.send]        
     ]
 
 
@@ -40,32 +57,58 @@ export class Login extends GHTMLControl {
     constructor() {
         super({view:loginView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
+        this._ = this.trns.get_()
         this.trns.updateStatics()
-        this.linkEvents(this.emap)    
-        /*
-        let select = [
-            "selectArea",
-            "  select id=server name=server"
-        ]
-
-        this.bindingStore.servers.forEach((s:string)=>{
-            select.push("    option")
-            select.push(`    ^ ${s}`)
-        })
-
-        this.createGHTML(select)
-        this.up()
-        */
-        //this.e["submit"].addEventListener("click", this.submit.bind(this))
-
+        this.linkEvents(this.emap)
+        this.loginStatus.style.visibility = "hidden"    
     }
 
-    /*
-    submit(e:Event){
-        console.log(this.bindingStore)
-        //window.location.hash = "/test"
+
+
+    send(e:Event){
+        if(this.loginUname.validity.valid && this.loginPassw.validity.valid){
+            this.loginSubmit.style.visibility = "hidden"
+            this.loginSubmit.style.height = "0"
+            this.loginStatus.style.visibility = "visible"
+            this.loginMsg.textContent = this._("loginMsg")
+            this.loginStatusIcon.className = classSpinnerSpin
+            
+            this.bindingStore.submit(this.loginResult.bind(this))
+
+        }
     }
-    */
+
+
+
+
+    loginResult(success:boolean, msg?:string){
+
+        let restore = ()=>{
+            this.loginSubmit.style.visibility = "visible"
+            this.loginSubmit.style.height = ""
+            this.loginStatus.style.visibility = "hidden"                        
+        }
+
+        let nav = ()=>{
+            console.log("Navigate...")
+        }
+
+        if(success){
+            this.loginStatusIcon.className = classOk + " has-text-success"
+            this.loginMsg.className = " has-text-success"
+            this.loginMsg.textContent = this._("loginReady")
+            setTimeout(nav.bind(this), 800)
+        }
+        else{
+            this.loginStatusIcon.className = classBan + " has-text-danger"
+            this.loginMsg.className = " has-text-danger"
+            if(msg){    this.loginMsg.textContent = msg    }
+            else{    this.loginMsg.textContent = this._("loginError")   }
+            setTimeout(restore.bind(this), 1500)
+        }
+    }
+
+
 
     footer(e:Event){
         let t = <HTMLElement>e.target
@@ -100,31 +143,29 @@ export class LoginData extends GDataObject {
 
 
 
-    /*
-    uname_validation:ValidationRules = {
-		required: {required:true, message:"Required"},
-		matches: {regex:"regex", equal:"abc", message:"not valid"},
-		standard: {standard: "email", message:"not standard"},
-		length: {min:8, max:12, message:"min:8 max: 12 char"},
-		items: {min:1, max:3, message:"min:1, max:3 items"},
-		range: {min:0, max:100, message:"Allowed range is 0-100 "}
-    }*/
+    submit(cb:Function):void{
 
+        let response:ResponseHandler = (stack:RpStack) => {
+            cb(stack.dataVar("result"))    
+        }
 
+        let error:ErrorHandler = (msg:string) => {
+            cb(false, msg)    
+        }
 
+        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember}
 
-    input(event:GHTMLInputEvent):void{
-        console.log(event.name+" : "+String(event.value))
-        console.log(this)
-        console.log(event.element)
-        console.log(event.control)
+        let conn = new Connection({
+            port:Port.ulogin, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: data})
     }
 
-    change(event:GHTMLInputEvent):void{
-        console.log(event.name+" : "+String(event.value))
-        console.log(this)
-        console.log(event.element)
-        console.log(event.control)
-    }
+
+
+
 
 }
