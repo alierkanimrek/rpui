@@ -8,19 +8,27 @@ def text(_):
         "forgot": {
 
             "static":{
-                "forgotTitle" : {"textContent":_("Trouble Logging In?")},
-                "forgotSubTitle" : {"textContent":_("You can reset your password.")},
-                "forgotEmailUname" : {"textContent":_("Email or Username")},
-                "forgotEmailUnameInput" : {"placeholder":_("email or user name")},
-                "forgotInfo" : {"textContent":_("We'll send your inbox or spam box an information to reset your password.")},
-                "forgotSubmit" : {"textContent":_("Send")},
-                "forgotHelp" : {"textContent":_("Help")},
-                "forgotLogin" : {"textContent":_("Login")},
+                "title" : {"textContent":_("Trouble to login?")},
+                "subtitle" : {"textContent":_("You can reset your password.")},
+                "maillabel" : {"textContent":_("Your Email")},
+                "mailinput" : {"placeholder":_("Email")},
+                "info" : {"textContent":_("We'll send the code to your inbox or spam box.")},
+                "mailsend" : {"textContent":_("Send")},
+                "helplink" : {"textContent":_("Help")},
+                "loginlink" : {"textContent":_("Login")},
+                "codelabel" : {"textContent":_("Code")},
+                "codeinput" : {"placeholder":_("Code")},
+                "codeinfo" : {"textContent":_("Please enter the code that we sent to your email just now")},
+                "codesend" : {"textContent":_("Send")},
+
             },
 
             "dynamic":{
-                "loginCodeSent" : _("Login code sent to your email"),
-                "loginAuthError" : _("Not permitted.")
+                "mailnotfound" : _("This email not found."),
+                "codesent" : _("We've sent the code to your email inbox or spam box. You can see the message in a few minutes."),
+                "codesenderror" : _("There is a problem at server, please try again later."),
+                "codeverified" : _("Correct"),
+                "codenotverified" : _("Code is wrong")
             }
         }
     }

@@ -138,7 +138,7 @@ export class LoginData extends GDataObject {
 	
     uname : string = ""
     passw : string = ""
-    remember : boolean = true
+    remember : boolean = false
 
 
 

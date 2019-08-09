@@ -24,20 +24,23 @@ export class Forgot extends GHTMLControl {
 	bindingStore:ForgotData
     trns: GetText
 
-    helpLink:HTMLElement
-    loginLink:HTMLElement
+    mailContainer: HTMLElement
+    codeContainer: HTMLElement
+    helplink:HTMLElement
+    loginlink:HTMLElement
 
     emap: any = [
-        [this.helpLink, "click", this.footer],
-        [this.loginLink, "click", this.footer]
+        [this.helplink, "click", this.footer],
+        [this.loginlink, "click", this.footer]
     ]
 
 
 
     constructor() {
         super({view:forgotView, bindTo:name})
+        this.codeContainer.style.display = "none"
         this.trns = this.store("trns").t.translations(name)
-        this.trns.updateStatics()
+        this.trns.updateStatics(this)
         this.linkEvents(this.emap)    
 
     }
@@ -48,10 +51,10 @@ export class Forgot extends GHTMLControl {
     footer(e:Event){
         let t = <HTMLElement>e.target
         switch (t) {
-            case this.loginLink:
+            case this.loginlink:
                 this.gDoc.navigate("/user/login")
                 break;
-            case this.helpLink:
+            case this.helplink:
                 this.gDoc.navigate("/user/help")
                 break;
         }
@@ -68,7 +71,8 @@ export class Forgot extends GHTMLControl {
 export class ForgotData extends GDataObject {
 	
 	
-    emailuname : string = "admin"
+    email : string
+    code : string 
 
 
 }

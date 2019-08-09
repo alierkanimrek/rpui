@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rplexus 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-06 22:45+0300\n"
+"POT-Creation-Date: 2019-08-08 11:21+0300\n"
 "PO-Revision-Date: 2019-06-09 13:52+0300\n"
 "Last-Translator: Ali Erkan IMREK <rplexus1@gmail.com>\n"
 "Language-Team: Language tr-tr\n"
@@ -49,10 +49,14 @@ msgstr "Parolamı Unuttum"
 msgid "Need Help"
 msgstr "Yardım"
 
-#: login.py:23
-msgid "Login code sent to your email"
+#: login.py:20 login.py:25
+msgid "Logging in..."
 msgstr ""
 
-#: login.py:24
-msgid "Not permitted."
+#: login.py:26
+msgid "Unauthhorized"
+msgstr ""
+
+#: login.py:27
+msgid "Welcome"
 msgstr ""

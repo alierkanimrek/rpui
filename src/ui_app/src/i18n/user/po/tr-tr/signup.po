@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rplexus 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-05 21:13+0300\n"
+"POT-Creation-Date: 2019-08-06 21:58+0300\n"
 "PO-Revision-Date: 2019-06-24 21:25+0300\n"
 "Last-Translator: ali <ali@worksys1>\n"
 "Language-Team: Language tr-tr\n"
@@ -59,30 +59,46 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: signup.py:26
-msgid "Email is not valid"
+#: signup.py:23 signup.py:35
+msgid "Preparing your account..."
 msgstr ""
 
 #: signup.py:27
-msgid "Please enter your email"
+msgid "Email is not valid"
 msgstr ""
 
 #: signup.py:28
-msgid "Email has already been recorded, please login."
+msgid "Please enter your email"
 msgstr ""
 
 #: signup.py:29
+msgid "You are already member, please login."
+msgstr ""
+
+#: signup.py:30
 msgid "User name must be 5-24 length and lowercase alphanumeric characters."
 msgstr ""
 
-#: signup.py:30 signup.py:33
+#: signup.py:31
 msgid "Please specify your user name"
 msgstr ""
 
-#: signup.py:31
+#: signup.py:32
 msgid "User name has already been taken."
 msgstr ""
 
-#: signup.py:32
+#: signup.py:33
 msgid "Password must be minimum 8 character length."
+msgstr ""
+
+#: signup.py:34
+msgid "Please specify your password"
+msgstr ""
+
+#: signup.py:36
+msgid "Something went wrong"
+msgstr ""
+
+#: signup.py:37
+msgid "Let's get it started"
 msgstr ""

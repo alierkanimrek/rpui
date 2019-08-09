@@ -3,26 +3,43 @@ baseMainContent
     div class=hero-body
       div class=container has-text-centered
         div class=column is-4 is-offset-4
-          h3 class=title has-text-grey id=forgotTitle
-          p class=subtitle has-text-grey id=forgotSubTitle
+          h3 class=title has-text-grey gid=title
+          p class=subtitle has-text-grey gid=subtitle
           div class=box
-            form
+            div class=container gid=mailContainer
+              form
 
-              div class=field
-                p class=control has-icons-left has-icons-right 
-                  label class=is-left is-size-4 id=forgotEmailUname
-                p class=control has-icons-left has-icons-right
-                  input class=input is-large type=text name=emailuname id=forgotEmailUnameInput 
-                p class=control has-icons-left 
-                  label class=is-left has-text-danger is-size-6 has-text-weight-light
-                  | Message
+                div class=field 
+                  p class=control has-icons-left has-icons-right 
+                    label class=is-left is-size-4 gid=maillabel
+                  p class=control has-icons-left
+                    input gid=mailinput class=input is-medium type=text name=email required=true 
+                    span class=icon is-small is-left
+                      i class=fas fa-envelope
+                  p class=control has-icons-left 
+                    label gid=mailmsg class=is-left has-text-danger is-size-6 has-text-weight-light
+                p class=control has-icons-left
+                  span class=is-left is-size-6 has-text-weight-light gid=info
+                br
+                button gid=mailsend class=button is-block is-info is-medium is-fullwidth type=button
 
-              p class=control has-icons-left
-                span class=is-left is-size-6 has-text-weight-light id=forgotInfo
-              br
-              button id=forgotSubmit class=button is-block is-info is-large is-fullwidth
+            div class=container gid=codeContainer
+              form
+
+                div class=field 
+                  p class=control has-icons-left has-icons-right 
+                    label gid=codelabel class=is-left is-size-4 
+                  p class=control has-icons-left
+                    input gid=codeinput class=input is-large type=text name=code required=true 
+                  p class=control has-icons-left 
+                    label gid=codemsg class=is-left has-text-danger is-size-6 has-text-weight-light
+                p class=control has-icons-left
+                  span gid=codeinfo class=is-left is-size-6 has-text-weight-light 
+                br
+                button gid=codesend class=button is-block is-info is-medium is-fullwidth type=button
+
           p class=has-text-grey
-            a id=forgotHelp gid=helpLink
+            a gid=helplink
             span
             | &nbsp;&nbsp;&nbsp;
-            a id=forgotLogin gid=loginLink
+            a gid=loginlink
