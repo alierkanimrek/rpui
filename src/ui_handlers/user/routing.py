@@ -11,6 +11,7 @@ from .login import LoginHandler
 from .xhr import XHRUserCheckHandler
 from .xhr import XHRUserCreateHandler
 from .xhr import XHRUserLogin
+from .xhr import XHRSessionUpdate
 
 
 
@@ -25,7 +26,7 @@ class LoaderHandler(BaseHandler):
 
     
     async def get(self):
-        await self.session.checkSession()
+        await self.session.checkSession(update=True)
         await self.render_page()
 
 
@@ -46,6 +47,7 @@ userRouting = [
     (r"/user/cookiep", LoaderHandler),
     (r"/xhr/ucheck", XHRUserCheckHandler),
     (r"/xhr/ucreate", XHRUserCreateHandler),
-    (r"/xhr/ulogin", XHRUserLogin)
+    (r"/xhr/ulogin", XHRUserLogin),
+    (r"/xhr/supdate", XHRSessionUpdate)
     ]
   

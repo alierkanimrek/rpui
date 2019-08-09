@@ -117,7 +117,7 @@ export function parseStack(msg:string):RpStack{
         })
     }
     catch{
-        console.error("[Rplib/Msg] Message not parsed : " +msg)
+        console.error("[Msg] Message not parsed : " +msg)
     }
     return(result)
 }
@@ -133,7 +133,7 @@ function getXsrfCookie(): string{
           const cookie = cookies[i].split('=');
           if(cookie[0] === "_xsrf")    return cookie[1]
     }        
-    window.console.error("[Rplib/Msg] XSRF Cookie not found!")
+    window.console.error("[Msg] XSRF Cookie not found!")
     return ""
 }
 
@@ -168,7 +168,7 @@ export class RpStack {
             this._stack[id]['data'] = data
         }
         else{
-            window.console.error("[Rplib/Msg] Unknown id while updating:"+String(id))
+            window.console.error("[Msg] Unknown id while updating:"+String(id))
         }
     }
 
@@ -180,7 +180,7 @@ export class RpStack {
             return this._stack[id]['data']
         }
         else{
-            window.console.error("[Rplib/Msg] Unknown id while getting data:"+String(id))
+            window.console.error("[Msg] Unknown id while getting data:"+String(id))
         }
     }
 
@@ -198,7 +198,7 @@ export class RpStack {
             }
         }
         catch{
-            console.error("[Rplib/Msg] Unknown id or var : "+id+" - "+vr)   
+            console.error("[Msg] Unknown id or var : "+id+" - "+vr)   
             return(null)
         }
     }
@@ -210,7 +210,7 @@ export class RpStack {
             delete this._stack[id]
         }
         else{
-            window.console.error("[Rplib/Msg] Unknown id while deleting data:"+String(id))
+            window.console.error("[Msg] Unknown id while deleting data:"+String(id))
         }
     }
 

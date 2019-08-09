@@ -1,6 +1,7 @@
 import {GDocument, GDataObject} from "./glider/glider"
 import {Translation} from "./components/translation"
 import {viewport, VPTypes} from "./components/viewport"
+import {SessionUpdater} from "./components/session"
 import {LangSelectorData} from "./widgets/lang/selector"
 
 import {Base, BaseData} from "./user/base"
@@ -98,9 +99,4 @@ GDocument.setReadyChecker(appReady)
 GDocument.stores(store)
 GDocument.route(route)
 
-
-
-//history.replaceState({page: 1}, "title 1", "?page=1")
-//window.location.hash = "/?page=1"
-//console.log(window.location)
-//console.log(document.)
+let session = new SessionUpdater()

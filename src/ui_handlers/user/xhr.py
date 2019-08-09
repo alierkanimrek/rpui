@@ -124,3 +124,18 @@ class XHRUserLogin(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhrulogin")
+
+
+
+
+
+
+
+
+class XHRSessionUpdate(BaseHandler):
+
+
+
+    
+    async def post(self):
+        await self.session.updateSession()

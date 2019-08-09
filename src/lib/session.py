@@ -59,18 +59,21 @@ class SessionManager(object):
 
 
 
-    async def checkSession(self):
+    async def checkSession(self, update=False):
         #Get cookies
         try:
             user =self.baseHandler.get_secure_cookie("user").decode()
             selector =self.baseHandler.get_secure_cookie("selector").decode()
             validator =self.baseHandler.get_secure_cookie("validator").decode()
         except:
+            await self.endSession()
             return(False)
         if(user and selector and validator):
             #Get auth data and check it
             data = await self.db.getSession(selector, user)
             if(data and checkSessionData(validator, data["hashedValidator"], data["expires"])):
+                if(update):
+                    await self.updateSession()
                 return(True)
             else:
                 self.__log.d("Session invalid or expired")
@@ -96,12 +99,12 @@ class SessionManager(object):
     async def endSession(self):
         try:
             selector =self.baseHandler.get_secure_cookie("selector").decode()
-            self.baseHandler.clear_cookie("user")
-            self.baseHandler.clear_cookie("selector")
-            self.baseHandler.clear_cookie("validator")
             await self.db.removeSession(selector)
         except:
             pass
+        self.baseHandler.clear_cookie("user")
+        self.baseHandler.clear_cookie("selector")
+        self.baseHandler.clear_cookie("validator")
 
 
 
@@ -112,16 +115,15 @@ class SessionManager(object):
             selector =self.baseHandler.get_secure_cookie("selector").decode()
             validator =self.baseHandler.get_secure_cookie("validator").decode()
         except:
+            await self.endSession()
             return(False)
         if(user and selector and validator):
             #Get auth data and check it
             data = await self.db.getSession(selector, user)
             if(checkSessionData(validator, data["hashedValidator"], data["expires"])):
                 diff = int(data["expires"] - datetime.datetime.now().timestamp())
-                print(diff)
                 if(diff < (self.conf.USERS.session_timeout * 60) and diff > 0):
                     # in range of 0-5 minutes update session
-                    print("update")
                     await self.createSession(user)
                     await self.db.removeSession(selector)
                     return(True)

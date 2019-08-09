@@ -17,7 +17,8 @@ const Name = ""
 export enum Port{
     "ucheck" = "/xhr/ucheck",
     "ucreate" = "/xhr/ucreate",
-    "ulogin" = "/xhr/ulogin"
+    "ulogin" = "/xhr/ulogin",
+    "supdate" = "/xhr/supdate"
 }
 
 export interface ResponseHandler {
@@ -66,18 +67,16 @@ export class Connection {
     
     constructor(cfg:ConnConfig) {
 
-        //Default values
-        let { 
-            port="", 
-            name="", 
-            responseHandler=(s:RpStack):void => {},
-            errorHandler=(s:string):void => {}} = cfg
-        
         this.port = cfg.port
-        this.name = cfg.name
-        this.responseHandler = cfg.responseHandler
-        this.errorHandler = cfg.errorHandler
 
+        if(cfg.name){    this.name = cfg.name    }
+        else{    this.name = ""    }
+
+        if(cfg.responseHandler){this.responseHandler = cfg.responseHandler }
+        else{ this.responseHandler = (s:RpStack):void => {} }
+
+        if(cfg.errorHandler){ this.errorHandler = cfg.errorHandler }
+        else{ this.errorHandler = (s:string):void => {} }
     }
 
 
@@ -100,7 +99,7 @@ export class Connection {
         
         if(cfg.responseHandler){this.responseHandler = cfg.responseHandler}
         if(cfg.errorHandler){this.errorHandler = cfg.errorHandler}
-        
+
         let stack = new RpStack()
         let src = createRpSource(Uname, Nname, this.name)
         
@@ -129,7 +128,9 @@ export class Connection {
     private xhrLoad(xhr:XMLHttpRequest):void{
         if (xhr.readyState == 4) {
             if (xhr.status == 200) { 
-                this.responseHandler(parseStack(xhr.response))
+                if(xhr.response){
+                    this.responseHandler(parseStack(xhr.response))
+                }
             }
             else{
                 console.error("[Connection] Error : "+xhr.responseURL+", "+xhr.statusText)
@@ -138,6 +139,8 @@ export class Connection {
         }
 
     }
+
+
 
 }
 
