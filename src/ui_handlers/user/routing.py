@@ -12,7 +12,8 @@ from .xhr import XHRUserCheckHandler
 from .xhr import XHRUserCreateHandler
 from .xhr import XHRUserLogin
 from .xhr import XHRSessionUpdate
-
+from .xhr import XHRUserForgotPassw
+from .xhr import XHRUserSendCode
 
 
 
@@ -48,6 +49,8 @@ userRouting = [
     (r"/xhr/ucheck", XHRUserCheckHandler),
     (r"/xhr/ucreate", XHRUserCreateHandler),
     (r"/xhr/ulogin", XHRUserLogin),
-    (r"/xhr/supdate", XHRSessionUpdate)
+    (r"/xhr/supdate", XHRSessionUpdate),
+    (r"/xhr/uforgot", XHRUserForgotPassw),
+    (r"/xhr/usendcode", XHRUserSendCode)
     ]
   

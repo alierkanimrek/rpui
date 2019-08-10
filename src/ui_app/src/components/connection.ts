@@ -18,7 +18,9 @@ export enum Port{
     "ucheck" = "/xhr/ucheck",
     "ucreate" = "/xhr/ucreate",
     "ulogin" = "/xhr/ulogin",
-    "supdate" = "/xhr/supdate"
+    "supdate" = "/xhr/supdate",
+    "uforgot" = "/xhr/uforgot",
+    "usendcode" = "/xhr/usendcode"
 }
 
 export interface ResponseHandler {

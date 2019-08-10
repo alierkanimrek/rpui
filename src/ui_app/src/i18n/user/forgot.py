@@ -18,16 +18,20 @@ def text(_):
                 "loginlink" : {"textContent":_("Login")},
                 "codelabel" : {"textContent":_("Code")},
                 "codeinput" : {"placeholder":_("Code")},
-                "codeinfo" : {"textContent":_("Please enter the code that we sent to your email just now")},
-                "codesend" : {"textContent":_("Send")},
+                "codeinfo" : {"textContent":_("Please enter the code that we sent to your email just now.")},
+                "codesend" : {"textContent":_("Enter")},
+                "resend" : {"textContent":_("Send again")}
 
             },
 
             "dynamic":{
-                "mailnotfound" : _("This email not found."),
-                "codesent" : _("We've sent the code to your email inbox or spam box. You can see the message in a few minutes."),
+                "email_typeMismatch" : _("Email is not valid"),
+                "email_valueMissing" : _("Please enter your registered email"),
+                "mailsending" : _("Sending..."),
+                "mailnotfound" : _("This email not found or some error occured."),
+                "codesending" : _("Checking..."),
                 "codesenderror" : _("There is a problem at server, please try again later."),
-                "codeverified" : _("Correct"),
+                "codeverified" : _("Correct. You should specify your password now."),
                 "codenotverified" : _("Code is wrong")
             }
         }

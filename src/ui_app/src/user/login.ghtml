@@ -5,7 +5,7 @@ baseMainContent
         div class=column is-4 is-offset-4
           h3 class=title has-text-grey id=loginTitle
           p class=subtitle has-text-grey id=loginSubTitle
-          div class=box
+          div class=loginbox
             figure class=avatar
               img src=https://placehold.it/128x128
             form

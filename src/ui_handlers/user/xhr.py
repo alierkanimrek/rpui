@@ -139,3 +139,61 @@ class XHRSessionUpdate(BaseHandler):
     
     async def post(self):
         await self.session.updateSession()
+
+
+
+
+
+
+
+
+class XHRUserForgotPassw(BaseHandler):
+
+
+
+
+    async def post(self):
+        #data = {"email": ...}
+        self.__log = self.log.job("XHRUForgotPassw")
+        resp = {"result" : False}
+
+        try:
+            data = self.cstack.stack[0]["data"]
+            #Get user
+            user = await self.db.getUser(email=data["email"])
+            if(user):
+                #Do something
+                resp = {"result" : True}
+                self.__log.i("User request recovery code", data["email"])
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+
+        await self.stackAppendAndSend(resp, "xhruforgot")
+
+
+
+
+
+
+
+class XHRUserSendCode(BaseHandler):
+
+
+
+
+    async def post(self):
+        #data = {"email": ...., "code": ...}
+        self.__log = self.log.job("XHRUSendCode")
+        resp = {"result" : False}
+
+        try:
+            data = self.cstack.stack[0]["data"]
+            #Get code
+            #....data["code"]
+            if(data["code"] == "123"):
+                self.__log.i("User getting recovery password", data["email"])
+                resp = {"result" : True}
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+
+        await self.stackAppendAndSend(resp, "xhruforgot")
