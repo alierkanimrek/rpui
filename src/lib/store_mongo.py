@@ -101,6 +101,14 @@ class RpMongoClient(object):
 
 
 
+    async def getSessionCode(self, code):
+        data = await self._auth.find_one({"code" : code})
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
     async def removeSession(self, selector):
         result = await self._auth.delete_many({"_id" : ObjectId(selector)})
         if(result):   return(True)

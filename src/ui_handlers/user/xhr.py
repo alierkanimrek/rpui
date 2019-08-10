@@ -5,10 +5,12 @@
 
 
 
-
+import random
+import datetime
 
 from .base import BaseHandler
 from lib.passlock import PasswordLock
+from lib.session import getSessionData
 
 
 
@@ -162,9 +164,31 @@ class XHRUserForgotPassw(BaseHandler):
             #Get user
             user = await self.db.getUser(email=data["email"])
             if(user):
-                #Do something
-                resp = {"result" : True}
+
                 self.__log.i("User request recovery code", data["email"])
+
+                #Code will be save at session db as session data
+                #But uname variable will be contain email 
+
+                #Generate code
+                code = ""
+                for x in range(5): 
+                    code += str(random.randint(0, 9))
+
+                #Prepare Session Data
+                codeData = getSessionData()
+                codeData["uname"] = data["email"]
+                codeData["code"] = code
+
+                selector = await self.db.createSession(codeData)
+                if(selector):
+                    #Send code to user email
+                    self.__log.d("Sending recovery code to email", data["email"])
+                    
+                    # ...
+                    
+                    resp = {"result" : True}
+
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)
 
@@ -188,12 +212,26 @@ class XHRUserSendCode(BaseHandler):
 
         try:
             data = self.cstack.stack[0]["data"]
+            
             #Get code
-            #....data["code"]
-            if(data["code"] == "123"):
-                self.__log.i("User getting recovery password", data["email"])
-                resp = {"result" : True}
+            codeData = await self.db.getSessionCode(data["code"], data["email"])
+            
+            if(codeData):
+
+                #Check expires
+                diff = int(codeData["expires"]) - datetime.datetime.now().timestamp()
+                if(diff > 0):
+
+                    user = await self.db.getUser(email=data["email"])
+
+                    if(user):
+                        await self.session.createSession(user["uname"])
+                        self.__log.i("User getting password recovery", user["uname"])
+                        resp = {"result" : True}
+                
+                await self.db.removeSession(str(codeData["_id"]))
+
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)
 
-        await self.stackAppendAndSend(resp, "xhruforgot")
+        await self.stackAppendAndSend(resp, "xhrsendcode")

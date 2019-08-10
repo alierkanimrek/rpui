@@ -35,6 +35,8 @@ baseMainContent
                     label gid=codelabel class=is-left is-size-4 
                   p class=control has-icons-left
                     input gid=codeinput class=input is-large type=text name=code required=true 
+                    span class=icon is-small is-left
+                      i class=fas fa-mask                    
                   p class=control has-icons-left 
                     label gid=codemsg class=is-left has-text-danger is-size-6 has-text-weight-light
                 p class=control has-icons-left

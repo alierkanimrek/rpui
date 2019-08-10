@@ -32,7 +32,7 @@ def text(_):
                 "codesending" : _("Checking..."),
                 "codesenderror" : _("There is a problem at server, please try again later."),
                 "codeverified" : _("Correct. You should specify your password now."),
-                "codenotverified" : _("Code is wrong")
+                "codenotverified" : _("Code is wrong or expired")
             }
         }
     }

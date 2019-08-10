@@ -75,5 +75,15 @@ class Store(object):
 
 
 
+    async def getSessionCode(self, code, uname):
+        data = await self._db.getSessionCode(code)
+        if(data and data["uname"] == uname):
+            return(data)
+        else:
+            return(False)
+
+
+
+
     async def removeSession(self, selector):
         return(await self._db.removeSession(selector))

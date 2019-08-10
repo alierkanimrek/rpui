@@ -212,7 +212,9 @@ export class ForgotData extends GDataObject {
             name:name, 
             responseHandler:responseHandler})
 
-        conn.run({ObjectData: data})        
+        conn.run({ObjectData: data})
+
+        this.code = ""
     }
 
 
