@@ -57,6 +57,20 @@ class Store(object):
 
 
 
+    async def changeUserPassw(self, passw, passwKey, doc=None, uname=None):
+        if(not doc and uname):
+            doc = await self.getUser(uname=uname)
+            if(not doc):
+                return(False)
+        p = PasswordLock()
+        chiper = p.hashAndEncrypt(passw, passwKey)
+        id = await self._db.updateUser(doc, chiper)
+        if(id):            return(True)
+        else:            return(False)
+
+
+
+
     async def createSession(self, data):
         id = await self._db.createSession(data)
         if(id):            return(str(id))

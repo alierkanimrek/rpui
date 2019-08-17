@@ -1,0 +1,41 @@
+# Language tr-tr translations for rplexus package.
+# Copyright (C) 2019 THE rplexus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the rplexus package.
+# ali <ali@worksys1>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rplexus 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-16 21:43+0300\n"
+"PO-Revision-Date: 2019-08-16 21:36+0300\n"
+"Last-Translator: ali <ali@worksys1>\n"
+"Language-Team: Language tr-tr\n"
+"Language: tr-tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: changepassw.py:15
+msgid "Change your password"
+msgstr ""
+
+#: changepassw.py:16
+msgid "Please specify a strong password"
+msgstr ""
+
+#: changepassw.py:19
+msgid "Change"
+msgstr ""
+
+#: changepassw.py:22 changepassw.py:28
+msgid "Changing your password..."
+msgstr ""
+
+#: changepassw.py:29
+msgid "Your password could not change"
+msgstr ""
+
+#: changepassw.py:30
+msgid "Your password changed, please <a href='/user/login'>login</a>"
+msgstr ""

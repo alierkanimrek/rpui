@@ -7,6 +7,7 @@
 
 import random
 import datetime
+import tornado 
 
 from .base import BaseHandler
 from lib.passlock import PasswordLock
@@ -235,3 +236,43 @@ class XHRUserSendCode(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
 
         await self.stackAppendAndSend(resp, "xhrsendcode")
+
+
+
+
+
+
+
+class XHRUserChangePassw(BaseHandler):
+    
+
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"passw":...}
+        self.__log = self.log.job("XHRUChangePassw")
+        resp = {"result" : False}
+        
+        # Check again
+        try:
+            data = self.cstack.stack[0]["data"]
+            user_doc = await self.db.getUser(uname=self.current_user)
+            if(user_doc and len(data["passw"]) > 7):
+                
+                # Change Password
+                result = await self.db.changeUserPassw(data["passw"], self.conf.SERVER.pass_key, doc=user_doc)
+                if(result):
+                    self.__log.i("User password changed", self.current_user)
+                    await self.session.endSession()
+                    resp = {"result" : True}
+                else:
+                    self.__log.w("Password change error", self.current_user)
+            else:
+                self.__log.w("User not found or password invalid", self.current_user)
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhruchangepassw")
+        

@@ -85,6 +85,20 @@ class RpMongoClient(object):
 
 
 
+    async def updateUser(self, rec, passw):
+        rec["passw"] = passw
+        id = rec["_id"]
+        del rec["_id"]
+
+        #result = await self._users.find_one_and_update({"_id":id}, {"$set" : {"passw": rec["passw"]}})
+        result = await self._users.find_one_and_replace({"_id":id}, rec)
+        if(result):
+            return(True)
+        else:
+            return(None)
+
+
+
     async def createSession(self, data):
         result = await self._auth.insert_one(data)
         if(result):            return(result.inserted_id)

@@ -1,0 +1,35 @@
+baseMainContent
+  section class=hero is-fullheight
+    div class=hero-body
+      div class=container has-text-centered
+        div class=column is-4 is-offset-4
+          h3 class=title has-text-grey gid=title
+          p class=subtitle has-text-grey gid=subTitle
+          div class=box
+            form
+
+              div class=field
+                p class=control has-icons-left has-icons-right 
+                  label gid=password class=is-left is-size-4
+                  span class=icon is-small is-right is-pointer
+                    i class=far fa-eye-slash gid=passwHideBtn
+                p class=control has-icons-left has-icons-right
+                  input gid=passwInput class=input is-medium type=password name=passw required=true minlength=8
+                  span class=icon is-small is-left
+                    i class=fas fa-lock
+                  span class=icon is-small is-right
+                    i class=fas fa-ban gid=passwStatus                    
+                p class=control has-icons-left
+                  label gid=passwMsg class=is-left has-text-danger is-size-6 has-text-weight-light
+
+              br
+              button gid=submit type=button class=button is-block is-info is-medium is-fullwidth
+              p class=has-icons-left has-icons-right gid=submitStatus
+                span class=icon is-right
+                  i class=fas fa-spinner fa-spin gid=submitStatusIcon
+                label gid=submitMsg class=is-left
+          p gid=footer class=has-text-grey
+            a gid=help
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=login

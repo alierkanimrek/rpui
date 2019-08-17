@@ -8,7 +8,7 @@ import {Base, BaseData} from "./user/base"
 import {Login, LoginData} from "./user/login"
 import {Signup, SignupData} from "./user/signup"
 import {Forgot, ForgotData} from "./user/forgot"
-
+import {ChangePassw, ChangePasswData} from "./user/changepassw"
 
 
 
@@ -67,13 +67,21 @@ function forgot():void{
 
 
 
+function changepassw():void{
+    
+    let base = new Base()
+    let chp = new ChangePassw()
+}
+
+
 
 
 
 let route = [
     {'/user/login' : login},
     {'/user/signup': signup},
-    {'/user/forgotpassw': forgot}
+    {'/user/forgotpassw': forgot},
+    {'/user/changepassw': changepassw}
 ]
 
 
@@ -85,7 +93,8 @@ let store = {
     trns: translator,
     login: new LoginData(),
     signup: new SignupData(),
-    forgot: new ForgotData()
+    forgot: new ForgotData(),
+    changepassw: new ChangePasswData()
 }
 
 

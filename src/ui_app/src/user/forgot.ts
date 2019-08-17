@@ -153,7 +153,7 @@ export class Forgot extends GHTMLControl {
         }
 
         let nav = ()=>{
-            console.log("Navigate...")
+            this.gDoc.navigate("/user/changepassw")
         }
 
 
@@ -227,8 +227,9 @@ export class ForgotData extends GDataObject {
             name:name, 
             responseHandler:responseHandler})
 
-        conn.run({ObjectData: data})        
+        conn.run({ObjectData: data})
 
+        this.code = ""
     }
 
         

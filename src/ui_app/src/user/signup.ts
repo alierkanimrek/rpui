@@ -320,17 +320,8 @@ export class SignupData extends GDataObject {
             responseHandler:response})
 
         conn.run({ObjectData: data})
-        
-    }
-
-
-
-
-    change(event:GHTMLInputEvent):void{
-        console.log(event.name+" : "+String(event.value))
-        console.log(this)
-        console.log(event.element)
-        console.log(event.control)
+     
+         this.passw = ""
     }
 
 }
