@@ -15,7 +15,7 @@ from .xhr import XHRSessionUpdate
 from .xhr import XHRUserForgotPassw
 from .xhr import XHRUserSendCode
 from .xhr import XHRUserChangePassw
-
+from .xhr import XHRGetCurrentUser
 
 
 
@@ -53,6 +53,7 @@ userRouting = [
     (r"/xhr/supdate", XHRSessionUpdate),
     (r"/xhr/uforgot", XHRUserForgotPassw),
     (r"/xhr/usendcode", XHRUserSendCode),
-    (r"/xhr/uchpassw", XHRUserChangePassw)
+    (r"/xhr/uchpassw", XHRUserChangePassw),
+    (r"/xhr/xhrgetuser", XHRGetCurrentUser)
     ]
   

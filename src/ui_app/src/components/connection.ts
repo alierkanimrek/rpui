@@ -21,7 +21,8 @@ export enum Port{
     "supdate" = "/xhr/supdate",
     "uforgot" = "/xhr/uforgot",
     "usendcode" = "/xhr/usendcode",
-    "uchpassw" = "/xhr/uchpassw"
+    "uchpassw" = "/xhr/uchpassw",
+    "getuser" = "/xhr/xhrgetuser"
 }
 
 export interface ResponseHandler {

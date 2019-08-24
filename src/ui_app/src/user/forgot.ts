@@ -67,6 +67,10 @@ export class Forgot extends GHTMLControl {
         this.email_validityMessages = this.store("trns").getValidityMessages(name, "email")
         this.mailStatus.style.visibility = "hidden"
         this.codeStatus.style.visibility = "hidden"
+        this.bindingStore.code = ""
+        this.bindingStore.email = ""
+        this.up()
+
 
     }
 
@@ -145,6 +149,8 @@ export class Forgot extends GHTMLControl {
 
 
     codeSendResult(stack:RpStack){
+
+        this.up()
 
         let restore = ()=>{
             this.codesend.style.visibility = "visible"

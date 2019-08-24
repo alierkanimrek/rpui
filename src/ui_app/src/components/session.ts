@@ -1,5 +1,6 @@
-import {Port, Connection} from "../components/connection"
+import {Port, Connection, ResponseHandler} from "../components/connection"
 import {cookie} from "../components/cookies"
+import {RpStack} from "../components/msg"
 
 
 
@@ -13,10 +14,11 @@ export class SessionUpdater {
 		
 
 
-    lastActive:number
-    lastUpdate: number
-    interval: number = 10000 
-    timeout:  number = 300000 // = 5 min, it should be same value with server session timeout
+    private lastActive:number
+    private lastUpdate: number
+    private uname: string
+    private interval: number = 10000 
+    private timeout:  number = 300000 // = 5 min, it should be same value with server session timeout
 
 
     constructor() {
@@ -24,24 +26,33 @@ export class SessionUpdater {
         let date = new Date()
         let selector = cookie.get("selector")
         this.lastActive = date.getTime()
+        this.uname = ""
         if(selector){    this.lastUpdate = this.lastActive    }
         
         document.addEventListener("mousemove", this.awake.bind(this))
         document.addEventListener("keypress", this.awake.bind(this))
 
+        this.up()
+        
         setInterval(this.up.bind(this), this.interval)
     }
 
 
 
 
-    up(){
+    private up(){
         
         // Check session cookie
-        if(!cookie.get("selector")){    return    }
+        if(!cookie.get("selector")){    
+            this.uname = ""
+            return     
+        }
 
         let date = new Date()
         let current = date.getTime()
+
+        // Check Uname
+        if(this.uname == ""){    this.getUser()}
 
         //There is no update after page load
         if(!this.lastUpdate){  this.lastUpdate = this.lastActive - this.interval  }        
@@ -67,6 +78,39 @@ export class SessionUpdater {
                 name:"sessionupdate"})
             conn.run({ObjectData: {}})
         }
+    }
+
+
+
+
+    private getUser():void{
+
+        let resp = (stack:RpStack) => {
+            if(stack.dataVar("result")){
+                this.uname = stack.dataVar("uname")
+            }
+        }
+
+        let conn = new Connection({
+            port:Port.getuser, 
+            name:"getuser",
+            responseHandler: resp.bind(this)})
+        conn.run({ObjectData: {}})
+    }
+
+
+
+
+    get hasSession():boolean{
+        if(cookie.get("selector")){    return(true)    }
+        else{    return(false)    }
+    }
+
+
+
+
+    get user():string{
+        return(this.uname)
     }
 
 

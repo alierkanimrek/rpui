@@ -20,7 +20,7 @@ const app = "user"
 const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
 
-
+let session = new SessionUpdater()
 
 
 
@@ -40,7 +40,9 @@ function appReady():boolean {
 
 
 function login():void{
-    
+    if(session.hasSession){
+        console.log("Nav node")
+    }
     let base = new Base()
     let login = new Login()
 }
@@ -107,5 +109,3 @@ let store = {
 GDocument.setReadyChecker(appReady)
 GDocument.stores(store)
 GDocument.route(route)
-
-let session = new SessionUpdater()

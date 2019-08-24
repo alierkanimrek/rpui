@@ -75,6 +75,9 @@ export class ChangePassw extends GHTMLControl {
 
         this.submitStatus.style.visibility = "hidden"
 
+        this.bindingStore.passw = ""
+        this.up()
+
     }
 
 
@@ -140,6 +143,8 @@ export class ChangePassw extends GHTMLControl {
 
 
     submitResult(success:boolean){
+
+        this.up()
 
         let restore = ()=>{
             this.submit.style.visibility = "visible"

@@ -150,6 +150,7 @@ class XHRSessionUpdate(BaseHandler):
 
 
 
+
 class XHRUserForgotPassw(BaseHandler):
 
 
@@ -275,4 +276,38 @@ class XHRUserChangePassw(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhruchangepassw")
-        
+
+
+
+
+
+
+
+
+
+class XHRGetCurrentUser(BaseHandler):
+    
+
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        '''
+            data = {"all":...} or {}
+                {} returns only uname
+        '''
+        self.__log = self.log.job("XHRGetUser")
+        resp = {"result" : False}
+        try:
+            data = self.cstack.stack[0]["data"]
+            if("all" in data):
+                resp = await self.db.getUser(uname=self.current_user)
+                del resp["_id"]
+                del resp["passw"]
+            else:
+                resp["uname"] = self.current_user
+            resp["result"] = True
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+
+        await self.stackAppendAndSend(resp, "xhrgetuname")
