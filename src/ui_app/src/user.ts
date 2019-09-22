@@ -20,7 +20,7 @@ const app = "user"
 const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
 
-let session = new SessionUpdater()
+
 
 
 
@@ -28,21 +28,24 @@ let session = new SessionUpdater()
 
 
 function appReady():boolean {
-    if(!translator.t.state){    return(false)}
+    if(!translator.t.state  && !translator.t.error){    return(false)}
     return(true)
 }
 
 
 
 
+function exitIfHasSession(path:string) {
+    if( store.session.hasSession){
+        console.log(["/",path].join(""))
+    }
+}
 
 
 
 
 function login():void{
-    if(session.hasSession){
-        console.log("Nav node")
-    }
+    exitIfHasSession(store.session.user)
     let base = new Base()
     let login = new Login()
 }
@@ -51,7 +54,7 @@ function login():void{
 
 
 function signup():void{
-    
+    exitIfHasSession(store.session.user)
     let base = new Base()
     let signup = new Signup()
 }
@@ -60,7 +63,7 @@ function signup():void{
 
 
 function forgot():void{
-    
+    exitIfHasSession(store.session.user)
     let base = new Base()
     let forgot = new Forgot()
 }
@@ -70,7 +73,7 @@ function forgot():void{
 
 
 function changepassw():void{
-    
+    exitIfHasSession(store.session.user)
     let base = new Base()
     let chp = new ChangePassw()
 }
@@ -79,18 +82,18 @@ function changepassw():void{
 
 
 
+
+
 let route = [
-    {'/user/login' : login},
-    {'/user/signup': signup},
-    {'/user/forgotpassw': forgot},
-    {'/user/changepassw': changepassw}
+    {path:'/user/login', app: login},
+    {path:'/user/signup', app: signup},
+    {path:'/user/forgotpassw', app: forgot},
+    {path:'/user/changepassw', app: changepassw}
 ]
-
-
-
 
 let store = {
     base: new BaseData(),
+    session: new SessionUpdater(),
     langselector: new LangSelectorData(),
     trns: translator,
     login: new LoginData(),

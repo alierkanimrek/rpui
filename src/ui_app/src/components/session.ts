@@ -1,3 +1,4 @@
+import {GDataObject} from "../glider/glider"
 import {Port, Connection, ResponseHandler} from "../components/connection"
 import {cookie} from "../components/cookies"
 import {RpStack} from "../components/msg"
@@ -10,7 +11,7 @@ import {RpStack} from "../components/msg"
 
 
 
-export class SessionUpdater {
+export class SessionUpdater extends GDataObject {
 		
 
 
@@ -22,7 +23,7 @@ export class SessionUpdater {
 
 
     constructor() {
-        
+        super()
         let date = new Date()
         let selector = cookie.get("selector")
         this.lastActive = date.getTime()
@@ -33,7 +34,7 @@ export class SessionUpdater {
         document.addEventListener("keypress", this.awake.bind(this))
 
         this.up()
-        
+
         setInterval(this.up.bind(this), this.interval)
     }
 
@@ -52,7 +53,7 @@ export class SessionUpdater {
         let current = date.getTime()
 
         // Check Uname
-        if(this.uname == ""){    this.getUser()}
+        if(this.uname == ""){    this.getUser()    }
 
         //There is no update after page load
         if(!this.lastUpdate){  this.lastUpdate = this.lastActive - this.interval  }        
@@ -88,6 +89,10 @@ export class SessionUpdater {
         let resp = (stack:RpStack) => {
             if(stack.dataVar("result")){
                 this.uname = stack.dataVar("uname")
+                console.info("[Session] Hi "+this.uname)
+            }
+            else{
+                console.error("[Session] Username could not loaded")
             }
         }
 

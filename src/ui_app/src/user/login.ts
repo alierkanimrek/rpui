@@ -90,14 +90,15 @@ export class Login extends GHTMLControl {
         }
 
         let nav = ()=>{
-            console.log("Navigate...")
+            location.href = "/"+this.bindingStore.uname
+            
         }
 
         if(success){
             this.loginStatusIcon.className = classOk + " has-text-success"
             this.loginMsg.className = " has-text-success"
             this.loginMsg.textContent = this._("loginReady")
-            setTimeout(nav.bind(this), 800)
+            setTimeout(nav.bind(this), 500)
         }
         else{
             this.loginStatusIcon.className = classBan + " has-text-danger"
