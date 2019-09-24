@@ -9,7 +9,7 @@ from tornado import gen
 
 
 from .base import BaseHandler
-
+from .xhr import XHRNodeCreate
 
 
 
@@ -31,6 +31,7 @@ class LoaderHandler(BaseHandler):
 
 
 nodeRouting = [
-    (r"/([^/]+)", LoaderHandler)
+    (r"/([^/]+)", LoaderHandler),
+    (r"/xhr/createnode", XHRNodeCreate)
     ]
   

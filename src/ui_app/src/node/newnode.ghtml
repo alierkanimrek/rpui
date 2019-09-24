@@ -11,7 +11,7 @@ any
 
                     div class=field
                         p class=control has-icons-left has-icons-right 
-                            label gid=nnameLabel class=is-left
+                            label id=NewNodeNameLabel gid=nnameLabel class=is-left
                             | New Node Name
                         p class=control has-icons-right
                             input gid=nname class=input is-medium type=text name=nname required=true
@@ -22,7 +22,7 @@ any
                 
                 DIV class=columns style=padding:0.5rem;
             
-                    button gid=submit type=button class=button is-block is-info is-fullwidth
+                    button id=CreateNewNodeButton gid=submit type=button class=button is-block is-info is-fullwidth
                     | Create
                     p class=has-icons-left has-icons-right gid=submitStatus
                         span class=icon is-right

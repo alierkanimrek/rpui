@@ -26,29 +26,80 @@ export class NewNodeItem extends GHTMLControl {
 
 
 
+    bindingStore: NewNodeData
     trns: GetText
     _: Function
 
     submitStatus: HTMLElement
+    submit: HTMLButtonElement
+    nname: HTMLInputElement
+    submitStatusIcon: HTMLElement
+    submitMsg: HTMLElement
+    nname_validityMessages:ValidityMessages
 
-    /*emap: any = [
-        [this.signupLink, "click", this.footer],
-    ]*/
+    emap: any = [
+        [this.submit, "click", this.create],
+    ]
 
+    uri: string
 
 
 
     constructor(rootId:string) {
         super({view:view, root:rootId, bindTo:name})
-        //this.trns = this.store("trns").t.translations(name)
-        //this._ = this.trns.get_()
-        //this.trns.updateStatics()
-        //this.linkEvents(this.emap)
-
+        this.trns = this.store("trns").t.translations(name)
+        this.uri = "/"+this.gDoc.gData("session").user
+        this._ = this.trns.get_()
+        this.trns.updateStatics()
+        this.linkEvents(this.emap)
+        this.bindingStore.nname = ""
+        this.nname_validityMessages = this.store("trns").getValidityMessages(name, "nname")
         this.submitStatus.style.visibility = "hidden"
     }
 
 
+
+
+    create(e:Event):void{
+        if(this.nname.validity.valid){
+            this.submit.style.visibility = "hidden"
+            this.submit.style.height = "0"
+            this.submitStatus.style.visibility = "visible"
+            this.submitStatusIcon.className = classSpinnerSpin
+            this.submitMsg.textContent = this._("nnameSending")
+            this.bindingStore.send(this.createResult.bind(this))
+        }
+    }
+
+
+
+
+    createResult(stack:RpStack):void{
+
+        let restore = ()=>{
+            this.submit.style.visibility = "visible"
+            this.submit.style.height = ""
+            this.submitStatus.style.visibility = "hidden"
+        }
+
+        let nav = ()=>{
+            this.gDoc.navigate(this.uri+"/"+this.bindingStore.nname+"/edit")
+        }
+
+
+        if(stack.dataVar("result")){
+            this.submitStatusIcon.className = classOk + " has-text-success"
+            this.submitMsg.className = " has-text-success"
+            this.submitMsg.textContent = this._("createSuccess")
+            setTimeout(nav.bind(this), 3000)
+        }
+        else{
+            this.submitStatusIcon.className = classBan + " has-text-danger"
+            this.submitMsg.className = " has-text-danger"
+            this.submitMsg.textContent = this._("createError")
+            setTimeout(restore.bind(this), 1500)
+        }
+    }
 
 }
 
@@ -66,25 +117,15 @@ export class NewNodeData extends GDataObject {
 
 
 
-    /*submit(cb:Function):void{
-
-        let response:ResponseHandler = (stack:RpStack) => {
-            cb(stack.dataVar("result"))    
-        }
-
-        let error:ErrorHandler = (msg:string) => {
-            cb(false, msg)    
-        }
-
-        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember}
+    send(responseHandler:ResponseHandler):void{
+        
+        let data = {"nname": this.nname}
 
         let conn = new Connection({
-            port:Port.ulogin, 
-            name:name, 
-            responseHandler:response,
-            errorHandler:error})
+            port:Port.newnode, 
+            responseHandler:responseHandler})
 
         conn.run({ObjectData: data})
-    }*/
+    }
 
 }
