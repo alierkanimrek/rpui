@@ -20,12 +20,4 @@ any
                         p class=control has-icons-left
                             label gid=nnameMsg class=is-left has-text-danger is-size-6 has-text-weight-light
                 
-                DIV class=columns style=padding:0.5rem;
-            
-                    button id=CreateNewNodeButton gid=submit type=button class=button is-block is-info is-fullwidth
-                    | Create
-                    p class=has-icons-left has-icons-right gid=submitStatus
-                        span class=icon is-right
-                            i class=fas fa-spinner fa-spin gid=submitStatusIcon
-                        label gid=submitMsg class=is-left
-                        | Please wait...
+                DIV gid=wgtSendButton class=columns style=padding:0.5rem;

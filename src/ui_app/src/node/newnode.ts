@@ -2,6 +2,7 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../g
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
+import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
 
 import view from "./newnode.ghtml"
 
@@ -36,10 +37,12 @@ export class NewNodeItem extends GHTMLControl {
     submitStatusIcon: HTMLElement
     submitMsg: HTMLElement
     nname_validityMessages:ValidityMessages
+    wgtSendButton: HTMLElement
+    sendButton:SendButton
 
-    emap: any = [
+    /*emap: any = [
         [this.submit, "click", this.create],
-    ]
+    ]*/
 
     uri: string
 
@@ -51,10 +54,18 @@ export class NewNodeItem extends GHTMLControl {
         this.uri = "/"+this.gDoc.gData("session").user
         this._ = this.trns.get_()
         this.trns.updateStatics()
-        this.linkEvents(this.emap)
+        //this.linkEvents(this.emap)
         this.bindingStore.nname = ""
         this.nname_validityMessages = this.store("trns").getValidityMessages(name, "nname")
-        this.submitStatus.style.visibility = "hidden"
+        //this.submitStatus.style.visibility = "hidden"
+        this.sendButton = new SendButton({
+            rootId: this.wgtSendButton.id,
+            clickCall: this.create.bind(this),
+            buttonLabel: "Create",
+            sendingMsg: this._("nnameSending"),
+            successMsg: this._("createSuccess"),
+            errorMsg: this._("createError"),
+        })
     }
 
 
@@ -62,11 +73,6 @@ export class NewNodeItem extends GHTMLControl {
 
     create(e:Event):void{
         if(this.nname.validity.valid){
-            this.submit.style.visibility = "hidden"
-            this.submit.style.height = "0"
-            this.submitStatus.style.visibility = "visible"
-            this.submitStatusIcon.className = classSpinnerSpin
-            this.submitMsg.textContent = this._("nnameSending")
             this.bindingStore.send(this.createResult.bind(this))
         }
     }
@@ -76,28 +82,16 @@ export class NewNodeItem extends GHTMLControl {
 
     createResult(stack:RpStack):void{
 
-        let restore = ()=>{
-            this.submit.style.visibility = "visible"
-            this.submit.style.height = ""
-            this.submitStatus.style.visibility = "hidden"
-        }
-
         let nav = ()=>{
             this.gDoc.navigate(this.uri+"/"+this.bindingStore.nname+"/edit")
         }
 
 
         if(stack.dataVar("result")){
-            this.submitStatusIcon.className = classOk + " has-text-success"
-            this.submitMsg.className = " has-text-success"
-            this.submitMsg.textContent = this._("createSuccess")
-            setTimeout(nav.bind(this), 3000)
+            this.sendButton.success(nav.bind(this))
         }
         else{
-            this.submitStatusIcon.className = classBan + " has-text-danger"
-            this.submitMsg.className = " has-text-danger"
-            this.submitMsg.textContent = this._("createError")
-            setTimeout(restore.bind(this), 1500)
+            this.sendButton.error()
         }
     }
 
