@@ -3,6 +3,7 @@ import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
+import {rules} from "../components/rules"
 
 import view from "./newnode.ghtml"
 
@@ -34,6 +35,8 @@ export class NewNodeItem extends GHTMLControl {
     submitStatus: HTMLElement
     submit: HTMLButtonElement
     nname: HTMLInputElement
+    nnameMsg: HTMLElement
+    nnameStatus: HTMLElement
     submitStatusIcon: HTMLElement
     submitMsg: HTMLElement
     nname_validityMessages:ValidityMessages
@@ -56,15 +59,17 @@ export class NewNodeItem extends GHTMLControl {
         this.trns.updateStatics()
         //this.linkEvents(this.emap)
         this.bindingStore.nname = ""
+        this.nname.pattern = rules.nname
         this.nname_validityMessages = this.store("trns").getValidityMessages(name, "nname")
         //this.submitStatus.style.visibility = "hidden"
         this.sendButton = new SendButton({
             rootId: this.wgtSendButton.id,
             clickCall: this.create.bind(this),
-            buttonLabel: "Create",
+            buttonLabel: this._("buttonLabel"),
             sendingMsg: this._("nnameSending"),
             successMsg: this._("createSuccess"),
             errorMsg: this._("createError"),
+            disabled: true
         })
     }
 
@@ -93,6 +98,22 @@ export class NewNodeItem extends GHTMLControl {
         else{
             this.sendButton.error()
         }
+    }
+
+
+
+    input(event:GHTMLInputEvent):void{
+        if(this.nname.validity.valid){
+            this.nnameStatus.className = classOk
+            this.nnameMsg.innerText = ""
+            this.sendButton.disabled = false
+        }
+        else{
+            this.nnameStatus.className = classBan
+            this.nnameMsg.innerText = this.nname.validationMessage
+            this.sendButton.disabled = true
+        }
+
     }
 
 }

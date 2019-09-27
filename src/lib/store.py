@@ -18,6 +18,31 @@ from .store_mongo import RpMongoClient
 
 
 
+NODEACCESS_USER = 0
+NODEACCESS_GROUP = 1
+NODEACCESS_ALL = 2
+
+
+
+
+
+
+
+class Node():
+
+    def __init__(self, nname, uname):
+        self.nname = nname
+        self.uname = uname
+        self.desc = ""
+        self.access = NODEACCESS_USER
+        self.group = []
+        self.tlist = []
+
+
+
+
+
+
 
 
 
@@ -101,3 +126,14 @@ class Store(object):
 
     async def removeSession(self, selector):
         return(await self._db.removeSession(selector))
+
+
+
+
+    async def createNode(self, nname, uname):
+        node = Node(nname, uname)
+        id = await self._db.createNode(vars(node))
+        if(id):     return(str(id))
+        else:   return(False)
+
+

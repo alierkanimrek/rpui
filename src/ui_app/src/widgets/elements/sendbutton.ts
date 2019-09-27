@@ -37,6 +37,7 @@ export interface SendButtonParameters{
     sendingMsg?: string,
     successMsg?: string,
     errorMsg?: string,
+    disabled?: boolean
 }
 
 
@@ -54,16 +55,8 @@ export class SendButton extends GHTMLControl {
     submitStatusIcon: HTMLElement
     submitMsg: HTMLElement
 
-    parm: SendButtonParameters = {
-        rootId: "",
-        clickCall: ()=>{},
-        successCb: ()=>{},
-        errorCb: ()=>{},
-        buttonLabel: "Send",
-        sendingMsg: "Sending...",
-        successMsg: "Success",
-        errorMsg: "Error"
-    }
+
+    parm: SendButtonParameters 
 
     emap: any = [
         [this.submit, "click", this.send],
@@ -75,8 +68,19 @@ export class SendButton extends GHTMLControl {
 
     constructor(p:SendButtonParameters) {
         super({view:view, root:p.rootId})
-        this.parm =  this.parm = p
-        console.log(this.parm)
+        let fakeCb = ()=>{}
+        let {
+            rootId= "",
+            clickCall= fakeCb,
+            successCb= fakeCb,
+            errorCb= fakeCb,
+            buttonLabel= "Send",
+            sendingMsg= "Sending...",
+            successMsg= "Success",
+            errorMsg= "Error",
+            disabled=false
+        } = p
+        this.parm = p
         this.linkEvents(this.emap)
         this.submitStatus.style.visibility = "hidden"
         this.submitStatus.style.height = "0"
@@ -87,6 +91,7 @@ export class SendButton extends GHTMLControl {
 
 
     send(e:Event):void{
+        if(this.parm.disabled){    return    }
         this.submit.style.visibility = "hidden"
         this.submit.style.height = "0"
         this.submitStatus.style.visibility = "visible"
@@ -130,6 +135,12 @@ export class SendButton extends GHTMLControl {
         setTimeout(this.restore.bind(this, false), 1500)
     }
 
+
+
+
+    public set disabled(v:boolean){
+        this.parm.disabled = v
+    }
 
 }
 

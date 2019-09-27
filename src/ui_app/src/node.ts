@@ -50,13 +50,22 @@ function nodes():void{
 
 
 
+function edit():void{
+    exitIfHasNotSession()
+    let base = new Base()
+    console.log("node edit")
+}
+
+
+
 
 
 
 
 
 let route = [
-    { path:`/${rules.uname}`, app : nodes}
+    { path:"^[\\s\\/]"+rules.uname, app : nodes},
+    { path:"^[\\s\\/]"+rules.uname+"[\\s\\/]"+rules.nname+"[\\s\\/]edit", app : edit}
 ]
 
 

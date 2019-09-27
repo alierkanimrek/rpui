@@ -56,6 +56,8 @@ class RpMongoClient(object):
             self._auth = self._db.auth
             self._auth.create_index([("uname", 1)])
 
+            self._nodes = self._db.nodes
+            self._nodes.create_index([("nname", 1)])
 
 
 
@@ -127,3 +129,13 @@ class RpMongoClient(object):
         result = await self._auth.delete_many({"_id" : ObjectId(selector)})
         if(result):   return(True)
         else:   return(False)
+
+
+
+
+    async def createNode(self, node):
+        result = await self._nodes.insert_one(node)
+        if(result):
+            return(result.inserted_id)
+        else:
+            return(None)
