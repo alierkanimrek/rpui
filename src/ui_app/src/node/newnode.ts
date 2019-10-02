@@ -69,7 +69,8 @@ export class NewNodeItem extends GHTMLControl {
             sendingMsg: this._("nnameSending"),
             successMsg: this._("createSuccess"),
             errorMsg: this._("createError"),
-            disabled: true
+            disabled: true,
+            classx: "button is-block is-info is-fullwidth is-medium"
         })
     }
 

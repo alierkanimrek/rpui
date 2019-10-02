@@ -45,8 +45,7 @@ export class Nodes extends GHTMLControl {
 
     constructor() {
         super({view:nodesView, bindTo:name})
-        this.items.push(new NodeItem(this.NodeListContainer.id, "home1", "Some desc"))
-        this.items.push(new NodeItem(this.NodeListContainer.id, "office1", "Some desc"))
+        this.items.push(new NodeItem(this.NodeListContainer.id, "aha", "Some desc"))
         new NewNodeItem(this.NodeListContainer.id)
         //this.items.push(new NodeItem(this.NodeListContainer.id))
         //this.trns = this.store("trns").t.translations(name)

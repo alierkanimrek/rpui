@@ -7,7 +7,7 @@ import {GHTMLControl} from "../../glider/glider"
 
 const view = `
 any
-    BUTTON gid=submit type=button class=button is-block is-info is-fullwidth
+    BUTTON gid=submit type=button
     | Button
     P gid=submitStatus class=has-icons-left has-icons-left 
         SPAN class=icon is-left
@@ -37,7 +37,8 @@ export interface SendButtonParameters{
     sendingMsg?: string,
     successMsg?: string,
     errorMsg?: string,
-    disabled?: boolean
+    disabled?: boolean,
+    classx?: string
 }
 
 
@@ -78,12 +79,14 @@ export class SendButton extends GHTMLControl {
             sendingMsg= "Sending...",
             successMsg= "Success",
             errorMsg= "Error",
-            disabled=false
+            disabled=false,
+            classx=""
         } = p
         this.parm = p
         this.linkEvents(this.emap)
         this.submitStatus.style.visibility = "hidden"
         this.submitStatus.style.height = "0"
+        this.submit.className = this.parm.classx
         this.submit.textContent = this.parm.buttonLabel
     }
 

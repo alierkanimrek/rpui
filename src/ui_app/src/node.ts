@@ -3,11 +3,12 @@ import {Translation} from "./components/translation"
 import {viewport, VPTypes} from "./components/viewport"
 import {SessionUpdater} from "./components/session"
 import {LangSelectorData} from "./widgets/lang/selector"
-import {rules} from "./components/rules"
+import {urls} from "./components/rules"
 
 import {Base, BaseData} from "./node/base"
 import {Nodes, NodesData} from "./node/nodes"
 import {NewNodeData} from "./node/newnode"
+import {NodeEdit, NodeEditData} from "./node/nodeedit"
 
 
 
@@ -41,7 +42,7 @@ function exitIfHasNotSession() {
 
 
 
-function nodes():void{
+function nodess():void{
     exitIfHasNotSession()
     let base = new Base()
     let nodes = new Nodes()
@@ -53,7 +54,7 @@ function nodes():void{
 function edit():void{
     exitIfHasNotSession()
     let base = new Base()
-    console.log("node edit")
+    let edit = new NodeEdit()
 }
 
 
@@ -64,8 +65,8 @@ function edit():void{
 
 
 let route = [
-    { path:"^[\\s\\/]"+rules.uname, app : nodes},
-    { path:"^[\\s\\/]"+rules.uname+"[\\s\\/]"+rules.nname+"[\\s\\/]edit", app : edit}
+    { path: urls.nodes, app : nodess},
+    { path: urls.nodeedit, app : edit}
 ]
 
 
@@ -77,7 +78,8 @@ let store = {
     trns: translator,
     base: new BaseData(),
     nodes: new NodesData(),
-    newnode: new NewNodeData()
+    newnode: new NewNodeData(),
+    nodeedit: new NodeEditData()
 }
 
 
