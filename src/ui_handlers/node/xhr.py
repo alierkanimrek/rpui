@@ -49,3 +49,34 @@ class XHRNodeCreate(BaseHandler):
         
         await self.stackAppendAndSend(resp, "xhrcreatenode")
 
+
+
+
+
+
+
+
+
+class XHRNodeLoad(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRNodeLoad")
+        resp = {"result" : False}
+        
+        try:
+            nname = self.cstack.stack[0]["data"]["nname"]
+            node_doc = await self.db.getNode(uname=self.current_user, nname=nname)
+            del node_doc["_id"]
+            if(node_doc):                
+                resp = node_doc
+            else:
+                self.__log.e("Node not found", self.current_user, nname)
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrnodeload")
+

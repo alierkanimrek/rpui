@@ -2,6 +2,7 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../glider/glider"
 import "../user/base.css"
 import baseView from '../user/base.ghtml'
 import {GetText} from "../i18n/gettext"
+import {parseUri} from "../components/source"
 
 // Menu items
 import {LangMenuItem} from "../widgets/menu/lang"
@@ -44,6 +45,7 @@ export class Base extends GHTMLControl {
 
 	bindingStore:BaseData
     trns:GetText
+
     
 
 
@@ -61,6 +63,7 @@ export class Base extends GHTMLControl {
 
         this.trns.updateStatics()
         this.linkEvents(this.emap)
+
     }
 
 
@@ -98,5 +101,13 @@ export class Base extends GHTMLControl {
 export class BaseData extends GDataObject {
 	
 
+    nname:string = ""
+
+
+    public getNNameFromUri(uri:string):string{
+        let source = parseUri(uri)
+        this.nname = source.nname
+        return(this.nname)
+    }
 
 }

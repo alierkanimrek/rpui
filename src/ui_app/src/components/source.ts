@@ -51,3 +51,32 @@ export function createRpSource(uname: string, nname: string, name: string): RpSo
 export function getUri (uname: string, nname: string, name: string):string{
     return(uname+"/"+nname+"/"+name)
 }
+
+
+
+export function parseUri(uri: string):RpSourceShape {
+
+    let p:Array<string>
+    
+    let result = {
+        "id": uri,
+        "uname": "",
+        "nname": "",
+        "name": ""
+    }
+    
+
+    if(uri.charAt(0) == "/"){    
+        p = uri.substr(1).split("/")    }
+    else{
+        p = uri.split("/")
+    }
+
+    try{
+        result.uname = p[0]
+        result.nname = p[1]
+        result.name = p[2]
+    }
+    catch{    null    }
+    return(result)
+}

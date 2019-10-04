@@ -35,6 +35,7 @@ export class NodeEdit extends GHTMLControl {
     trns: GetText
     _: Function
 
+    title:HTMLElement
     sendBtnContainer: HTMLElement
     sendButton:SendButton
     access:HTMLElement
@@ -61,7 +62,11 @@ export class NodeEdit extends GHTMLControl {
             errorMsg: this._("updateError"),
             classx: "button is-block is-info is-fullwidth is-medium"
         })
-        
+        if(this.store("base").nname == ""){
+            this.store("base").getNNameFromUri(this.gDoc.path)
+        }
+        this.bindingStore.load(this.store("base").nname, this.load.bind(this))
+
     }
 
 
@@ -71,6 +76,14 @@ export class NodeEdit extends GHTMLControl {
     }
 
 
+
+
+    load():void{
+        this.up()
+        let t = this.bindingStore.title
+        let title = t.charAt(0).toUpperCase() + t.substring(1)
+        this.title.textContent = title
+    }
 
 }
 
@@ -84,9 +97,36 @@ export class NodeEdit extends GHTMLControl {
 export class NodeEditData extends GDataObject {
 	
 	
+    title: string
     desc: string
     access: string
 
+
+    load(nname:string, cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(!stack.dataVar("result")){
+                this.title = stack.stack[0].data.nname
+                this.desc = stack.stack[0].data.desc
+                cb()
+            }
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            console.log(msg)    
+        }
+
+        let data = {"nname": nname}
+
+        let conn = new Connection({
+            port:Port.getnode, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: data})
+
+    }
 
     /*submit(cb:Function):void{
 

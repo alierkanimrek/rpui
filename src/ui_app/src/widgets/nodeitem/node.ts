@@ -76,12 +76,14 @@ export class NodeItem extends GHTMLControl {
 
 
     public edit(e:Event):void{
+        this.store("base").nname = this.name.textContent
         this.gDoc.navigate(this.uri+"/edit")
     }
 
 
 
     public node(e:Event):void{
+        this.store("base").nname = this.name.textContent
         this.gDoc.navigate(this.uri)        
     }
 }

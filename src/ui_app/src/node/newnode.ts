@@ -89,6 +89,7 @@ export class NewNodeItem extends GHTMLControl {
     createResult(stack:RpStack):void{
 
         let nav = ()=>{
+            this.store("base").nname = this.bindingStore.nname
             this.gDoc.navigate(this.uri+"/"+this.bindingStore.nname+"/edit")
         }
 

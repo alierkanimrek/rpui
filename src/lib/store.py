@@ -137,3 +137,9 @@ class Store(object):
         else:   return(False)
 
 
+
+
+    async def getNode(self, uname, nname):
+        data = await self._db.getUserNode(uname, nname)
+        if(data):   return(data)
+        else:   return(False)

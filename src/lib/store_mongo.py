@@ -58,6 +58,7 @@ class RpMongoClient(object):
 
             self._nodes = self._db.nodes
             self._nodes.create_index([("nname", 1)])
+            self._nodes.create_index([("uname", 1)])
 
 
 
@@ -139,3 +140,21 @@ class RpMongoClient(object):
             return(result.inserted_id)
         else:
             return(None)
+
+
+
+
+    async def getUserNodes(self, uname):
+        cursor = self._nodes.find({"uname": uname})
+        result = await cursor.to_list()
+        if(result):
+            return(result)
+        else:
+            return(None)
+
+
+
+    async def getUserNode(self, uname, nname):
+        data = await self._nodes.find_one({"uname" : uname, "nname" : nname})
+        if(data):   return(data)
+        else:   return(False)

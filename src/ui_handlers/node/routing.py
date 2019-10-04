@@ -9,7 +9,7 @@ from tornado import gen
 
 
 from .base import BaseHandler
-from .xhr import XHRNodeCreate
+from .xhr import XHRNodeCreate, XHRNodeLoad
 from .rules import NODES_URL, NODEEDIT_URL
 
 
@@ -33,6 +33,7 @@ class LoaderHandler(BaseHandler):
 nodeRouting = [
     (NODES_URL, LoaderHandler),
     (NODEEDIT_URL, LoaderHandler),
-    (r"/xhr/createnode", XHRNodeCreate)
+    (r"/xhr/createnode", XHRNodeCreate),
+    (r"/xhr/getnode", XHRNodeLoad),
     ]
   
