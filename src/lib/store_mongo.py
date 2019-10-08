@@ -158,3 +158,15 @@ class RpMongoClient(object):
         data = await self._nodes.find_one({"uname" : uname, "nname" : nname})
         if(data):   return(data)
         else:   return(False)
+
+
+
+
+    async def updateNode(self, doc):
+        print(doc)
+        result = await self._nodes.find_one_and_replace({
+            "uname":doc["uname"], "nname":doc["nname"]}, doc)
+        if(result):
+            return(True)
+        else:
+            return(None)

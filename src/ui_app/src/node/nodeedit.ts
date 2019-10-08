@@ -72,7 +72,7 @@ export class NodeEdit extends GHTMLControl {
 
 
     update(e:Event){
-        console.log(this.bindingStore)
+        this.bindingStore.save(this.saved.bind(this))
     }
 
 
@@ -85,6 +85,17 @@ export class NodeEdit extends GHTMLControl {
         this.title.textContent = title
     }
 
+
+
+    saved(status:boolean, msg?:string){
+        if(status){
+            this.sendButton.success()
+        }
+        else{
+            this.sendButton.error()
+        }
+    }
+        
 }
 
 
@@ -97,9 +108,11 @@ export class NodeEdit extends GHTMLControl {
 export class NodeEditData extends GDataObject {
 	
 	
-    title: string
-    desc: string
-    access: string
+    title: string = ""
+    desc: string = ""
+    access: string = "0"
+
+
 
 
     load(nname:string, cb:Function):void{
@@ -108,6 +121,7 @@ export class NodeEditData extends GDataObject {
             if(!stack.dataVar("result")){
                 this.title = stack.stack[0].data.nname
                 this.desc = stack.stack[0].data.desc
+                this.access = String(stack.stack[0].data.access)
                 cb()
             }
         }
@@ -128,7 +142,10 @@ export class NodeEditData extends GDataObject {
 
     }
 
-    /*submit(cb:Function):void{
+
+
+
+    save(cb:Function):void{
 
         let response:ResponseHandler = (stack:RpStack) => {
             cb(stack.dataVar("result"))    
@@ -138,15 +155,15 @@ export class NodeEditData extends GDataObject {
             cb(false, msg)    
         }
 
-        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember}
+        let data = {"title": this.title, "desc":this.desc, "access": Number(this.access)}
 
         let conn = new Connection({
-            port:Port.ulogin, 
+            port:Port.upnode, 
             name:name, 
             responseHandler:response,
             errorHandler:error})
 
         conn.run({ObjectData: data})
-    }*/
+    }
 
 }

@@ -11,7 +11,7 @@ import tornado
 
 from .base import BaseHandler
 from lib.session import getSessionData
-
+from lib.store import Node
 
 
 
@@ -80,3 +80,44 @@ class XHRNodeLoad(BaseHandler):
         
         await self.stackAppendAndSend(resp, "xhrnodeload")
 
+
+
+
+
+
+
+
+class XHRNodeUpdate(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"title":...}
+        self.__log = self.log.job("XHRNodeUpdate")
+        resp = {"result" : False}
+        
+        try:
+            user_doc = await self.db.getUser(uname=self.current_user)
+            
+            if(user_doc):                
+                uname = user_doc["uname"]
+                doc = Node(self.cstack.stack[0]["data"]["title"], uname)
+                doc.desc = self.cstack.stack[0]["data"]["desc"]
+                doc.access = self.cstack.stack[0]["data"]["access"]
+                #doc.group = 
+                #doc.tlist = 
+                
+                # Create node
+                result = await self.db.updateNode(doc)
+                if(result):
+                    self.__log.i("Node updated", doc.nname)
+                    resp = {"result" : True}
+                else:
+                    self.__log.w("Node not updated", nname)
+            else:
+                self.__log.e("User not found")
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrupdatenode")

@@ -20,13 +20,13 @@ baseMainContent
                 p class=control
                   div class=columns is-mobile
                     div class=column
-                      input id=r1 type=radio name=access value=private
+                      input id=r1 type=radio name=access value=0 
                       label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
                     div class=column
-                      input id=r2 type=radio name=access value=friends disabled=true
+                      input id=r2 type=radio name=access value=1 
                       label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
                     div class=column 
-                      input id=r3 type=radio name=access value=public disabled=true
+                      input id=r3 type=radio name=access value=2 
                       label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
 
               div class=field gid=sendBtnContainer

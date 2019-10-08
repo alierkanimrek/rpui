@@ -24,7 +24,8 @@ export enum Port{
     "uchpassw" = "/xhr/uchpassw",
     "getuser" = "/xhr/xhrgetuser",
     "newnode" = "/xhr/createnode",
-    "getnode" = "/xhr/getnode"
+    "getnode" = "/xhr/getnode",
+    "upnode" = "/xhr/upnode"
 }
 
 export interface ResponseHandler {
