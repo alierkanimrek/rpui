@@ -22,7 +22,7 @@ from lib.store import Store
 
 from ui_handlers.user.routing import userRouting
 from ui_handlers.node.routing import nodeRouting
-
+from ct_handlers.routing import clientRouting
 
 
 
@@ -111,7 +111,7 @@ def reload():
 
 
 
-routing = userRouting + nodeRouting
+routing = userRouting + nodeRouting + clientRouting
 
 
 
