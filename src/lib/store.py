@@ -6,6 +6,7 @@
 
 
 import time
+import random
 from bson.objectid import ObjectId
 
 import tornado
@@ -36,7 +37,25 @@ class Node():
         self.desc = ""
         self.access = NODEACCESS_USER
         self.group = []
-        self.tlist = []
+        self.followup = []
+
+
+
+
+class Task():
+
+    def __init__(self, uname, nname, tname):
+        self.nname = nname
+        self.uname = uname
+        self.tname = tname
+        self.uri = uname+"/"+nname+"/"+tname
+        self.desc = ""
+        self.access = NODEACCESS_USER
+        self.group = []
+        self.data = {}
+        self.last = 0
+
+        
 
 
 
@@ -75,7 +94,8 @@ class Store(object):
     async def createUser(self, data, passwKey):
         p = PasswordLock()
         chiper = p.hashAndEncrypt(data["passw"], passwKey)
-        id = await self._db.createUser(data["uname"], data["email"], chiper)
+        ccode = str(p.hash(str(time.time()), str(random.random())))
+        id = await self._db.createUser(data["uname"], data["email"], chiper, ccode)
         if(id):            return(True)
         else:            return(False)
 
@@ -151,4 +171,20 @@ class Store(object):
         #doc = Node(..)
         data = await self._db.updateNode(vars(doc))
         if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def getTasks(self, uname, nname):
+        data = await self._db.getTasks(uname, nname)
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+    async def createTask(self, uname, nname, tname):
+        task = Task(uname, nname, tname)
+        id = await self._db.createTask(vars(task))
+        if(id):     return(str(id))
         else:   return(False)

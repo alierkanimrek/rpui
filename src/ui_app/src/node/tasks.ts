@@ -63,10 +63,10 @@ export class Tasks extends GHTMLControl {
 
         if(this.store("base").nname == ""){
             this.store("base").getNNameFromUri(this.gDoc.path)
-            let t = this.store("base").nname
-            let title = t.charAt(0).toUpperCase() + t.substring(1)
-            this.title.textContent = title
         }
+        let t = this.store("base").nname
+        let title = t.charAt(0).toUpperCase() + t.substring(1)
+        this.title.textContent = title
         
         this.tnameInput.pattern = rules.tname
         this.tnameInput_validityMessages = this.store("trns").getValidityMessages(name, "tname")
@@ -82,41 +82,15 @@ export class Tasks extends GHTMLControl {
             classx: "button is-block is-info is-fullwidth is-medium"
         })
 
-
-        this.selector.size = 2
-        this.load(this.store("base").nname, this.loaded.bind(this))
+        this.bindingStore.load(this.store("base").nname, this.loaded.bind(this))
     }
 
 
 
 
-    loaded(tasklist:any):void{
-        console.log(tasklist)
-    }
-
-
-
-
-    load(nname:string, cb:Function):void{
-
-        let response:ResponseHandler = (stack:RpStack) => {
-            cb(stack.stack)
-        }
-
-        let error:ErrorHandler = (msg:string) => {
-            console.error(msg)    
-        }
-
-        let data = {"nname": nname}
-
-        let conn = new Connection({
-            port:Port.gettasks, 
-            name:name, 
-            responseHandler:response,
-            errorHandler:error})
-
-        conn.run({ObjectData: data})
-
+    loaded(tasklist:any){
+        this.selector.size = tasklist.length
+        this.up()
     }
 
 
@@ -139,6 +113,7 @@ export class Tasks extends GHTMLControl {
 
     openNew(e:Event){
         this.newContainer.style.visibility = "visible"
+        this.AddNewBtn.submit.style.visibility = "visible"
         this.newContainer.style.height = "" 
     }
 
@@ -170,9 +145,10 @@ export class Tasks extends GHTMLControl {
 
     create(e:Event){
         if(this.tnameInput.validity.valid){
-            this.bindingStore.create(this.createResult.bind(this))
+            this.bindingStore.create(this.store("base").nname, this.createResult.bind(this))
         }        
     }
+
 
 
 
@@ -180,7 +156,9 @@ export class Tasks extends GHTMLControl {
 
         let restore = () => {
             this.newContainer.style.visibility = "hidden"
+            this.AddNewBtn.submit.style.visibility = "hidden"
             this.newContainer.style.height = "0"
+            this.bindingStore.load(this.store("base").nname, this.loaded.bind(this))
         }        
 
         if(status){
@@ -210,19 +188,57 @@ export class TasksData extends GDataObject {
 
 
 
-    create(responseHandler:Function):void{
+
+    load(nname:string, cb:Function):void{
+
+        this.tnames = [] 
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){
+                this.tname = ""    
+                let tasks:Array<any> = stack.stack[0].data.result
+                tasks.forEach( (t:any)=>{
+                    this.tnames.push(t.tname)
+                })
+
+                cb(tasks)
+            }
+            else{    console.error("[AppTasks] Server error")    }
+
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            console.error("[AppTasks] "+msg)    
+        }
+
+        let data = {"nname": nname}
+
+        let conn = new Connection({
+            port:Port.gettasks, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: data})
+
+    }
+
+
+
+
+    create(nname:string, cb:Function):void{
         
         let error:ErrorHandler = (msg:string) => {
-            responseHandler(false)    
+            cb(false)
         }        
 
         let response:ResponseHandler = (stack:RpStack) => {
-            console.log(stack.dataVar("result"))
-            responseHandler(true)    
+            if(stack.dataVar("result")){    cb(true)    }
+            else{    cb(false)    }
         }
 
 
-        let data = {"tname": this.tname}
+        let data = {"nname": nname, "tname": this.tname}
 
         let conn = new Connection({
             port:Port.createtask, 

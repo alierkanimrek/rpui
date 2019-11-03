@@ -32,6 +32,7 @@ class RpMongoClient(object):
         self._db = None
         self._users = None
         self._auth = None
+        self._task = None
 
 
 
@@ -60,6 +61,12 @@ class RpMongoClient(object):
             self._nodes.create_index([("nname", 1)])
             self._nodes.create_index([("uname", 1)])
 
+            self._tasks = self._db.tasks
+            self._tasks.create_index([("uri", 1)])
+            self._tasks.create_index([("uname", 1)])
+            self._tasks.create_index([("nname", 1)])
+
+
 
 
     async def getUser(self, uid=None, uname=None, email=None):
@@ -73,11 +80,12 @@ class RpMongoClient(object):
 
 
 
-    async def createUser(self, uname, email, passw):
+    async def createUser(self, uname, email, passw, ccode):
         rec = {
             "uname" : uname,
             "email" : email,
-            "passw" : passw
+            "passw" : passw,
+            "ccode" : ccode
         }
         result = await self._users.insert_one(rec)
         if(result):
@@ -163,10 +171,35 @@ class RpMongoClient(object):
 
 
     async def updateNode(self, doc):
-        print(doc)
         result = await self._nodes.find_one_and_replace({
             "uname":doc["uname"], "nname":doc["nname"]}, doc)
         if(result):
             return(True)
+        else:
+            return(None)
+
+
+
+
+    async def getTasks(self, uname, nname):
+        cursor = self._tasks.find({"uname": uname, "nname": nname})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            for t in r:
+                del t["_id"]
+                del t["data"]
+                del t["last"]
+                result.append(t)
+            return(result)
+        else:
+            return(None)
+
+
+
+    async def createTask(self, task):
+        result = await self._tasks.insert_one(task)
+        if(result):
+            return(result.inserted_id)
         else:
             return(None)

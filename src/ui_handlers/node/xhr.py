@@ -141,7 +141,7 @@ class XHRNodeTasks(BaseHandler):
             nname = self.cstack.stack[0]["data"]["nname"]
             tasklist = await self.db.getTasks(uname=self.current_user, nname=nname)
             if(type(tasklist) is list):                
-                resp = tasklist
+                resp = {"result" : tasklist}
             else:
                 self.__log.e("Tasks not found", self.current_user, nname)
 
@@ -150,6 +150,43 @@ class XHRNodeTasks(BaseHandler):
 
         await self.stackAppendAndSend(resp, "xhrnodetasks")
 
+
+
+
+
+
+
+
+class XHRCreateTask(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRCreateTask")
+        resp = {"result" : False}
+        
+        try:
+            nname = self.cstack.stack[0]["data"]["nname"]
+            tname = self.cstack.stack[0]["data"]["tname"]
+            user_doc = await self.db.getUser(uname=self.current_user)
+            
+            if(user_doc):                
+                uname = user_doc["uname"]
+                # Create node
+                result = await self.db.createTask(uname, nname, tname)
+                if(result):
+                    self.__log.i("New task created", nname)
+                    resp = {"result" : True}
+                else:
+                    self.__log.w("Task not created", nname)
+            else:
+                self.__log.e("User not found")
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrcreatetask")
 
 
 
