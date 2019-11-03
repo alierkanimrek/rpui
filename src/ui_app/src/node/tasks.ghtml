@@ -1,0 +1,48 @@
+baseMainContent
+  section class=hero is-fullheight
+    div class=hero-body
+      div class=container has-text-centered
+        div class=column is-4 is-offset-4
+          h3 class=title has-text-grey gid=title
+          p class=subTitle has-text-grey gid=subTitle
+          div class=box
+            form
+
+              div class=field
+                p class=control
+                  label gid=listLabel class=is-left is-size-5
+                p class=control
+                  div class=select is-multiple style=width:100%; height:100%; margin-bottom: 0.5em;
+                    select gid=selector class=is-4 style=width:100%; height:100%; padding: 0; 
+                      option
+                      | Ali
+                      option
+                      | Veli
+                div class=columns is-mobile
+                  div class=column
+                    button gid=addBtn type=button class=button is-block is-info is-medium is-fullwidth
+                  div class=column
+                    button gid=removeBtn type=button class=button is-block is-danger is-medium is-fullwidth
+                    p class=has-icons-left has-icons-right gid=removeStatus style=visibility: hidden; height:0;
+                      span class=icon is-right
+                        i class=fas fa-spinner fa-spin gid=removeStatusIcon
+                      label gid=removeMsg class=is-left
+
+              div gid=newContainer style=visibility: hidden; height:0;
+                div class=field
+                  p class=control has-icons-left has-icons-right 
+                    label gid=AddNewLabel class=is-left is-size-5
+                  p class=control has-icons-right
+                    input gid=tnameInput class=input is-medium type=text name=tname
+                    span class=icon is-small is-right
+                      i class=fas fa-ban gid=tnameStatus
+                  p class=control has-icons-left 
+                    label gid=tnameMsg class=is-left has-text-danger is-size-6 has-text-weight-light
+
+                div gid=wgtAddButton class=columns style=margin-top: 0.5em;
+
+          p gid=footer class=has-text-grey is-medium
+            a gid=back
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=nodes

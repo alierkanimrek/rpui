@@ -11,4 +11,4 @@ NNAME = '[a-z0-9_]{3,20}'
 
 NODES_URL = r"^[\\s\\/]"+UNAME
 NODEEDIT_URL =  r"^[\\s\\/]"+UNAME+"[\\s\\/]"+NNAME+"[\\s\\/]edit"
-
+TASKSEDIT_URL =  r"^[\\s\\/]"+UNAME+"[\\s\\/]"+NNAME+"[\\s\\/]edit[\\s\\/]tasks"

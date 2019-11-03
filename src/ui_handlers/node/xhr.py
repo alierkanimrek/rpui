@@ -121,3 +121,35 @@ class XHRNodeUpdate(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhrupdatenode")
+
+
+
+
+
+
+
+class XHRNodeTasks(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRNodeTasks")
+        resp = {"result" : False}
+        
+        try:
+            nname = self.cstack.stack[0]["data"]["nname"]
+            tasklist = await self.db.getTasks(uname=self.current_user, nname=nname)
+            if(type(tasklist) is list):                
+                resp = tasklist
+            else:
+                self.__log.e("Tasks not found", self.current_user, nname)
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+
+        await self.stackAppendAndSend(resp, "xhrnodetasks")
+
+
+
+

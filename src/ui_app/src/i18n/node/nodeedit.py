@@ -17,6 +17,7 @@ def text(_):
                 "frdAccLabel" : {"textContent":_("Friends")},
                 "pubAccLabel" : {"textContent":_("Everyone")},
                 "back" : {"textContent":_("Back")},
+                "tasks" : {"textContent":_("Tasks")}
             },
 
             "dynamic":{

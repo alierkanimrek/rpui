@@ -9,6 +9,7 @@ import {Base, BaseData} from "./node/base"
 import {Nodes, NodesData} from "./node/nodes"
 import {NewNodeData} from "./node/newnode"
 import {NodeEdit, NodeEditData} from "./node/nodeedit"
+import {Tasks, TasksData} from "./node/tasks"
 
 
 
@@ -60,13 +61,23 @@ function edit():void{
 
 
 
+function edittasks():void{
+    exitIfHasNotSession()
+    let base = new Base()
+    let edit = new Tasks()
+}
+
+
+
+
 
 
 
 
 let route = [
     { path: urls.nodes, app : nodess},
-    { path: urls.nodeedit, app : edit}
+    { path: urls.nodeedit, app : edit},
+    { path: urls.tasks, app : edittasks}
 ]
 
 
@@ -79,7 +90,8 @@ let store = {
     base: new BaseData(),
     nodes: new NodesData(),
     newnode: new NewNodeData(),
-    nodeedit: new NodeEditData()
+    nodeedit: new NodeEditData(),
+    tasks: new TasksData()
 }
 
 

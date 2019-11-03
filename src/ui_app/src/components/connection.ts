@@ -25,7 +25,10 @@ export enum Port{
     "getuser" = "/xhr/xhrgetuser",
     "newnode" = "/xhr/createnode",
     "getnode" = "/xhr/getnode",
-    "upnode" = "/xhr/upnode"
+    "upnode" = "/xhr/upnode",
+    "gettasks" = "/xhr/gettasks",
+    "createtask" = "/xhr/createtask",
+    "deltask" = "/xhr/deltask"
 }
 
 export interface ResponseHandler {

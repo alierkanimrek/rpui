@@ -69,20 +69,20 @@ export class SendButton extends GHTMLControl {
 
     constructor(p:SendButtonParameters) {
         super({view:view, root:p.rootId})
-        let fakeCb = ()=>{}
-        let {
-            rootId= "",
-            clickCall= fakeCb,
-            successCb= fakeCb,
-            errorCb= fakeCb,
-            buttonLabel= "Send",
-            sendingMsg= "Sending...",
-            successMsg= "Success",
-            errorMsg= "Error",
-            disabled=false,
-            classx=""
-        } = p
-        this.parm = p
+
+        this.parm =  {
+            rootId: "",
+            clickCall: this.fakeCb,
+            successCb: this.fakeCb,
+            errorCb: this.fakeCb,
+            buttonLabel: "Send",
+            sendingMsg: "Sending...",
+            successMsg: "Success",
+            errorMsg: "Error",
+            disabled: false,
+            classx: ""
+        }
+        Object.assign(this.parm, p)
         this.linkEvents(this.emap)
         this.submitStatus.style.visibility = "hidden"
         this.submitStatus.style.height = "0"
@@ -90,6 +90,10 @@ export class SendButton extends GHTMLControl {
         this.submit.textContent = this.parm.buttonLabel
     }
 
+
+
+
+    private fakeCb(){}
 
 
 

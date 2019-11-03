@@ -33,3 +33,6 @@ baseMainContent
 
           p gid=footer class=has-text-grey is-medium
             a gid=back
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=tasks

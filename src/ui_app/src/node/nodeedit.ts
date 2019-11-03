@@ -4,23 +4,19 @@ import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/con
 import {RpStack} from "../components/msg"
 import view from "./nodeedit.ghtml"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
+import {TaskEdit} from "../widgets/taskeditor/taskeditor"
+
+
+
+
+
+
 
 
 const name = "nodeedit"
 
 
 
-/*
-                  div class=columns is-gapless is-mobile
-                    div class=column
-                      span class=icon is-small is-info
-                        i class=fas fa-caret-left aria-hidden=true
-                    div class=column
-                      span gid=access class=is-info
-                    div class=column
-                      span class=icon is-small is-info
-                        i class=fas fa-caret-right aria-hidden=true
-*/
 
 
 
@@ -39,10 +35,14 @@ export class NodeEdit extends GHTMLControl {
     sendBtnContainer: HTMLElement
     sendButton:SendButton
     access:HTMLElement
+    TaskListContainer:HTMLElement
+    back:HTMLElement
+    tasks:HTMLElement
 
-    /*emap: any = [
-        [this.signupLink, "click", this.footer],
-    ]*/
+    emap: any = [
+        [this.back, "click", this.footernav],
+        [this.tasks, "click", this.footernav]
+    ]
 
 
 
@@ -52,7 +52,7 @@ export class NodeEdit extends GHTMLControl {
         this.trns = this.store("trns").t.translations(name)
         this._ = this.trns.get_()
         this.trns.updateStatics(this)
-        //this.linkEvents(this.emap)
+        this.linkEvents(this.emap)
         this.sendButton = new SendButton({
             rootId: this.sendBtnContainer.id,
             clickCall: this.update.bind(this),
@@ -66,8 +66,24 @@ export class NodeEdit extends GHTMLControl {
             this.store("base").getNNameFromUri(this.gDoc.path)
         }
         this.bindingStore.load(this.store("base").nname, this.load.bind(this))
-
     }
+
+
+
+
+    footernav(e:Event){
+        let t = <HTMLElement>e.target
+        switch (t) {
+            case this.back:
+                console.log("/"+this.store("session").user+"/"+this.store("base").nname)
+                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname)
+                break;
+            case this.tasks:
+                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname+"/edit/tasks")
+                break;
+        }
+    }
+
 
 
 
