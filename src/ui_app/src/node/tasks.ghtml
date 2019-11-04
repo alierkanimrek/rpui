@@ -17,12 +17,7 @@ baseMainContent
                 div class=columns is-mobile
                   div class=column
                     button gid=addBtn type=button class=button is-block is-info is-medium is-fullwidth
-                  div class=column
-                    button gid=removeBtn type=button class=button is-block is-danger is-medium is-fullwidth
-                    p class=has-icons-left has-icons-right gid=removeStatus style=visibility: hidden; height:0;
-                      span class=icon is-right
-                        i class=fas fa-spinner fa-spin gid=removeStatusIcon
-                      label gid=removeMsg class=is-left
+                  div class=column gid=wgtRemoveButton
 
               div gid=newContainer style=visibility: hidden; height:0;
                 div class=field

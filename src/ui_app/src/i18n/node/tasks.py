@@ -15,7 +15,6 @@ def text(_):
                 "back" : {"textContent":_("Back")},
                 "nodes" : {"textContent":_("Nodes")},
                 "addBtn" : {"textContent":_("Add")},
-                "removeBtn" : {"textContent":_("Remove")},
                 "AddNewLabel" : {"textContent":_("New task name")},
                 
             },
@@ -30,6 +29,10 @@ def text(_):
                 "createError" : _("Not created"),
                 "createSuccess" : _("Created"),
                 "AddNewBtn" : _("Add new"),
+                "removeBtn" : _("Remove"),
+                "removing" : _("Removing..."),
+                "removeError" : _("Not removed"),
+                "removeSuccess" : _("Removed"),
             }
         }
     }

@@ -41,7 +41,9 @@ export class Tasks extends GHTMLControl {
     tnameStatus: HTMLElement
     tnameMsg: HTMLElement
     wgtAddButton: HTMLElement
+    wgtRemoveButton: HTMLElement
     AddNewBtn: SendButton
+    removeBtn: SendButton
     AddNewStatus: HTMLElement
 
     items: Array<TaskEdit> = []
@@ -80,6 +82,17 @@ export class Tasks extends GHTMLControl {
             errorMsg: this._("createError"),
             disabled: true,
             classx: "button is-block is-info is-fullwidth is-medium"
+        })
+
+        this.removeBtn = new SendButton({
+            rootId: this.wgtRemoveButton.id,
+            clickCall: this.remove.bind(this),
+            buttonLabel: this._("removeBtn"),
+            sendingMsg: this._("removing"),
+            successMsg: this._("removeSuccess"),
+            errorMsg: this._("removeError"),
+            disabled: false,
+            classx: "button is-block is-danger is-fullwidth is-medium"
         })
 
         this.bindingStore.load(this.store("base").nname, this.loaded.bind(this))
@@ -171,6 +184,35 @@ export class Tasks extends GHTMLControl {
         
     }
 
+
+
+
+    remove(e:Event){
+        if(this.selector.value){
+            this.bindingStore.remove(this.store("base").nname, this.selector.value, this.removeResult.bind(this))
+        }
+        else{
+            this.removeBtn.error()
+        }        
+    }
+
+
+
+
+    removeResult(status:boolean):void{
+
+        let restore = () => {
+            this.bindingStore.load(this.store("base").nname, this.loaded.bind(this))
+        }        
+
+        if(status){
+            this.removeBtn.success(restore.bind(this))
+        }
+        else{
+            this.removeBtn.error()
+        }
+    }
+
 }
 
 
@@ -242,6 +284,31 @@ export class TasksData extends GDataObject {
 
         let conn = new Connection({
             port:Port.createtask, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: data})
+    }
+
+
+
+
+    remove(nname:string, tname:string, cb:Function):void{
+        
+        let error:ErrorHandler = (msg:string) => {
+            cb(false)
+        }        
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){    cb(true)    }
+            else{    cb(false)    }
+        }
+
+
+        let data = {"nname": nname, "tname": tname}
+
+        let conn = new Connection({
+            port:Port.deltask, 
             responseHandler:response,
             errorHandler:error})
 

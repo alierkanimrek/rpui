@@ -9,7 +9,7 @@ from tornado import gen
 
 
 from .base import BaseHandler
-from .xhr import XHRNodeCreate, XHRNodeLoad, XHRNodeUpdate, XHRNodeTasks, XHRCreateTask
+from .xhr import XHRNodeCreate, XHRNodeLoad, XHRNodeUpdate, XHRNodeTasks, XHRCreateTask, XHRRemoveTask
 from .rules import NODES_URL, NODEEDIT_URL, TASKSEDIT_URL
 
 
@@ -40,5 +40,6 @@ nodeRouting = [
     (r"/xhr/upnode", XHRNodeUpdate),
     (r"/xhr/gettasks", XHRNodeTasks),
     (r"/xhr/createtask", XHRCreateTask),
+    (r"/xhr/deltask", XHRRemoveTask)
     ]
   

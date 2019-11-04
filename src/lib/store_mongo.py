@@ -203,3 +203,11 @@ class RpMongoClient(object):
             return(result.inserted_id)
         else:
             return(None)
+
+
+
+
+    async def removeTask(self, uname, nname, tname):
+        result = await self._tasks.delete_many({"uname": uname, "nname": nname, "tname": tname})
+        if(result):   return(True)
+        else:   return(False)

@@ -190,3 +190,41 @@ class XHRCreateTask(BaseHandler):
 
 
 
+
+
+
+
+
+class XHRRemoveTask(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRRemoveTask")
+        resp = {"result" : False}
+        
+        try:
+            nname = self.cstack.stack[0]["data"]["nname"]
+            tname = self.cstack.stack[0]["data"]["tname"]
+            user_doc = await self.db.getUser(uname=self.current_user)
+            
+            if(user_doc):                
+                uname = user_doc["uname"]
+                # Create node
+                result = await self.db.removeTask(uname, nname, tname)
+                if(result):
+                    self.__log.i("Task removed", nname, tname)
+                    resp = {"result" : True}
+                else:
+                    self.__log.w("Task not removed", nname, tname)
+            else:
+                self.__log.e("User not found")
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrremovetask")
+
+
+

@@ -188,3 +188,9 @@ class Store(object):
         id = await self._db.createTask(vars(task))
         if(id):     return(str(id))
         else:   return(False)
+
+
+
+
+    async def removeTask(self, uname, nname, tname):
+        return(await self._db.removeTask(uname, nname, tname))
