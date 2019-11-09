@@ -26,7 +26,7 @@ class STM(object):
 
 
 
-    def __init__(self, lifetime=120):
+    def __init__(self, lifetime=30):
         """
         lifetime = second
                     zero means no lifetime
@@ -77,7 +77,8 @@ class STM(object):
 
     def _del(self):
         for s in self._dellist:
-            del self._set[s]
+            try:    del self._set[s]
+            except: pass
         self._dellist = []
 
 

@@ -6,7 +6,7 @@
 
 
 
-from .xhr import XHRClientAuth, XHRClientPing
+from .xhr import XHRClientAuth, XHRClientPing, XHRClientUpdate
 
 
 
@@ -19,6 +19,6 @@ from .xhr import XHRClientAuth, XHRClientPing
 
 clientRouting = [
     (r"/xhr/ctlogin", XHRClientAuth),
-    (r"/xhr/ctping", XHRClientPing)
-    ]
+    (r"/xhr/ctping", XHRClientPing),
+    (r"/xhr/ctup", XHRClientUpdate)]
 

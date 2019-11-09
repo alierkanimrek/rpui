@@ -69,7 +69,6 @@ class XHRNodeLoad(BaseHandler):
         try:
             nname = self.cstack.stack[0]["data"]["nname"]
             node_doc = await self.db.getNode(uname=self.current_user, nname=nname)
-            del node_doc["_id"]
             if(node_doc):                
                 resp = node_doc
             else:

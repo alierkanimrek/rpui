@@ -103,3 +103,44 @@ class XHRClientPing(BaseHandler):
 
 
 
+
+
+class XHRClientUpdate(BaseHandler):
+
+
+    
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRClientUpdate")
+        resp = {"result" : False, "awake": False}
+        try:
+            uname = self.cstack.stack[0]["uname"]
+            nname = self.cstack.stack[0]["nname"]
+            uri = uname+"/"+nname
+            followup = self.cstack.data(uri+"/command")["followup"]
+            
+            self.alive.add(uri)
+
+            #Check owner is online
+            if(self.alive.isThere(uname)):
+                self.__log.d("Owner is online")
+                resp["awake"] = True
+
+            #Check some nodes needs you
+            elif(self.touch.isThere(uri)):
+                self.__log.d("Nodes needs you")
+                resp["awake"] = True                
+            
+            #Check my followings is alive
+            for nn in followup:
+                self.touch.add(nn)
+                if(self.alive.isThere(nn)):
+                    self.__log.d("A following is online")
+                    resp["awake"] = True
+
+            resp["result"] = True
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        await self.stackAppendAndSend(resp, "xhrclientupdate")
+
