@@ -14,6 +14,7 @@ import json
 import time
 import tornado
 import datetime
+from lib.session import SessionManager
 
 from lib.msg import *
 
@@ -36,18 +37,20 @@ class BaseHandler(tornado.web.RequestHandler):
         self.conf = self.settings['conf']
         self.t = int(time.time())
         self.__log = self.log.job("CBase")
+        self.session = SessionManager(self)
 
         #self.uid = ""
         self.stack = Stack()
         self.cstack = Stack()
-        #self.alive = self.settings['alive']
-        #self.owners = self.settings['owners']
-        #self.coms = self.settings["coms"]
+        self.alive = self.settings['alive']
+        self.touch = self.settings['touch']
+        self.cmd = self.settings["cmd"]
         #self.source = {
         #    "uname": self.conf["SERVER"]["server_name"], 
         #    "nname": self.conf["SERVER"]["server_node"], 
         #    "name": "",
         #    "id": ""}
+        self.cmds = CommandData()
 
 
 
@@ -109,7 +112,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "uname": "root", 
             "nname" : "server",
             "name": name,
-            "id": ""}, 
+            "id": "root/server/"+name}, 
             data)
 
 
@@ -122,7 +125,29 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
+    def cmdTasklist(self, tasklist):
+        tasks = []
+        for task in tasklist:
+            tasks.append(task["tname"])
+        self.cmds.cmd("tasklist", tasks)
+
+
+
+
+    def cmdFollowup(self, flist):
+        self.cmds.cmd("followup", flist)
+
+
+
+
+    def cmdPing(self, status):
+        self.cmds.cmd("ping", status)
+
+
+
+
     async def stackAppendAndSend(self, data, name=None):
+        self.stackAppend(self.cmds.data, "command")
         self.stackAppend(data, name)
         self.write(self.getMsg())
 

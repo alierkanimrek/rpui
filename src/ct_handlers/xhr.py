@@ -9,7 +9,6 @@
 
 
 
-
 import random
 import datetime
 import tornado
@@ -35,39 +34,72 @@ class XHRClientAuth(BaseHandler):
         #data = {"nname":...}
         self.__log = self.log.job("XHRClientAuth")
         resp = {"result" : False}
-        await self.stackAppendAndSend(resp, "xhrclientauth")
-        
-
-
-
-
-
-
-
-'''
-class LoginHandler(base.BaseHandler):
-
-
-
-
-    @gen.coroutine
-    def post(self):
         try:
-            rq = tornado.escape.json_decode(self.request.body)
-            self.logit("debug","'{}/{}' Connecting...".format( rq["uname"], rq["nodename"]))
-            user = yield self.db.get_user(rq["uname"])
-            node = yield self.db.get_user_node(str(user["_id"]), rq["nodename"])
-            tasks = yield self.db.get_node_tasks(str(node["_id"]))
-            if rq["rcode"] == user["rcode"] and node:
-                self.set_secure_cookie("nid", str(node["_id"]))
-                self.nname = node["name"]
-                self.uname = user["uname"]
-                self.logit("info","Logged in")
-                self.append_task_command(tasks)
-                uri = self.conf["SERVER"]["server_name"]+"/"+self.conf["SERVER"]["server_node"]+"/"+" "
-                self.append_task(uri, {"ver":self.settings["ver"], "subver":self.settings["subver"]})
-                self.write(self.message())
+            uname = self.cstack.stack[0]["uname"]
+            nname = self.cstack.stack[0]["nname"]
+            uri = uname+"/"+nname
+            ccode = self.cstack.stack[0]["data"]["code"]
+            tasklist = []
+            rec = await self.db.getUser(uname=uname)
+            if(rec["ccode"] == ccode):
+                self.__log.i("Node logged in", uname, nname)
+                await self.session.createSession(uname+"/"+nname, True)
+                tasks = await self.db.getTasks(uname, nname)
+                node = await self.db.getNode(uname, nname)
+                if(tasks):  self.cmdTasklist(tasks)
+                if(node):  self.cmdFollowup(node["followup"])
+                for nn in node["followup"]:
+                    self.touch.add(nn)
+                resp = {"result" : True}
         except Exception as inst:
-            self.logit("error","Login failed {}".format(str(inst.args)))
-            self.write("Wrong id, rcode or node name")
-'''
+            self.__log.e("Runtime error", type(inst), inst.args)
+        await self.stackAppendAndSend(resp, "xhrclientauth")
+
+
+
+
+
+
+
+
+class XHRClientPing(BaseHandler):
+
+
+    
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRClientPing")
+        resp = {"result" : False, "awake": False}
+        try:
+            uname = self.cstack.stack[0]["uname"]
+            nname = self.cstack.stack[0]["nname"]
+            uri = uname+"/"+nname
+            followup = self.cstack.data(uri+"/command")["followup"]
+            #Check owner is online
+            if(self.alive.isThere(uname)):
+                self.__log.d("Owner is online")
+                resp["awake"] = True
+
+            #Check some nodes needs you
+            elif(self.touch.isThere(uri)):
+                self.__log.d("Nodes needs you")
+                resp["awake"] = True                
+            
+            #Check my followings is alive
+            for nn in followup:
+                self.touch.add(nn)
+                if(self.alive.isThere(nn)):
+                    self.__log.d("A following is online")
+                    resp["awake"] = True
+
+            resp["result"] = True
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        await self.stackAppendAndSend(resp, "xhrclientping")
+
+
+
+
+
+

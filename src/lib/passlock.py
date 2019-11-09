@@ -51,6 +51,16 @@ class PasswordLock(object):
 
 
 
+    def hash(self, password, key):
+        dk = hashlib.pbkdf2_hmac(
+            hash_name='sha384',  
+            password=password.encode(), 
+            salt=key.encode(),
+            iterations=100000)
+        return(dk.hex())
+
+
+
 
 
 

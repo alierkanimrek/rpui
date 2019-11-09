@@ -41,14 +41,9 @@ class BaseHandler(tornado.web.RequestHandler):
         #self.uid = ""
         self.stack = Stack()
         self.cstack = Stack()
-        #self.alive = self.settings['alive']
-        #self.owners = self.settings['owners']
-        #self.coms = self.settings["coms"]
-        #self.source = {
-        #    "uname": self.conf["SERVER"]["server_name"], 
-        #    "nname": self.conf["SERVER"]["server_node"], 
-        #    "name": "",
-        #    "id": ""}
+        self.alive = self.settings['alive']
+        self.touch = self.settings['touch']
+        self.cmd = self.settings["cmd"]
 
 
 
@@ -93,7 +88,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         if self.get_secure_cookie("user"):
             uname = tornado.escape.xhtml_escape(self.get_secure_cookie("user"))
-            #self.owners.add(uname, self.t)
+            self.alive.add(uname)
             return(uname)
         else:
             return(None)

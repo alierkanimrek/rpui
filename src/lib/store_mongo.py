@@ -154,8 +154,12 @@ class RpMongoClient(object):
 
     async def getUserNodes(self, uname):
         cursor = self._nodes.find({"uname": uname})
-        result = await cursor.to_list()
-        if(result):
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            for t in r:
+                del t["_id"]
+                result.append(t)
             return(result)
         else:
             return(None)
@@ -164,6 +168,7 @@ class RpMongoClient(object):
 
     async def getUserNode(self, uname, nname):
         data = await self._nodes.find_one({"uname" : uname, "nname" : nname})
+        del data["_id"]
         if(data):   return(data)
         else:   return(False)
 

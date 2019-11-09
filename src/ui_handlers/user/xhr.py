@@ -119,7 +119,7 @@ class XHRUserLogin(BaseHandler):
             p = PasswordLock()
             if(p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
                 resp = {"result" : True}
-                await self.session.createSession(user["uname"])                
+                await self.session.createSession(user["uname"])  
                 self.__log.i("User logged in", user["uname"])
             else:
                 self.__log.d("Unauthorized login attempt", user["uname"])
@@ -127,9 +127,6 @@ class XHRUserLogin(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhrulogin")
-
-
-
 
 
 

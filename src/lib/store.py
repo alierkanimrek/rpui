@@ -167,6 +167,14 @@ class Store(object):
 
 
 
+    async def getNodes(self, uname):
+        data = await self._db.getUserNodes(uname)
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
     async def updateNode(self, doc): 
         #doc = Node(..)
         data = await self._db.updateNode(vars(doc))
