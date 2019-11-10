@@ -202,3 +202,12 @@ class Store(object):
 
     async def removeTask(self, uname, nname, tname):
         return(await self._db.removeTask(uname, nname, tname))
+
+
+
+    async def updateTaskData(self, uri, data):
+        result = await self._db.updateTaskData(uri, data)
+        if(result):
+            return(True)
+        else:
+            return(None)

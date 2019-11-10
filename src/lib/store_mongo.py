@@ -216,3 +216,13 @@ class RpMongoClient(object):
         result = await self._tasks.delete_many({"uname": uname, "nname": nname, "tname": tname})
         if(result):   return(True)
         else:   return(False)
+
+
+
+
+    async def updateTaskData(self, uri, data):
+        result = await self._tasks.find_one_and_update({"uri":uri}, {"$set" : {"data": data}})
+        if(result):
+            return(True)
+        else:
+            return(None)

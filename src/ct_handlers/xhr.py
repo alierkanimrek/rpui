@@ -42,7 +42,7 @@ class XHRClientAuth(BaseHandler):
             tasklist = []
             rec = await self.db.getUser(uname=uname)
             if(rec["ccode"] == ccode):
-                self.__log.i("Node logged in", uname, nname)
+                self.__log.i("Node logged in", uri)
                 await self.session.createSession(uname+"/"+nname, True)
                 tasks = await self.db.getTasks(uname, nname)
                 node = await self.db.getNode(uname, nname)
@@ -78,20 +78,22 @@ class XHRClientPing(BaseHandler):
             followup = self.cstack.data(uri+"/command")["followup"]
             #Check owner is online
             if(self.alive.isThere(uname)):
-                self.__log.d("Owner is online")
+                self.__log.d("Owner is online", uri)
                 resp["awake"] = True
 
             #Check some nodes needs you
-            elif(self.touch.isThere(uri)):
-                self.__log.d("Nodes needs you")
-                resp["awake"] = True                
+            if(not resp["awake"]):
+                if(self.touch.isThere(uri)):
+                    self.__log.d("Nodes needs you", uri)
+                    resp["awake"] = True                
             
             #Check my followings is alive
             for nn in followup:
                 self.touch.add(nn)
-                if(self.alive.isThere(nn)):
-                    self.__log.d("A following is online")
-                    resp["awake"] = True
+                if(not resp["awake"]):
+                    if(self.alive.isThere(nn)):
+                        self.__log.d("A following is online", uri, nn)
+                        resp["awake"] = True
 
             resp["result"] = True
         except Exception as inst:
@@ -121,24 +123,30 @@ class XHRClientUpdate(BaseHandler):
             followup = self.cstack.data(uri+"/command")["followup"]
             
             self.alive.add(uri)
+            #Save Data
+            for tdata in self.cstack.stack:
+                if(tdata["id"] != uri+"/command"):
+                    await self.db.updateTaskData(tdata["id"], tdata["data"])
 
             #Check owner is online
             if(self.alive.isThere(uname)):
-                self.__log.d("Owner is online")
                 resp["awake"] = True
 
             #Check some nodes needs you
-            elif(self.touch.isThere(uri)):
-                self.__log.d("Nodes needs you")
-                resp["awake"] = True                
+            if(not resp["awake"]):
+                if(self.touch.isThere(uri)):
+                    resp["awake"] = True                
             
             #Check my followings is alive
             for nn in followup:
                 self.touch.add(nn)
-                if(self.alive.isThere(nn)):
-                    self.__log.d("A following is online")
-                    resp["awake"] = True
-
+                if(not resp["awake"]):
+                    if(self.alive.isThere(nn)):
+                        resp["awake"] = True
+            
+            if(not resp["awake"]):
+                self.__log.d("Node going to sleep", uri)
+            
             resp["result"] = True
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)
