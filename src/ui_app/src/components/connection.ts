@@ -25,7 +25,9 @@ export enum Port{
     "getuser" = "/xhr/xhrgetuser",
     "newnode" = "/xhr/createnode",
     "getnode" = "/xhr/getnode",
+    "getnodes" = "/xhr/getnodes",
     "upnode" = "/xhr/upnode",
+    "chknodes" = "/xhr/chknodes",
     "gettasks" = "/xhr/gettasks",
     "createtask" = "/xhr/createtask",
     "deltask" = "/xhr/deltask"
@@ -54,7 +56,8 @@ interface ConnConfig{
     port:Port, 
     name?:string, 
     responseHandler?:ResponseHandler,
-    errorHandler?:ErrorHandler
+    errorHandler?:ErrorHandler,
+    repeat?: boolean
 }
 
 
@@ -71,6 +74,11 @@ export class Connection {
     private name: string
     public responseHandler: ResponseHandler
     public errorHandler: ErrorHandler
+    private repeat: boolean
+    private minDelay: number = 1000
+    private lastStart: number
+    private timer: any
+    private lastCfg: RunConfig
 
 
 
@@ -87,6 +95,9 @@ export class Connection {
 
         if(cfg.errorHandler){ this.errorHandler = cfg.errorHandler }
         else{ this.errorHandler = (s:string):void => {} }
+
+        if(cfg.repeat){ this.repeat = cfg.repeat }
+        else{ this.repeat = false }
     }
 
 
@@ -124,6 +135,14 @@ export class Connection {
         xhr.setRequestHeader("Content-type", "application/json; charset=utf-8")
         xhr.setRequestHeader("X-XSRFToken", msg.xsrf)
         xhr.onreadystatechange = this.xhrLoad.bind(this, xhr)
+        
+        try{    clearTimeout(this.timer)    }
+        catch{    null    }
+
+        let d = new Date()
+        this.lastStart = d.getTime()
+        this.lastCfg = cfg
+
         if(cfg.full){
             xhr.send(msg.toString)
         }
@@ -135,8 +154,44 @@ export class Connection {
 
 
 
+    public pause():void{
+        try{    clearTimeout(this.timer)    }
+        catch{    null    }
+        this.repeat = false        
+    }
+
+
+
+
+    public play():void{
+        try{    clearTimeout(this.timer)    }
+        catch{    null    }
+        this.repeat = true
+        this.run(this.lastCfg)        
+    }
+
+
+
+
+    public objectData(od:object):void{
+        this.lastCfg.ObjectData = od
+    }
+
+
+
+
     private xhrLoad(xhr:XMLHttpRequest):void{
         if (xhr.readyState == 4) {
+
+            if(this.repeat){
+                let d = new Date()
+                let finish = d.getTime()
+                let to = (finish - this.lastStart) +500
+                if(to < this.minDelay){    to = this.minDelay    }
+                this.timer = setTimeout(this.run.bind(this, this.lastCfg), to)
+            }
+
+
             if (xhr.status == 200) { 
                 if(xhr.response){
                     this.responseHandler(parseStack(xhr.response))

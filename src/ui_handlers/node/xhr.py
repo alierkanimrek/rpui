@@ -56,6 +56,68 @@ class XHRNodeCreate(BaseHandler):
 
 
 
+class XHRNodes(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRNodes")
+        resp = {"result" : False}
+        
+        try:
+            nodelist = await self.db.getNodes(uname=self.current_user)
+            if(nodelist):
+                lst = []
+                for node in nodelist:
+                    lst.append({"nname": node["nname"], "desc": node["desc"]})
+                resp = {"nodelist": lst}
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrnodes")
+
+
+
+
+
+
+
+
+class XHRChkNodes(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRChkNodes")
+        resp = {"result" : False}
+        
+        try:
+            uname = self.current_user
+            nodestatus = {}
+            for nname in self.cstack.stack[0]["data"]["nodenames"]:
+                uri = uname+"/"+nname
+                if(self.alive.isThere(uri)):
+                    nodestatus[nname] =  True
+                else:
+                    nodestatus[nname] =  False
+            
+            resp = nodestatus
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrchknodes")
+
+
+
+
+
+
+
+
 
 class XHRNodeLoad(BaseHandler):
 

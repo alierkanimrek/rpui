@@ -47,7 +47,7 @@ export class NodeItem extends GHTMLControl {
 
     item: HTMLElement
     statusContainer: HTMLElement
-    status: GHTMLControl
+    public status: NodeStatus
     name: HTMLParagraphElement
     desc: HTMLParagraphElement
     editButton: HTMLButtonElement
@@ -58,18 +58,28 @@ export class NodeItem extends GHTMLControl {
         [this.desc, "click", this.node]
     ]
 
-    uri: string
+    private uri: string
+    private _name:string
+
 
 
     constructor(rootId:string, name:string, desc:string) {
         super({view:view, root:rootId})
         this.name.textContent = name
+        this._name = name
         this.desc.textContent = desc
         this.uri = "/"+this.gDoc.gData("session").user+"/"+name
         //this.trns = this.gDoc.gData("trns").t
         //this.trns.addEventListener("change", this.langChanged.bind(this))
         this.linkEvents(this.eventMap)        
         this.status = new NodeStatus(this.statusContainer.id)
+    }
+
+
+
+
+    get nname():string{
+        return(this._name)
     }
 
 

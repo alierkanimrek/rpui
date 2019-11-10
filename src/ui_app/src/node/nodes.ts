@@ -46,15 +46,38 @@ export class Nodes extends GHTMLControl {
     constructor() {
         super({view:nodesView, bindTo:name})
         this.store("base").nname = ""
-        this.items.push(new NodeItem(this.NodeListContainer.id, "aha", "Some desc"))
-        new NewNodeItem(this.NodeListContainer.id)
+        
         //this.items.push(new NodeItem(this.NodeListContainer.id))
         //this.trns = this.store("trns").t.translations(name)
         //this._ = this.trns.get_()
         //this.trns.updateStatics()
         //this.linkEvents(this.emap)
+        this.bindingStore.load(this.loaded.bind(this))
     }
 
+
+
+
+    loaded(nodelist:Array<any>){
+        //this.NodeListContainer.childNodes.forEach((c:HTMLElement)=>{
+        //    this.NodeListContainer.removeChild(c)
+        //})
+        nodelist.forEach((node:any) =>{
+            this.items.push(new NodeItem(this.NodeListContainer.id, node.nname, node.desc))
+        })
+        new NewNodeItem(this.NodeListContainer.id)
+        this.bindingStore.checkAliveNodes(this.statusLoaded.bind(this))
+    }
+
+
+
+
+    statusLoaded(nodestatus:any){
+        this.items.forEach((node:NodeItem)=>{
+            node.status.status = nodestatus[node.nname]
+        })
+        
+    }
 
 
 }
@@ -70,28 +93,77 @@ export class NodesData extends GDataObject {
 	
 	
 
+    nodenames: Array<string> = []
 
 
 
-    /*submit(cb:Function):void{
+
+    load(cb:Function):void{
+
+
 
         let response:ResponseHandler = (stack:RpStack) => {
-            cb(stack.dataVar("result"))    
+            if(stack.dataVar("result")){
+                console.error("[AppNodes] Server error")
+            }
+            else{
+                this.nodenames = []
+                let nodelist:Array<any> = stack.dataVar("nodelist")
+                nodelist.forEach((node:any) =>{
+                    this.nodenames.push(node.nname)
+                })
+
+                cb(nodelist)
+            }
+
         }
 
         let error:ErrorHandler = (msg:string) => {
-            cb(false, msg)    
+            console.error("[AppNodes] "+msg)    
         }
 
-        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember}
+        let data = {}
 
         let conn = new Connection({
-            port:Port.ulogin, 
+            port:Port.getnodes, 
             name:name, 
             responseHandler:response,
             errorHandler:error})
 
         conn.run({ObjectData: data})
-    }*/
+
+    }
+
+
+
+
+    checkAliveNodes(cb:Function):void{
+
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){
+                console.error("[AppNodes] Server error")
+            }
+            else{
+                cb(stack.data("root/server/xhrchknodes"))
+            }
+
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            console.error("[AppNodes] "+msg)    
+        }
+
+        let data = {"nodenames": this.nodenames}
+
+        let conn = new Connection({
+            port:Port.chknodes, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: data})
+
+    }
 
 }
