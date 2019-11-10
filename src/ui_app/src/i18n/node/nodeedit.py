@@ -17,7 +17,9 @@ def text(_):
                 "frdAccLabel" : {"textContent":_("Friends")},
                 "pubAccLabel" : {"textContent":_("Everyone")},
                 "back" : {"textContent":_("Back")},
-                "tasks" : {"textContent":_("Tasks")}
+                "tasks" : {"textContent":_("Tasks")},
+                "remove" : {"textContent":_("Remove")},
+                "removeMsg" : {"textContent":_("Clear description and write 'remove' then update for removing this node.")}
             },
 
             "dynamic":{

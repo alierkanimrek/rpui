@@ -66,7 +66,9 @@ export class Nodes extends GHTMLControl {
             this.items.push(new NodeItem(this.NodeListContainer.id, node.nname, node.desc))
         })
         new NewNodeItem(this.NodeListContainer.id)
-        this.bindingStore.checkAliveNodes(this.statusLoaded.bind(this))
+        if(this.items.length > 0){
+            this.bindingStore.checkAliveNodes(this.statusLoaded.bind(this))
+        }
     }
 
 
@@ -76,7 +78,12 @@ export class Nodes extends GHTMLControl {
         this.items.forEach((node:NodeItem)=>{
             node.status.status = nodestatus[node.nname]
         })
-        
+    }
+
+
+
+    onRemove(){
+        this.bindingStore.chkAliveConn.pause()
     }
 
 
@@ -94,7 +101,7 @@ export class NodesData extends GDataObject {
 	
 
     nodenames: Array<string> = []
-
+    chkAliveConn: Connection
 
 
 
@@ -156,13 +163,14 @@ export class NodesData extends GDataObject {
 
         let data = {"nodenames": this.nodenames}
 
-        let conn = new Connection({
+        this.chkAliveConn = new Connection({
             port:Port.chknodes, 
             name:name, 
             responseHandler:response,
-            errorHandler:error})
+            errorHandler:error,
+            repeat: true})
 
-        conn.run({ObjectData: data})
+        this.chkAliveConn.run({ObjectData: data})
 
     }
 

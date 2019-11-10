@@ -38,10 +38,14 @@ export class NodeEdit extends GHTMLControl {
     TaskListContainer:HTMLElement
     back:HTMLElement
     tasks:HTMLElement
+    remove:HTMLElement
+    removeMsgContainer:HTMLElement
+    descInput:HTMLInputElement
 
     emap: any = [
         [this.back, "click", this.footernav],
-        [this.tasks, "click", this.footernav]
+        [this.tasks, "click", this.footernav],
+        [this.remove, "click", this.footernav]
     ]
 
 
@@ -81,6 +85,8 @@ export class NodeEdit extends GHTMLControl {
             case this.tasks:
                 this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname+"/edit/tasks")
                 break;
+            case this.remove:
+                this.removeMsgContainer.style.visibility = "visible"
         }
     }
 
@@ -109,6 +115,20 @@ export class NodeEdit extends GHTMLControl {
         }
         else{
             this.sendButton.error()
+        }
+    }
+
+
+
+    input(event:GHTMLInputEvent):void{
+        if(event.name == "desc" && event.value == "remove"){
+            this.descInput.style.color = "red"
+            this.sendButton.submit.style.backgroundColor = "red"
+        }
+        else{
+            this.descInput.style.color = ""
+            try{this.sendButton.submit.style.backgroundColor = ""}
+            catch{    null    }
         }
     }
         

@@ -134,10 +134,28 @@ class RpMongoClient(object):
 
 
 
+    async def getSessionUname(self, uname):
+        data = await self._auth.find_one({"uname" : uname})
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
     async def removeSession(self, selector):
         result = await self._auth.delete_many({"_id" : ObjectId(selector)})
         if(result):   return(True)
         else:   return(False)
+
+
+
+
+    async def updateSession(self, data):
+        result = await self._users.find_one_and_replace({"uname":data["uname"]}, data)
+        if(result):
+            return(True)
+        else:
+            return(None)
 
 
 
@@ -160,9 +178,7 @@ class RpMongoClient(object):
             for t in r:
                 del t["_id"]
                 result.append(t)
-            return(result)
-        else:
-            return(None)
+        return(result)
 
 
 
@@ -183,6 +199,13 @@ class RpMongoClient(object):
         else:
             return(None)
 
+
+
+
+    async def removeNode(self, uname, nname):
+        result = await self._nodes.delete_many({"uname": uname, "nname": nname})
+        if(result):   return(True)
+        else:   return(False)
 
 
 

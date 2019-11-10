@@ -67,11 +67,10 @@ class XHRNodes(BaseHandler):
         
         try:
             nodelist = await self.db.getNodes(uname=self.current_user)
-            if(nodelist):
-                lst = []
-                for node in nodelist:
-                    lst.append({"nname": node["nname"], "desc": node["desc"]})
-                resp = {"nodelist": lst}
+            lst = []
+            for node in nodelist:
+                lst.append({"nname": node["nname"], "desc": node["desc"]})
+            resp = {"nodelist": lst}
 
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)
@@ -168,13 +167,22 @@ class XHRNodeUpdate(BaseHandler):
                 #doc.group = 
                 #doc.tlist = 
                 
-                # Create node
-                result = await self.db.updateNode(doc)
-                if(result):
-                    self.__log.i("Node updated", doc.nname)
-                    resp = {"result" : True}
+                if(doc.desc == "remove"):
+                    # Remove Node
+                    result = await self.db.removeNode(uname, doc.nname)
+                    if(result):
+                        self.__log.i("Node removed", doc.nname)
+                        resp = {"result" : True}
+                    else:
+                        self.__log.w("Node not removed", nname)
                 else:
-                    self.__log.w("Node not updated", nname)
+                    # Update node
+                    result = await self.db.updateNode(doc)
+                    if(result):
+                        self.__log.i("Node updated", doc.nname)
+                        resp = {"result" : True}
+                    else:
+                        self.__log.w("Node not updated", nname)
             else:
                 self.__log.e("User not found")
 

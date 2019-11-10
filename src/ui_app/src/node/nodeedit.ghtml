@@ -36,3 +36,8 @@ baseMainContent
             span
             | &nbsp;&nbsp;&nbsp;
             a gid=tasks
+            p style=height: 2em;
+            a gid=remove class=has-text-danger is-size-7
+            div gid=removeMsgContainer style=visibility: hidden;
+              span gid=removeMsg class=has-text-danger
+

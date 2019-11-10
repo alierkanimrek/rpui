@@ -117,9 +117,17 @@ class Store(object):
 
 
     async def createSession(self, data):
-        id = await self._db.createSession(data)
-        if(id):            return(str(id))
-        else:            return(False)
+        session = await self._db.getSessionUname(data["uname"])
+        if(session):
+            id = session["_id"]
+            del session["_id"]
+            result = await self._db.updateSession(data)
+            if(result):            return(str(id))
+            else:            return(False)            
+        else:
+            id = await self._db.createSession(data)
+            if(id):            return(str(id))
+            else:            return(False)
 
 
 
@@ -169,8 +177,7 @@ class Store(object):
 
     async def getNodes(self, uname):
         data = await self._db.getUserNodes(uname)
-        if(data):   return(data)
-        else:   return(False)
+        return(data)
 
 
 
@@ -180,6 +187,18 @@ class Store(object):
         data = await self._db.updateNode(vars(doc))
         if(data):   return(data)
         else:   return(False)
+
+
+
+
+    async def removeNode(self, uname, nname):
+        tasklist = await self.getTasks(uname, nname)
+        if(type(tasklist) is list):                
+            for task in tasklist:
+                await self.removeTask(uname, nname, task["tname"])
+            data = await self._db.removeNode(uname, nname)
+            if(data):   return(True)
+        return(False)
 
 
 
