@@ -117,17 +117,9 @@ class Store(object):
 
 
     async def createSession(self, data):
-        session = await self._db.getSessionUname(data["uname"])
-        if(session):
-            id = session["_id"]
-            del session["_id"]
-            result = await self._db.updateSession(data)
-            if(result):            return(str(id))
-            else:            return(False)            
-        else:
-            id = await self._db.createSession(data)
-            if(id):            return(str(id))
-            else:            return(False)
+        id = await self._db.createSession(data)
+        if(id):            return(str(id))
+        else:            return(False)
 
 
 
