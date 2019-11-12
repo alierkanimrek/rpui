@@ -44,32 +44,41 @@ class STM(object):
 
 
     def add(self,id, t=None):
-        if(self.isThere(id)):
-            return()
         if not t:    t=int(time.time())
         else:   t=int(t)
-        try:
-            self._set[int(t)].add(id)
-        except KeyError:
-            self._set[int(t)] = set({id})
-        #print(self._set)
+        if not self.isThere(id, t, forAdd=True):
+            try:
+                self._set[int(t)].add(id)
+            except KeyError:
+                self._set[int(t)] = set({id})
+        print(t, self._set, "\n")
 
 
 
 
-    def isThere(self, id, t=None):
+    def isThere(self, id, t=None, forAdd=False):
         if not t:    t=int(time.time())
         else:   t=int(t)
         for s in self._set.keys():
             #print(t, s)
             #if t - self.lifetime > s and self.lifetime > 0: Zero Fix
-            if t - self.lifetime > s:
-                #print("dellist ",s)
+            if t - self.lifetime > s and s not in self._dellist:
                 self._dellist.append(s)
             else:
                 if id in self._set[s]:
+                    if t - self.lifetime == s and forAdd:
+                        break
                     return(True)
         self._del()
+        return(False)
+
+
+
+
+    def whichTime(self, id):
+        for s in sorted(self._set.keys(), reverse=True):
+            if id in self._set[s]:
+                return(s)
         return(False)
 
 
