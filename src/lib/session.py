@@ -125,7 +125,7 @@ class SessionManager(object):
                 if(diff < (self.conf.USERS.session_timeout * 60) and diff > 0):
                     # in range of 0-5 minutes update session
                     await self.createSession(user)
-                    await self.db.removeSession(selector)
+                    #await self.db.removeSession(selector)
                     return(True)
             self.__log.d("Session invalid or expired")
             await self.endSession()

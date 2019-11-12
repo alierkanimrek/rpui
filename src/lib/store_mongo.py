@@ -111,9 +111,13 @@ class RpMongoClient(object):
 
 
     async def createSession(self, data):
-        result = await self._auth.insert_one(data)
-        if(result):            return(result.inserted_id)
-        else:            return(None)
+        result = await self._auth.find_one_and_replace({"uname": data["uname"]}, data)
+        if(result):            return(result["_id"])
+        else:
+            result = await self._auth.insert_one(data)
+            if(result):            return(result.inserted_id)
+            else:   return(False)
+
 
 
 
@@ -151,7 +155,7 @@ class RpMongoClient(object):
 
 
     async def updateSession(self, data):
-        result = await self._users.find_one_and_replace({"uname":data["uname"]}, data)
+        result = await self._auth.find_one_and_replace({"uname":data["uname"]}, data)
         if(result):
             return(True)
         else:
