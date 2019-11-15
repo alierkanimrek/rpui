@@ -107,6 +107,17 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
+
+    def cmdTasklist(self, uri, tasklist):
+        tasks = []
+        cd = CommandData()
+        for task in tasklist:
+            tasks.append(task["tname"])
+        cd.cmd("tasklist", tasks)
+        self.cmd.add(uri, cd.data)
+
+
+
     
     def stackAppend(self, data, name="user"):
         self.stack.append({

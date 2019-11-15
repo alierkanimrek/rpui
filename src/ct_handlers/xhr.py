@@ -37,13 +37,13 @@ class XHRClientAuth(BaseHandler):
         try:
             uname = self.cstack.stack[0]["uname"]
             nname = self.cstack.stack[0]["nname"]
-            uri = uname+"/"+nname
+            self.uri = uname+"/"+nname
             ccode = self.cstack.stack[0]["data"]["code"]
             tasklist = []
             rec = await self.db.getUser(uname=uname)
             if(rec["ccode"] == ccode):
-                self.__log.i("Node logged in", uri)
-                await self.session.createSession(uname+"/"+nname, True)
+                self.__log.i("Node logged in", self.uri)
+                await self.session.createSession(self.uri, True)
                 tasks = await self.db.getTasks(uname, nname)
                 node = await self.db.getNode(uname, nname)
                 if(tasks):  self.cmdTasklist(tasks)
@@ -74,17 +74,17 @@ class XHRClientPing(BaseHandler):
         try:
             uname = self.cstack.stack[0]["uname"]
             nname = self.cstack.stack[0]["nname"]
-            uri = uname+"/"+nname
-            followup = self.cstack.data(uri+"/command")["followup"]
+            self.uri = uname+"/"+nname
+            followup = self.cstack.data(self.uri+"/command")["followup"]
             #Check owner is online
             if(self.alive.isThere(uname)):
-                self.__log.d("Owner is online", uri)
+                self.__log.d("Owner is online", self.uri)
                 resp["awake"] = True
 
             #Check some nodes needs you
             if(not resp["awake"]):
-                if(self.touch.isThere(uri)):
-                    self.__log.d("Nodes needs you", uri)
+                if(self.touch.isThere(self.uri)):
+                    self.__log.d("Nodes needs you", self.uri)
                     resp["awake"] = True                
             
             #Check my followings is alive
@@ -92,7 +92,7 @@ class XHRClientPing(BaseHandler):
                 self.touch.add(nn)
                 if(not resp["awake"]):
                     if(self.alive.isThere(nn)):
-                        self.__log.d("A following is online", uri, nn)
+                        self.__log.d("A following is online", self.uri, nn)
                         resp["awake"] = True
 
             resp["result"] = True
@@ -119,13 +119,13 @@ class XHRClientUpdate(BaseHandler):
         try:
             uname = self.cstack.stack[0]["uname"]
             nname = self.cstack.stack[0]["nname"]
-            uri = uname+"/"+nname
-            followup = self.cstack.data(uri+"/command")["followup"]
+            self.uri = uname+"/"+nname
+            followup = self.cstack.data(self.uri+"/command")["followup"]
             
-            self.alive.add(uri)
+            self.alive.add(self.uri)
             #Save Data
             for tdata in self.cstack.stack:
-                if(tdata["id"] != uri+"/command"):
+                if(tdata["id"] != self.uri+"/command"):
                     await self.db.updateTaskData(tdata["id"], tdata["data"])
 
             #Check owner is online
@@ -134,7 +134,7 @@ class XHRClientUpdate(BaseHandler):
 
             #Check some nodes needs you
             if(not resp["awake"]):
-                if(self.touch.isThere(uri)):
+                if(self.touch.isThere(self.uri)):
                     resp["awake"] = True                
             
             #Check my followings is alive
@@ -145,7 +145,7 @@ class XHRClientUpdate(BaseHandler):
                         resp["awake"] = True
             
             if(not resp["awake"]):
-                self.__log.d("Node going to sleep", uri)
+                self.__log.d("Node going to sleep", self.uri)
             
             resp["result"] = True
         except Exception as inst:

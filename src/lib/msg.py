@@ -132,8 +132,13 @@ class CommandData(object):
 
 
 
-    def cmd(self, name, data):
-        self._data[name] = data
+    def cmd(self, name, data, overwrite=True):
+        if(overwrite):
+            self._data[name] = data
+        elif name not in list(self._data):
+            self._data[name] = data
+
+
 
 
 

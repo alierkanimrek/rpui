@@ -51,6 +51,7 @@ class BaseHandler(tornado.web.RequestHandler):
         #    "name": "",
         #    "id": ""}
         self.cmds = CommandData()
+        self.uri = ""
 
 
 
@@ -146,10 +147,18 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
+    def cmdMerge(self):
+        clist = self.cmd.isThere(id=self.uri, delete=True)
+        for c in clist:
+            self.cmds.cmd(list(c)[0], c[list(c)[0]], overwrite=False)
+
+
+
+
     async def stackAppendAndSend(self, data, name=None):
+        self.cmdMerge()
         self.stackAppend(self.cmds.data, "command")
         self.stackAppend(data, name)
         self.write(self.getMsg())
-
 
 

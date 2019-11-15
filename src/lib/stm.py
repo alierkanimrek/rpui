@@ -51,7 +51,6 @@ class STM(object):
                 self._set[int(t)].add(id)
             except KeyError:
                 self._set[int(t)] = set({id})
-        print(t, self._set, "\n")
 
 
 

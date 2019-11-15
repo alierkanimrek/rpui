@@ -247,6 +247,8 @@ class XHRCreateTask(BaseHandler):
                 if(result):
                     self.__log.i("New task created", nname)
                     resp = {"result" : True}
+                    tasks = await self.db.getTasks(uname, nname)
+                    if(tasks):  self.cmdTasklist(uname+"/"+nname, tasks)
                 else:
                     self.__log.w("Task not created", nname)
             else:
@@ -285,6 +287,8 @@ class XHRRemoveTask(BaseHandler):
                 if(result):
                     self.__log.i("Task removed", nname, tname)
                     resp = {"result" : True}
+                    tasks = await self.db.getTasks(uname, nname)
+                    if(tasks):  self.cmdTasklist(uname+"/"+nname, tasks)
                 else:
                     self.__log.w("Task not removed", nname, tname)
             else:
