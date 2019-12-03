@@ -2,9 +2,8 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../g
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
-import view from "./nodeedit.ghtml"
+import view from "./settings.ghtml"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
-import {TaskEdit} from "../widgets/taskeditor/taskeditor"
 
 
 
@@ -13,7 +12,8 @@ import {TaskEdit} from "../widgets/taskeditor/taskeditor"
 
 
 
-const name = "nodeedit"
+
+const name = "settings"
 
 
 
@@ -22,30 +22,31 @@ const name = "nodeedit"
 
 
 
-export class NodeEdit extends GHTMLControl {
+export class UserSettings extends GHTMLControl {
 
 
 
 
-	bindingStore:NodeEditData
+	bindingStore:UserSettingsData
     trns: GetText
     _: Function
 
-    title:HTMLElement
+    userName:HTMLLabelElement
+    firstName: HTMLInputElement
+    lastName: HTMLInputElement
+    descInput: HTMLInputElement
+    nodesLink: HTMLLinkElement
+    changePassLink: HTMLLinkElement
+    sendCodeLink: HTMLLinkElement
+    userRemoveLink: HTMLLinkElement
     sendBtnContainer: HTMLElement
-    sendButton:SendButton
-    access:HTMLElement
-    TaskListContainer:HTMLElement
-    back:HTMLElement
-    tasks:HTMLElement
-    remove:HTMLElement
-    removeMsgContainer:HTMLElement
-    descInput:HTMLInputElement
+    sendButton: SendButton
 
     emap: any = [
-        [this.back, "click", this.footernav],
-        [this.tasks, "click", this.footernav],
-        [this.remove, "click", this.footernav]
+        [this.nodesLink, "click", this.footernav],
+        [this.changePassLink, "click", this.footernav],
+        [this.sendCodeLink, "click", this.footernav],
+        [this.userRemoveLink, "click", this.footernav]
     ]
 
 
@@ -66,10 +67,7 @@ export class NodeEdit extends GHTMLControl {
             errorMsg: this._("updateError"),
             classx: "button is-block is-info is-fullwidth is-medium"
         })
-        if(this.store("base").nname == ""){
-            this.store("base").getNNameFromUri(this.gDoc.path)
-        }
-        this.bindingStore.load(this.store("base").nname, this.load.bind(this))
+        this.bindingStore.load(this.store("session").user, this.load.bind(this))
     }
 
 
@@ -78,14 +76,17 @@ export class NodeEdit extends GHTMLControl {
     footernav(e:Event){
         let t = <HTMLElement>e.target
         switch (t) {
-            case this.back:
-                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname)
+            case this.nodesLink:
+                this.gDoc.navigate("/"+this.store("session").user)
                 break;
-            case this.tasks:
-                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname+"/edit/tasks")
+            case this.changePassLink:
+                this.gDoc.navigate("/user/changepassw")
                 break;
-            case this.remove:
-                this.removeMsgContainer.style.visibility = "visible"
+            case this.sendCodeLink:
+                this.bindingStore.sendcc(this.sentcc.bind(this))
+                break;
+            case this.userRemoveLink:
+                console.log("Remove")
         }
     }
 
@@ -101,8 +102,9 @@ export class NodeEdit extends GHTMLControl {
 
     load():void{
         this.up()
-        this.title.textContent = this.bindingStore.title
+        this.userName.textContent = this.bindingStore.uname
     }
+
 
 
 
@@ -117,7 +119,19 @@ export class NodeEdit extends GHTMLControl {
 
 
 
-    input(event:GHTMLInputEvent):void{
+
+    sentcc(status:boolean, msg?:string){
+        if(status){
+            console.log("sent")
+        }
+        else{
+            console.error("not sent")
+        }
+    }
+
+
+
+    /*input(event:GHTMLInputEvent):void{
         if(event.name == "desc" && event.value == "remove"){
             this.descInput.style.color = "red"
             this.sendButton.submit.style.backgroundColor = "red"
@@ -127,7 +141,7 @@ export class NodeEdit extends GHTMLControl {
             try{this.sendButton.submit.style.backgroundColor = ""}
             catch{    null    }
         }
-    }
+    }*/
         
 }
 
@@ -138,12 +152,13 @@ export class NodeEdit extends GHTMLControl {
 
 
 
-export class NodeEditData extends GDataObject {
+export class UserSettingsData extends GDataObject {
 	
 	
-    title: string = ""
-    desc: string = ""
-    access: string = "0"
+    uname: string = ""
+    firstname: string = ""
+    lastname: string = ""
+    about: string = ""
 
 
 
@@ -151,33 +166,28 @@ export class NodeEditData extends GDataObject {
     load(nname:string, cb:Function):void{
 
         let response:ResponseHandler = (stack:RpStack) => {
-            if(!stack.dataVar("result")){
-                this.title = stack.stack[0].data.nname
-                this.desc = stack.stack[0].data.desc
-                this.access = String(stack.stack[0].data.access)
-                cb()
+            if(stack.dataVar("result")){
+                console.error("[Settings] User profile could not loaded")
+            }
+            else{
+                this.uname = stack.dataVar("uname")
+                this.firstname = stack.dataVar("firstname")
+                this.lastname = stack.dataVar("lastname")
+                this.about = stack.dataVar("about")
+                cb()                
             }
         }
 
-        let error:ErrorHandler = (msg:string) => {
-            console.log(msg)    
-        }
-
-        let data = {"nname": nname}
-
         let conn = new Connection({
-            port:Port.getnode, 
-            name:name, 
-            responseHandler:response,
-            errorHandler:error})
-
-        conn.run({ObjectData: data})
+            port:Port.getuprf, 
+            responseHandler: response.bind(this)})
+        conn.run({ObjectData: {}})
 
     }
 
 
 
-
+    
     save(cb:Function):void{
 
         let response:ResponseHandler = (stack:RpStack) => {
@@ -188,15 +198,37 @@ export class NodeEditData extends GDataObject {
             cb(false, msg)    
         }
 
-        let data = {"title": this.title, "desc":this.desc, "access": Number(this.access)}
+        let data = {"firstname": this.firstname, "lastname":this.lastname, "about": this.about}
 
         let conn = new Connection({
-            port:Port.upnode, 
+            port:Port.upuprf, 
             name:name, 
             responseHandler:response,
             errorHandler:error})
 
         conn.run({ObjectData: data})
+    }
+
+
+
+
+    sendcc(cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            cb(stack.dataVar("result"))    
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            cb(false, msg)    
+        }
+
+        let conn = new Connection({
+            port:Port.sendcc, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: {}})
     }
 
 }

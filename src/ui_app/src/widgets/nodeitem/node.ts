@@ -18,15 +18,15 @@ const view = `
 any
     DIV class=tile is-child box style=margin: 1rem !important; gid=item
         DIV class=columns is-mobile is-1 
-            DIV class=column is-one-quarter gid=statusContainer
+            DIV class=column is-narrow gid=statusContainer
             DIV class=column
-                P gid=name class=title is-size-4 style=margin: 0rem; cursor:default;
+                P gid=name class=title is-size-4 is-capitalized style=margin: 0rem; cursor:default;
                 | Name
                 DIV class=columns is-mobile is-1
                     DIV class=column
                         P gid=desc style=margin: 0rem; cursor:default;
                         | Desc
-                    DIV class=column is-one-quarter
+                    DIV class=column is-narrow
                         i gid=editButton class=fas fa-edit role=button style=float:right; font-size:1.2em; cursor:pointer;
 `
 

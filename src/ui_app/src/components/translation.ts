@@ -12,11 +12,13 @@ export class Translation extends GDataObject {
 
 
     public t:Translator
+    public appName:string
 
 
 
     constructor(path:string, name:string){
         super()
+        this.appName = name
         this.t = new Translator(path, name)
     }
 

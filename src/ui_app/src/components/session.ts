@@ -63,6 +63,7 @@ export class SessionUpdater extends GDataObject {
 
         //Crack session variable and reload if inactive timeout realese
         if(inactiveElapsed > this.timeout){
+            console.warn("[Session] Timed out session of "+this.uname)
             cookie.set("validator", "")
             location.reload()
             return
@@ -126,5 +127,12 @@ export class SessionUpdater extends GDataObject {
         this.lastActive = date.getTime()
     }
 
+
+
+    logout():void{
+        console.info("[Session] "+this.uname+" logging out.")
+        cookie.set("validator", "")
+        location.assign("/user/login")
+    }
 
 }

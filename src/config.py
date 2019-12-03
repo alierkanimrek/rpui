@@ -48,6 +48,12 @@ SERVER["server_node"] = {
 SERVER["path"] = {
 	"type" : "str", 
 	"values": [],	
+	"default" : path+"/outgoing"
+	}
+
+SERVER["outgoing_path"] = {
+	"type" : "str", 
+	"values": [],	
 	"default" : path
 	}
 

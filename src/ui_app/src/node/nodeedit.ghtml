@@ -3,7 +3,7 @@ baseMainContent
     div class=hero-body
       div class=container has-text-centered
         div class=column is-4 is-offset-4
-          h3 class=title has-text-grey gid=title
+          h3 class=title has-text-gre is-capitalized y gid=title
           p class=subtitle has-text-grey gid=subTitle
           div class=box
             form
@@ -23,10 +23,10 @@ baseMainContent
                       input id=r1 type=radio name=access value=0 
                       label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
                     div class=column
-                      input id=r2 type=radio name=access value=1 
+                      input id=r2 type=radio name=access value=1 disabled=true
                       label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
                     div class=column 
-                      input id=r3 type=radio name=access value=2 
+                      input id=r3 type=radio name=access value=2 disabled=true
                       label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
 
               div class=field gid=sendBtnContainer

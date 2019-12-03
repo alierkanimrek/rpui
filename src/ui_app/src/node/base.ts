@@ -7,6 +7,7 @@ import {parseUri} from "../components/source"
 // Menu items
 import {LangMenuItem} from "../widgets/menu/lang"
 import {ViewportMenuItem} from "../widgets/menu/viewport"
+import {UserItem} from "../widgets/menu/user"
 
 
 
@@ -58,6 +59,7 @@ export class Base extends GHTMLControl {
         this.trns = this.gDoc.gData("trns").t.translations(name)
         //new LangSelector(this.baseMenuContent.id)
         //new Switch(this.baseMenuContent.id)
+        new UserItem()
         new LangMenuItem()
         new ViewportMenuItem()
 

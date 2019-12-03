@@ -8,14 +8,7 @@ from tornado import gen
 
 from .base import BaseHandler
 from .login import LoginHandler
-from .xhr import XHRUserCheckHandler
-from .xhr import XHRUserCreateHandler
-from .xhr import XHRUserLogin
-from .xhr import XHRSessionUpdate
-from .xhr import XHRUserForgotPassw
-from .xhr import XHRUserSendCode
-from .xhr import XHRUserChangePassw
-from .xhr import XHRGetCurrentUser
+from . import xhr
 
 
 
@@ -43,17 +36,21 @@ userRouting = [
     (r"/user/signup", LoaderHandler),
     (r"/user/forgotpassw", LoaderHandler),
     (r"/user/changepassw", LoaderHandler),
+    (r"/user/settings", LoaderHandler),
     (r"/user/help", LoaderHandler),
     (r"/user/agreement", LoaderHandler),
     (r"/user/privacyp", LoaderHandler),
     (r"/user/cookiep", LoaderHandler),
-    (r"/xhr/ucheck", XHRUserCheckHandler),
-    (r"/xhr/ucreate", XHRUserCreateHandler),
-    (r"/xhr/ulogin", XHRUserLogin),
-    (r"/xhr/supdate", XHRSessionUpdate),
-    (r"/xhr/uforgot", XHRUserForgotPassw),
-    (r"/xhr/usendcode", XHRUserSendCode),
-    (r"/xhr/uchpassw", XHRUserChangePassw),
-    (r"/xhr/xhrgetuser", XHRGetCurrentUser)
+    (r"/xhr/ucheck", xhr.XHRUserCheckHandler),
+    (r"/xhr/ucreate", xhr.XHRUserCreateHandler),
+    (r"/xhr/ulogin", xhr.XHRUserLogin),
+    (r"/xhr/supdate", xhr.XHRSessionUpdate),
+    (r"/xhr/uforgot", xhr.XHRUserForgotPassw),
+    (r"/xhr/usendcode", xhr.XHRUserSendCode),
+    (r"/xhr/uchpassw", xhr.XHRUserChangePassw),
+    (r"/xhr/xhrgetuser", xhr.XHRGetCurrentUser),
+    (r"/xhr/xhrgetuprf", xhr.XHRGetUserProfile),
+    (r"/xhr/xhrupuprf", xhr.XHRUpdateUserProfile),
+    (r"/xhr/sendcc", xhr.XHRSendClientCode)
     ]
   

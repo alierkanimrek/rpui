@@ -30,7 +30,10 @@ export enum Port{
     "chknodes" = "/xhr/chknodes",
     "gettasks" = "/xhr/gettasks",
     "createtask" = "/xhr/createtask",
-    "deltask" = "/xhr/deltask"
+    "deltask" = "/xhr/deltask",
+    "getuprf" = "/xhr/xhrgetuprf",
+    "upuprf" = "/xhr/xhrupuprf",
+    "sendcc" = "/xhr/sendcc"
 }
 
 export interface ResponseHandler {

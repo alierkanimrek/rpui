@@ -33,6 +33,7 @@ class RpMongoClient(object):
         self._users = None
         self._auth = None
         self._task = None
+        self._profiles = None
 
 
 
@@ -65,6 +66,9 @@ class RpMongoClient(object):
             self._tasks.create_index([("uri", 1)])
             self._tasks.create_index([("uname", 1)])
             self._tasks.create_index([("nname", 1)])
+
+            self._profiles = self._db.profiles
+            self._profiles.create_index([("uname", 1)])
 
 
 
@@ -164,10 +168,40 @@ class RpMongoClient(object):
 
 
 
+    async def createUProfile(self, profile):
+        result = await self._profiles.insert_one(profile)
+        if(result):
+            return(result.inserted_id)
+        else:
+            return(None)
+
+
+
+
     async def createNode(self, node):
         result = await self._nodes.insert_one(node)
         if(result):
             return(result.inserted_id)
+        else:
+            return(None)
+
+
+
+
+    async def getUserProfile(self, uname):
+        data = await self._profiles.find_one({"uname" : uname})
+        del data["_id"]
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def updateUProfile(self, doc):
+        result = await self._profiles.find_one_and_replace({
+            "uname":doc["uname"]}, doc)
+        if(result):
+            return(True)
         else:
             return(None)
 

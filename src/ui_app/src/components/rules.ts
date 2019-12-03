@@ -17,9 +17,10 @@ export const rules = {
 
 export const urls = {
 
-    "nodes" : "^[\\s\\/]"+rules.uname,
-    "nodeedit" : "^[\\s\\/]"+rules.uname+"[\\s\\/]"+rules.nname+"[\\s\\/]edit",
-    "tasks" : "^[\\s\\/]"+rules.uname+"[\\s\\/]"+rules.nname+"[\\s\\/]edit/tasks"
+    "userApp" : "^[\s\/]user[\s\/].+", 
+    "nodes" : "^[\s\/]"+rules.uname+"$",
+    "nodeedit" : "^[\s\/]"+rules.uname+"[\s\/]"+rules.nname+"[\s\/]edit",
+    "tasks" : "^[\s\/]"+rules.uname+"[\s\/]"+rules.nname+"[\s\/]edit/tasks"
 
 }
 

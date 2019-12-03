@@ -1,0 +1,38 @@
+baseMainContent
+  section class=hero is-fullheight
+    div class=hero-body
+      div class=container has-text-centered
+        div class=column is-4 is-offset-4
+          h3 class=title has-text-grey is-capitalized gid=userName name=uname
+          div class=loginbox
+            figure class=avatar style=visibility:hidden; height:0;
+              img src=https://placehold.it/128x128
+            form
+              div class=field
+                p class=control
+                  label gid=firstNameLabel class=is-left is-size-5
+                p class=control
+                  input gid=firstName name=firstname class=input is-medium type=text
+              div class=field
+                p class=control
+                  label gid=lasetNameLabel class=is-left is-size-5
+                p class=control
+                  input gid=lastName name=lastname class=input is-medium type=text
+              div class=field
+                p class=control
+                  label gid=descLabel class=is-left is-size-5
+                p class=control
+                  textarea gid=about class=textarea is-medium name=about row=3
+              
+              div class=field gid=sendBtnContainer
+
+          p class=has-text-grey style=margin-top:2em;
+            a gid=nodesLink
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=changePassLink
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=sendCodeLink
+          p class=has-text-grey
+            a gid=userRemoveLink

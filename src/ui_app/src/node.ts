@@ -20,6 +20,16 @@ const app = "node"
 const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
 
+let store = {
+    session: new SessionUpdater(),
+    langselector: new LangSelectorData(),
+    trns: translator,
+    base: new BaseData(),
+    nodes: new NodesData(),
+    newnode: new NewNodeData(),
+    nodeedit: new NodeEditData(),
+    tasks: new TasksData()
+}
 
 
 
@@ -36,8 +46,15 @@ function appReady():boolean {
 
 function exitIfHasNotSession() {
     if( !store.session.hasSession ){
-        location.href = "/user/login"
+        location.assign("/user/login")
     }
+}
+
+
+
+
+function userApp():void{
+    location.reload() 
 }
 
 
@@ -75,26 +92,11 @@ function edittasks():void{
 
 
 let route = [
+    { path: urls.userApp, app : userApp},
     { path: urls.nodes, app : nodess},
     { path: urls.nodeedit, app : edit},
     { path: urls.tasks, app : edittasks}
 ]
-
-
-
-
-let store = {
-    session: new SessionUpdater(),
-    langselector: new LangSelectorData(),
-    trns: translator,
-    base: new BaseData(),
-    nodes: new NodesData(),
-    newnode: new NewNodeData(),
-    nodeedit: new NodeEditData(),
-    tasks: new TasksData()
-}
-
-
 
 
 

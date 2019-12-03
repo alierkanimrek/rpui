@@ -55,6 +55,16 @@ class Task():
         self.data = {}
         self.last = 0
 
+
+
+
+class UserProfile():
+
+    def __init__(self, uname):
+        self.uname = uname
+        self.firstname = ""
+        self.lastname = ""
+        self.about = ""
         
 
 
@@ -146,6 +156,32 @@ class Store(object):
 
     async def removeSession(self, selector):
         return(await self._db.removeSession(selector))
+
+
+
+
+    async def createUProfile(self, uname):
+        prf = UserProfile(uname)
+        id = await self._db.createUProfile(vars(prf))
+        if(id):     return(str(id))
+        else:   return(False)
+
+
+
+
+    async def getUProfile(self, uname):
+        data = await self._db.getUserProfile(uname)
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def updateUProfile(self, doc): 
+        #doc = UserProfile(..)
+        data = await self._db.updateUProfile(vars(doc))
+        if(data):   return(data)
+        else:   return(False)
 
 
 
