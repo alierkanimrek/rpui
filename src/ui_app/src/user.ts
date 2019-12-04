@@ -9,6 +9,7 @@ import {Login, LoginData} from "./user/login"
 import {Signup, SignupData} from "./user/signup"
 import {Forgot, ForgotData} from "./user/forgot"
 import {ChangePassw, ChangePasswData} from "./user/changepassw"
+import {UserSettings, UserSettingsData} from "./user/settings"
 
 
 
@@ -19,6 +20,18 @@ import {ChangePassw, ChangePasswData} from "./user/changepassw"
 const app = "user"
 const i18npath = "/heap/i18n/"
 const translator = new Translation(i18npath, app)
+
+let store = {
+    base: new BaseData(),
+    session: new SessionUpdater(),
+    langselector: new LangSelectorData(),
+    trns: translator,
+    login: new LoginData(),
+    signup: new SignupData(),
+    forgot: new ForgotData(),
+    changepassw: new ChangePasswData(),
+    settings: new UserSettingsData()
+}
 
 
 
@@ -37,7 +50,16 @@ function appReady():boolean {
 
 function exitIfHasSession(path:string) {
     if( store.session.hasSession){
-        console.log(["/",path].join(""))
+        location.assign("/"+path)
+    }
+}
+
+
+
+
+function exitIfHasNotSession() {
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
     }
 }
 
@@ -73,11 +95,20 @@ function forgot():void{
 
 
 function changepassw():void{
-    exitIfHasSession(store.session.user)
+    exitIfHasNotSession()
     let base = new Base()
     let chp = new ChangePassw()
 }
 
+
+
+
+
+function settings():void{
+    exitIfHasNotSession()
+    let base = new Base()
+    let usettings = new UserSettings()
+}
 
 
 
@@ -88,23 +119,9 @@ let route = [
     {path:'/user/login', app: login},
     {path:'/user/signup', app: signup},
     {path:'/user/forgotpassw', app: forgot},
-    {path:'/user/changepassw', app: changepassw}
+    {path:'/user/changepassw', app: changepassw},
+    {path:'/user/settings', app: settings},
 ]
-
-let store = {
-    base: new BaseData(),
-    session: new SessionUpdater(),
-    langselector: new LangSelectorData(),
-    trns: translator,
-    login: new LoginData(),
-    signup: new SignupData(),
-    forgot: new ForgotData(),
-    changepassw: new ChangePasswData()
-}
-
-
-
-
 
 
 

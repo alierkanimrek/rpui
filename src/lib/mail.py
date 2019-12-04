@@ -19,13 +19,13 @@ import time
 
 
 async def sendMail(outpath, to, mail):
-    if True:#try:
+    try:
         t = str(time.time()).replace(".","")
         fn = "{path}/{to}_{t}.email".format(path=outpath, to=to, t=t)
         f = open(fn, "w")
         f.write(mail)
         f.close
-    else:#except:
+    except:
         return(False)
     return(True)
 

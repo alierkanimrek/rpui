@@ -41,11 +41,14 @@ export class UserSettings extends GHTMLControl {
     userRemoveLink: HTMLLinkElement
     sendBtnContainer: HTMLElement
     sendButton: SendButton
+    codeSendContainer: HTMLElement
+    codeSendBtn: SendButton
+    removeMsgContainer: HTMLElement
+    removeMsg: HTMLLabelElement
 
     emap: any = [
         [this.nodesLink, "click", this.footernav],
         [this.changePassLink, "click", this.footernav],
-        [this.sendCodeLink, "click", this.footernav],
         [this.userRemoveLink, "click", this.footernav]
     ]
 
@@ -68,6 +71,17 @@ export class UserSettings extends GHTMLControl {
             classx: "button is-block is-info is-fullwidth is-medium"
         })
         this.bindingStore.load(this.store("session").user, this.load.bind(this))
+
+        this.codeSendBtn = new SendButton({
+            rootId: this.codeSendContainer.id,
+            clickCall: this.sendCode.bind(this),
+            buttonLabel: this._("SendCodeBtn"),
+            sendingMsg: this._("codeSending"),
+            successMsg: this._("codeSuccess"),
+            errorMsg: this._("codeError"),
+            classx: "button is-block is-info is-fullwidth is-medium"
+        })
+
     }
 
 
@@ -82,11 +96,8 @@ export class UserSettings extends GHTMLControl {
             case this.changePassLink:
                 this.gDoc.navigate("/user/changepassw")
                 break;
-            case this.sendCodeLink:
-                this.bindingStore.sendcc(this.sentcc.bind(this))
-                break;
             case this.userRemoveLink:
-                console.log("Remove")
+                this.removeMsgContainer.style.visibility = "visible"
         }
     }
 
@@ -120,28 +131,35 @@ export class UserSettings extends GHTMLControl {
 
 
 
+    sendCode(e:Event){
+        this.bindingStore.sendcc(this.sentcc.bind(this))
+    }
+
+
+
+
     sentcc(status:boolean, msg?:string){
         if(status){
-            console.log("sent")
+            this.codeSendBtn.success()
         }
         else{
-            console.error("not sent")
+            this.codeSendBtn.error()
         }
     }
 
 
 
-    /*input(event:GHTMLInputEvent):void{
-        if(event.name == "desc" && event.value == "remove"){
-            this.descInput.style.color = "red"
+    input(event:GHTMLInputEvent):void{
+        if(event.name == "firstname" && event.value == "remove me"){
+            this.firstName.style.color = "red"
             this.sendButton.submit.style.backgroundColor = "red"
         }
         else{
-            this.descInput.style.color = ""
+            this.firstName.style.color = ""
             try{this.sendButton.submit.style.backgroundColor = ""}
             catch{    null    }
         }
-    }*/
+    }
         
 }
 

@@ -407,7 +407,11 @@ class XHRSendClientCode(BaseHandler):
             if(user):
                 ccmail = clientCodeMail("en-us", self.current_user, user["email"], user["ccode"])
                 result = await sendMail(self.conf.SERVER.outgoing_path, user["email"], ccmail )
-                resp = {"result" : True}
+                if(result): 
+                    resp = {"result" : True}
+                    self.__log.d("Mail message saved", self.current_user)
+                else:
+                    self.__log.e("Mail message not saved", self.current_user)
                 
         except Exception as inst:
             self.__log.e("Runtime error", type(inst), inst.args)

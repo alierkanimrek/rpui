@@ -25,14 +25,18 @@ baseMainContent
                   textarea gid=about class=textarea is-medium name=about row=3
               
               div class=field gid=sendBtnContainer
-
-          p class=has-text-grey style=margin-top:2em;
-            a gid=nodesLink
-            span
-            | &nbsp;&nbsp;&nbsp;
-            a gid=changePassLink
-            span
-            | &nbsp;&nbsp;&nbsp;
-            a gid=sendCodeLink
-          p class=has-text-grey
-            a gid=userRemoveLink
+          
+        div class=box
+          div class=columns is-mobile
+            div class=column
+              label gid=codeInfoLabel
+            div class=column gid=codeSendContainer
+        p class=has-text-grey style=margin-top:2em;
+          a gid=nodesLink
+          span
+          | &nbsp;&nbsp;&nbsp;
+          a gid=changePassLink
+        p class=has-text-grey
+          a gid=userRemoveLink class=has-text-danger is-size-7
+          div gid=removeMsgContainer style=visibility: hidden;
+            span gid=removeMsg class=has-text-danger
