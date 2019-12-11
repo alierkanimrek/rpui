@@ -47,12 +47,14 @@ export class ChangePassw extends GHTMLControl {
     passwStatus:HTMLElement
     passwMsg:HTMLElement
     help:HTMLElement
-    login:HTMLElement
+    settings:HTMLElement
+    nodes:HTMLElement
 
 
     emap: any = [
         [this.help, "click", this.footerNav],
-        [this.login, "click", this.footerNav],
+        [this.settings, "click", this.footerNav],
+        [this.nodes, "click", this.footerNav],
         [this.passwHideBtn, "click", this.passwHideSw],
         [this.submit, "click", this.send]
     ]
@@ -85,8 +87,11 @@ export class ChangePassw extends GHTMLControl {
 
     footerNav(e:MouseEvent){
         let t = <HTMLElement>e.target
-        if(t == this.login){
-            this.gDoc.navigate("/user/login")
+        if(t == this.settings){
+            this.gDoc.navigate("/user/settings")
+        }
+        if(t == this.nodes){
+            this.gDoc.navigate("/"+this.store("session").user)
         }
         if(t == this.help){
             this.gDoc.navigate("/user/help")

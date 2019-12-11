@@ -32,4 +32,7 @@ baseMainContent
             a gid=help
             span
             | &nbsp;&nbsp;&nbsp;
-            a gid=login
+            a gid=settings
+            span
+            | &nbsp;&nbsp;&nbsp;
+            a gid=nodes

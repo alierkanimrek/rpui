@@ -40,6 +40,8 @@ export class Signup extends GHTMLControl {
     emailInput:HTMLInputElement
     unameInput:HTMLInputElement
     passwInput:HTMLInputElement
+    form:HTMLFormElement
+    blockmsg:HTMLElement
 
     emap: any = [
         [this.elm.help, "click", this.footerNav],
@@ -71,6 +73,30 @@ export class Signup extends GHTMLControl {
 
         this.elm.submitStatus.style.visibility = "hidden"
 
+        this.checkSignup()
+    }
+
+
+
+
+    checkSignup():void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(!stack.dataVar("result")){
+                this.form.style.visibility = "hidden"
+                this.form.style.height = "0"
+                this.blockmsg.style.visibility = "visible"
+                this.blockmsg.style.height = ""
+            }
+        }
+
+
+        let conn = new Connection({
+            port:Port.chksup, 
+            name:name, 
+            responseHandler:response})
+
+        conn.run({ObjectData: {}})
     }
 
 

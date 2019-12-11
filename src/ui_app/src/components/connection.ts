@@ -33,7 +33,8 @@ export enum Port{
     "deltask" = "/xhr/deltask",
     "getuprf" = "/xhr/xhrgetuprf",
     "upuprf" = "/xhr/xhrupuprf",
-    "sendcc" = "/xhr/sendcc"
+    "sendcc" = "/xhr/sendcc",
+    "chksup" = "/xhr/signupcheck"
 }
 
 export interface ResponseHandler {

@@ -51,12 +51,6 @@ SERVER["path"] = {
 	"default" : path+"/outgoing"
 	}
 
-SERVER["outgoing_path"] = {
-	"type" : "str", 
-	"values": [],	
-	"default" : path
-	}
-
 SERVER["db_ip"] = {
 	"type" : "str", 
 	"values": [],
@@ -82,10 +76,10 @@ SERVER["db_port"] = {
 	"default" : 27017
 	}
 
-SERVER["signup"] = {
+SERVER["outgoing_path"] = {
 	"type" : "str", 
-	"values" : ["yes", "no"],
-	"default" : "yes"
+	"values": [],	
+	"default" : path
 	}
 
 SERVER["maintenance"] = {
@@ -106,11 +100,6 @@ SERVER["cookie_key"] = {
 	"default" : ""
 	}
 
-SERVER["special_names"] = {
-	"type" : "str", 
-	"values" : [],
-	"default" : "admin"
-	}
 
 
 
@@ -128,4 +117,29 @@ USERS["persistent_session_days"] = {
 	"values" : [],
 	"range" : [1,90],
 	"default" : 30
+	}
+
+USERS["banned_names"] = {
+	"type" : "str", 
+	"values" : [],
+	"default" : "admin,administrator,root,user,xhr,static"
+	}
+
+USERS["admin_users"] = {
+	"type" : "str", 
+	"values" : [],
+	"default" : ""
+	}
+
+USERS["signup"] = {
+	"type" : "str", 
+	"values" : ["yes", "no"],
+	"default" : "yes"
+	}
+
+USERS["node_limit"] = {
+	"type" : "int", 
+	"values" : [],
+	"range" : [0,5],
+	"default" : 3
 	}

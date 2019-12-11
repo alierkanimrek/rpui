@@ -51,6 +51,7 @@ userRouting = [
     (r"/xhr/xhrgetuser", xhr.XHRGetCurrentUser),
     (r"/xhr/xhrgetuprf", xhr.XHRGetUserProfile),
     (r"/xhr/xhrupuprf", xhr.XHRUpdateUserProfile),
-    (r"/xhr/sendcc", xhr.XHRSendClientCode)
+    (r"/xhr/sendcc", xhr.XHRSendClientCode),
+    (r"/xhr/signupcheck", xhr.XHRSignupCheckHandler)
     ]
   

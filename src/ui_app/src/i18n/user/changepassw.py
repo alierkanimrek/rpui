@@ -18,7 +18,8 @@ def text(_):
                 "passwInput" : {"placeholder":sup["static"]["passwInput"]["placeholder"]},
                 "submit" : {"textContent":_("Change")},
                 "help" : {"textContent":sup["static"]["help"]["textContent"]},
-                "login" : {"textContent":sup["static"]["login"]["textContent"]},
+                "settings" : {"textContent":"Settings"},
+                "nodes" : {"textContent":"Nodes"},
                 "submitMsg" : {"textContent":_("Changing your password...")}
             },
 

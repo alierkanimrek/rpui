@@ -20,7 +20,8 @@ def text(_):
                 "submit" : {"textContent":_("Get started")},
                 "help" : {"textContent":_("Help")},
                 "login" : {"textContent":_("Login")},
-                "submitMsg" : {"textContent":_("Preparing your account...")}
+                "submitMsg" : {"textContent":_("Preparing your account...")},
+                "blockmsg" : {"textContent":_("We do not accept new members temporarily.")}
             },
 
             "dynamic":{

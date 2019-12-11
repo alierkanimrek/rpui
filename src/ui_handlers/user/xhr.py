@@ -21,6 +21,33 @@ from .mail import clientCodeMail
 
 
 
+
+
+class XHRSignupCheckHandler(BaseHandler):
+    
+
+
+
+    
+    async def post(self):
+        #'data': {}
+        self.__log = self.log.job("XHRSignupCheck")
+        try:
+            if(self.conf.USERS.signup == "yes"):
+                resp = {"result" : True}
+            else:
+                resp = {"result" : False}
+            await self.stackAppendAndSend(resp, "xhrsignupcheck")
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+
+
+
+
+
+
+
+
 class XHRUserCheckHandler(BaseHandler):
     
 
@@ -35,7 +62,7 @@ class XHRUserCheckHandler(BaseHandler):
             if(data["type"] == "email"):
                 user = await self.db.getUser(email=data["data"])
             elif(data["type"] == "uname"):
-                if(not data["data"] in self.conf.SERVER.special_names.split(" ")):
+                if(not data["data"] in self.conf.USERS.banned_names.split(",")):
                     user = await self.db.getUser(uname=data["data"])
                 else:
                     user = True

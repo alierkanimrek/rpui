@@ -1,12 +1,14 @@
 baseMainContent
   section class=hero is-fullheight
-    div class=hero-body
+    div class=hero-body style=align-items:normal;
       div class=container has-text-centered
         div class=column is-4 is-offset-4
           h3 class=title has-text-grey gid=title
           p class=subtitle has-text-grey gid=subTitle
           div class=box
-            form
+            p gid=blockmsg style=visibility:hidden; height:0; class=has-text-danger is-size-4
+            
+            form gid=form
 
               div class=field
                 p class=control has-icons-left has-icons-right 
