@@ -1,0 +1,22 @@
+any
+    DIV class=tile is-child box style=margin: 1rem !important; gid=item
+        DIV class=columns is-mobile is-1 
+            DIV class=column is-one-quarter gid=statusContainer
+                DIV style=display:flex; height:100%;
+                    i class=fas fa-plus-circle style=margin:auto; display:block; font-size:3rem; color:red;
+
+            DIV class=column
+
+                DIV class=columns style=padding:0.5rem;
+
+                    div class=field
+                        p class=control has-icons-left has-icons-right 
+                            label gid=vnameLabel class=is-left
+                        p class=control has-icons-right
+                            input gid=vname class=input is-medium type=text name=vname required=true
+                            span class=icon is-small is-right
+                                i class=fas fa-ban gid=vnameStatus
+                        p class=control has-icons-left
+                            label gid=vnameMsg class=is-left has-text-danger is-size-6 has-text-weight-light
+                
+                DIV gid=wgtSendButton class=columns style=padding:0.5rem;

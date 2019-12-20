@@ -5,6 +5,9 @@ import {RpStack} from "../components/msg"
 
 import {NodeItem} from "../widgets/nodeitem/node"
 import {NewNodeItem} from "./newnode"
+import {ViewItem} from "../widgets/viewitem/view"
+import {NewViewItem} from "./newview"
+
 
 
 
@@ -13,6 +16,7 @@ const nodesView = `
 baseMainContent
     DIV class=tile is-ancestor
         DIV class=tile is-parent gid=NodeListContainer
+        DIV class=tile is-parent gid=ViewListContainer
 `
 
 
@@ -33,8 +37,10 @@ export class Nodes extends GHTMLControl {
     _: Function
 
     NodeListContainer:HTMLElement
+    ViewListContainer:HTMLElement
 
     items: Array<NodeItem> = []
+    vitems: Array<ViewItem> = []
 
     /*emap: any = [
         [this.signupLink, "click", this.footer],
@@ -52,13 +58,13 @@ export class Nodes extends GHTMLControl {
         //this._ = this.trns.get_()
         //this.trns.updateStatics()
         //this.linkEvents(this.emap)
-        this.bindingStore.load(this.loaded.bind(this))
+        this.bindingStore.load(this.loadedN.bind(this), this.loadedV.bind(this))
     }
 
 
 
 
-    loaded(nodelist:Array<any>){
+    loadedN(nodelist:Array<any>){
         //this.NodeListContainer.childNodes.forEach((c:HTMLElement)=>{
         //    this.NodeListContainer.removeChild(c)
         //})
@@ -71,6 +77,14 @@ export class Nodes extends GHTMLControl {
         }
     }
 
+
+
+    loadedV(viewlist:Array<any>){
+        viewlist.forEach((view:any) =>{
+            this.vitems.push(new ViewItem(this.ViewListContainer.id, view.vname, view.desc))
+        })
+        new NewViewItem(this.ViewListContainer.id)
+    }
 
 
 
@@ -101,17 +115,18 @@ export class NodesData extends GDataObject {
 	
 
     nodenames: Array<string> = []
+    viewnames: Array<string> = []
     chkAliveConn: Connection
 
 
 
-    load(cb:Function):void{
+    load(cbN:Function, cbV:Function):void{
 
 
 
-        let response:ResponseHandler = (stack:RpStack) => {
+        let responseN:ResponseHandler = (stack:RpStack) => {
             if(stack.dataVar("result")){
-                console.error("[AppNodes] Server error")
+                console.error("[Dashboard] Server error")
             }
             else{
                 this.nodenames = []
@@ -119,25 +134,45 @@ export class NodesData extends GDataObject {
                 nodelist.forEach((node:any) =>{
                     this.nodenames.push(node.nname)
                 })
-
-                cb(nodelist)
+                cbN(nodelist)
             }
-
         }
 
+        let responseV:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){
+                console.error("[Dashboard] Server error")
+            }
+            else{
+                this.viewnames = []
+                let viewlist:Array<any> = stack.dataVar("viewlist")
+                viewlist.forEach((view:any) =>{
+                    this.viewnames.push(view.vname)
+                })
+                cbV(viewlist)
+            }
+        }
+
+
         let error:ErrorHandler = (msg:string) => {
-            console.error("[AppNodes] "+msg)    
+            console.error("[Dashboard] "+msg)    
         }
 
         let data = {}
 
-        let conn = new Connection({
+        let conn1 = new Connection({
             port:Port.getnodes, 
             name:name, 
-            responseHandler:response,
+            responseHandler:responseN,
             errorHandler:error})
 
-        conn.run({ObjectData: data})
+        let conn2 = new Connection({
+            port:Port.getviews, 
+            name:name, 
+            responseHandler:responseV,
+            errorHandler:error})
+
+        conn1.run({ObjectData: data})
+        conn2.run({ObjectData: data})
 
     }
 

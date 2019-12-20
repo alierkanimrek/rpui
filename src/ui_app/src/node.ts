@@ -11,7 +11,7 @@ import {NewNodeData} from "./node/newnode"
 import {NodeEdit, NodeEditData} from "./node/nodeedit"
 import {Tasks, TasksData} from "./node/tasks"
 
-
+import {NewViewData} from "./node/newview"
 
 
 
@@ -28,7 +28,8 @@ let store = {
     nodes: new NodesData(),
     newnode: new NewNodeData(),
     nodeedit: new NodeEditData(),
-    tasks: new TasksData()
+    tasks: new TasksData(),
+    newview: new NewViewData(),
 }
 
 

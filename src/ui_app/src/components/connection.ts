@@ -34,7 +34,9 @@ export enum Port{
     "getuprf" = "/xhr/xhrgetuprf",
     "upuprf" = "/xhr/xhrupuprf",
     "sendcc" = "/xhr/sendcc",
-    "chksup" = "/xhr/signupcheck"
+    "chksup" = "/xhr/signupcheck",
+    "getviews" = "/xhr/getviews",
+    "newview" = "/xhr/createview"
 }
 
 export interface ResponseHandler {

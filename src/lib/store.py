@@ -65,6 +65,16 @@ class UserProfile():
         self.firstname = ""
         self.lastname = ""
         self.about = ""
+
+
+
+
+class View():
+
+    def __init__(self, vname, uname):
+        self.vname = vname
+        self.uname = uname
+        self.desc = ""
         
 
 
@@ -258,3 +268,19 @@ class Store(object):
             return(True)
         else:
             return(None)
+
+
+
+
+    async def createView(self, vname, uname):
+        view = View(vname, uname)
+        id = await self._db.createView(vars(view))
+        if(id):     return(str(id))
+        else:   return(False)
+
+
+
+
+    async def getViews(self, uname):
+        data = await self._db.getUserViews(uname)
+        return(data)

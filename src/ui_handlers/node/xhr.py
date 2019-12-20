@@ -301,3 +301,61 @@ class XHRRemoveTask(BaseHandler):
 
 
 
+
+
+
+
+class XHRViewCreate(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"vname":...}
+        self.__log = self.log.job("XHRViewCreate")
+        resp = {"result" : False}
+        
+        try:
+            vname = self.cstack.stack[0]["data"]["vname"]
+            uname = self.current_user
+
+            # Create node
+            result = await self.db.createView(vname, uname)
+            if(result):
+                self.__log.i("New view created", vname)
+                resp = {"result" : True}
+            else:
+                self.__log.w("View not created", vname)
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrcreateview")
+
+
+
+
+
+
+
+
+class XHRViews(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        
+        self.__log = self.log.job("XHRViews")
+        resp = {"result" : False}
+        
+        try:
+            viewlist = await self.db.getViews(uname=self.current_user)
+            lst = []
+            for view in viewlist:
+                lst.append({"vname": view["vname"], "desc": view["desc"]})
+            resp = {"viewlist": lst}
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrviews")
+ 

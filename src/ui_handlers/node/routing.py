@@ -9,7 +9,7 @@ from tornado import gen
 
 
 from .base import BaseHandler
-from .xhr import XHRNodeCreate, XHRNodeLoad, XHRNodeUpdate, XHRNodeTasks, XHRCreateTask, XHRRemoveTask, XHRNodes, XHRChkNodes
+from . import xhr
 from .rules import NODES_URL, NODEEDIT_URL, TASKSEDIT_URL
 
 
@@ -35,13 +35,15 @@ nodeRouting = [
     (NODES_URL, LoaderHandler),
     (NODEEDIT_URL, LoaderHandler),
     (TASKSEDIT_URL, LoaderHandler),
-    (r"/xhr/createnode", XHRNodeCreate),
-    (r"/xhr/getnodes", XHRNodes),
-    (r"/xhr/getnode", XHRNodeLoad),
-    (r"/xhr/upnode", XHRNodeUpdate),
-    (r"/xhr/chknodes", XHRChkNodes),
-    (r"/xhr/gettasks", XHRNodeTasks),
-    (r"/xhr/createtask", XHRCreateTask),
-    (r"/xhr/deltask", XHRRemoveTask)
+    (r"/xhr/createnode", xhr.XHRNodeCreate),
+    (r"/xhr/getnodes", xhr.XHRNodes),
+    (r"/xhr/getnode", xhr.XHRNodeLoad),
+    (r"/xhr/upnode", xhr.XHRNodeUpdate),
+    (r"/xhr/chknodes", xhr.XHRChkNodes),
+    (r"/xhr/gettasks", xhr.XHRNodeTasks),
+    (r"/xhr/createtask", xhr.XHRCreateTask),
+    (r"/xhr/deltask", xhr.XHRRemoveTask),
+    (r"/xhr/getviews", xhr.XHRViews),
+    (r"/xhr/createview", xhr.XHRViewCreate)
     ]
   

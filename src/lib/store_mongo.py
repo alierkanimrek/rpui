@@ -34,6 +34,7 @@ class RpMongoClient(object):
         self._auth = None
         self._task = None
         self._profiles = None
+        self._views = None
 
 
 
@@ -69,6 +70,9 @@ class RpMongoClient(object):
 
             self._profiles = self._db.profiles
             self._profiles.create_index([("uname", 1)])
+
+            self._views = self._db.views
+            self._views.create_index([("uname", 1)])
 
 
 
@@ -287,3 +291,26 @@ class RpMongoClient(object):
             return(True)
         else:
             return(None)
+
+
+
+
+    async def createView(self, view):
+        result = await self._views.insert_one(view)
+        if(result):
+            return(result.inserted_id)
+        else:
+            return(None)
+
+
+
+
+    async def getUserViews(self, uname):
+        cursor = self._views.find({"uname": uname})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            for t in r:
+                del t["_id"]
+                result.append(t)
+        return(result)
