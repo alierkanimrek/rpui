@@ -90,7 +90,7 @@ export class NewViewItem extends GHTMLControl {
 
         let nav = ()=>{
             this.store("base").vname = this.bindingStore.vname
-            this.gDoc.navigate(this.uri+"/"+this.bindingStore.vname+"/edit")
+            this.gDoc.navigate(this.uri+"/view/"+this.bindingStore.vname)
         }
 
 

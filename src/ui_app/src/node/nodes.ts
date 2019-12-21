@@ -5,7 +5,7 @@ import {RpStack} from "../components/msg"
 
 import {NodeItem} from "../widgets/nodeitem/node"
 import {NewNodeItem} from "./newnode"
-import {ViewItem} from "../widgets/viewitem/view"
+import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
 
 
@@ -15,8 +15,9 @@ const name = "nodes"
 const nodesView = `
 baseMainContent
     DIV class=tile is-ancestor
-        DIV class=tile is-parent gid=NodeListContainer
         DIV class=tile is-parent gid=ViewListContainer
+        DIV class=tile is-parent gid=NodeListContainer
+        
 `
 
 
@@ -40,11 +41,6 @@ export class Nodes extends GHTMLControl {
     ViewListContainer:HTMLElement
 
     items: Array<NodeItem> = []
-    vitems: Array<ViewItem> = []
-
-    /*emap: any = [
-        [this.signupLink, "click", this.footer],
-    ]*/
 
 
 
@@ -52,12 +48,8 @@ export class Nodes extends GHTMLControl {
     constructor() {
         super({view:nodesView, bindTo:name})
         this.store("base").nname = ""
-        
-        //this.items.push(new NodeItem(this.NodeListContainer.id))
-        //this.trns = this.store("trns").t.translations(name)
-        //this._ = this.trns.get_()
-        //this.trns.updateStatics()
-        //this.linkEvents(this.emap)
+        this.trns = this.store("trns").t.translations(name)
+        this._ = this.trns.get_()        
         this.bindingStore.load(this.loadedN.bind(this), this.loadedV.bind(this))
     }
 
@@ -79,12 +71,34 @@ export class Nodes extends GHTMLControl {
 
 
 
+
     loadedV(viewlist:Array<any>){
+        let names: Array<string> = []
         viewlist.forEach((view:any) =>{
-            this.vitems.push(new ViewItem(this.ViewListContainer.id, view.vname, view.desc))
+            names.push(view.vname)
         })
+        new SimpleMenu(
+            this.ViewListContainer.id, 
+            this._("cMenu"), 
+            names, 
+            this.nav.bind(this), 
+            this.addControl.bind(this))
+    }
+
+
+
+
+    nav(name:string):void{
+        this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
+    }
+
+
+
+
+    addControl():void{
         new NewViewItem(this.ViewListContainer.id)
     }
+
 
 
 
