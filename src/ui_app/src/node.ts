@@ -12,7 +12,7 @@ import {NodeEdit, NodeEditData} from "./node/nodeedit"
 import {Tasks, TasksData} from "./node/tasks"
 
 import {NewViewData} from "./node/newview"
-
+import {View, ViewData} from "./node/view"
 
 
 
@@ -30,6 +30,7 @@ let store = {
     nodeedit: new NodeEditData(),
     tasks: new TasksData(),
     newview: new NewViewData(),
+    view: new ViewData(),
 }
 
 
@@ -88,6 +89,14 @@ function edittasks():void{
 
 
 
+function view():void{
+    exitIfHasNotSession()
+    let base = new Base()
+    let view = new View()
+}
+
+
+
 
 
 
@@ -96,7 +105,8 @@ let route = [
     { path: urls.userApp, app : userApp},
     { path: urls.nodes, app : nodess},
     { path: urls.nodeedit, app : edit},
-    { path: urls.tasks, app : edittasks}
+    { path: urls.tasks, app : edittasks},
+    { path: urls.view, app : view}
 ]
 
 

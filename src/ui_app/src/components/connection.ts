@@ -36,7 +36,8 @@ export enum Port{
     "sendcc" = "/xhr/sendcc",
     "chksup" = "/xhr/signupcheck",
     "getviews" = "/xhr/getviews",
-    "newview" = "/xhr/createview"
+    "newview" = "/xhr/createview",
+    "getview" = "/xhr/getview",
 }
 
 export interface ResponseHandler {

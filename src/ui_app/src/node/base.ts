@@ -53,6 +53,8 @@ export class Base extends GHTMLControl {
 
     constructor() {
         super({view:baseView, bindTo: name})
+        
+        this.parseUri()
 
         this.baseMenuContent.style.display = "none"
 
@@ -91,6 +93,12 @@ export class Base extends GHTMLControl {
         //window.location.hash = "/test"
     }
     */
+
+    parseUri():void{
+        let source = parseUri(this.gDoc.path)
+        this.bindingStore.nname = source.nname
+        this.bindingStore.name = source.name
+    }
 }
 
 
@@ -104,6 +112,7 @@ export class BaseData extends GDataObject {
 	
 
     nname:string = ""
+    name:string = ""
 
 
     public getNNameFromUri(uri:string):string{
