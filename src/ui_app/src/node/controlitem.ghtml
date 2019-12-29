@@ -1,0 +1,34 @@
+any
+  DIV class=tile is-child box style=display:none; padding: 0.75rem !important; gid=editContainer
+    DIV class=columns is-mobile is-1 style=background-color:lightgrey; border-top-left-radius:6px; border-top-right-radius:6px; margin-bottom:0;
+      DIV class=column is-narrow
+        i gid=upButton class=fas fa-arrow-up role=button style=float:left; font-size:1.2em; cursor:pointer;
+      DIV class=column style=text-align:center;
+        label 
+        | Edit your control
+      DIV class=column is-narrow
+        i gid=closeButton class=fas fa-window-close role=button style=float:right; font-size:1.2em; cursor:pointer;
+    DIV gid=editorContainer
+    DIV class=columns is-mobile is-1 style=background-color:lightgrey; border-bottom-left-radius:6px; border-bottom-right-radius:6px; margin-top:0;
+      DIV class=column is-narrow
+        i gid=removeButton class=fas fa-trash role=button style=float:left; font-size:1.2em; cursor:pointer;
+      DIV class=column style=text-align:center;
+        i gid=okButton class=fas fa-check role=button style=float:middle; font-size:1.2em; cursor:pointer;
+      DIV class=column is-narrow
+        i gid=downButton class=fas fa-arrow-down role=button style=float:right; font-size:1.2em; cursor:pointer;    
+ 
+  DIV class=tile is-child box style=padding: 0.75rem !important; gid=controlContainer
+    DIV class=columns is-mobile is-1 style=margin-bottom:0;
+      DIV class=column is-narrow
+      DIV class=column style=text-align:center;
+        label gid=title 
+        | Title
+      DIV class=column is-narrow
+        i gid=editButton class=fas fa-cog role=button style=float:right; font-size:1.2em; cursor:pointer; 
+    DIV gid=widgetContainer
+    DIV gid=sendBar class=columns is-mobile is-1 style=display:none; background-color:lightgrey; border-bottom-left-radius:6px; border-bottom-right-radius:6px; margin-top:0;
+      DIV class=column is-narrow
+        i gid=cancelButton class=fas fa-times role=button style=float:left; font-size:1.2em; cursor:pointer;
+      DIV class=column style=text-align:center;
+        i gid=sendButton class=fas fa-check role=button style=float:middle; font-size:1.2em; cursor:pointer;
+      DIV class=column is-narrow

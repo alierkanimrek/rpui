@@ -13,6 +13,9 @@ import {Tasks, TasksData} from "./node/tasks"
 
 import {NewViewData} from "./node/newview"
 import {View, ViewData} from "./node/view"
+import {ControlItemData} from "./node/controlitem"
+import {CVItemEditData} from "./node/cvitemedit"
+
 
 
 
@@ -31,6 +34,8 @@ let store = {
     tasks: new TasksData(),
     newview: new NewViewData(),
     view: new ViewData(),
+    controlitem: new ControlItemData(),
+    cvitemedit: new CVItemEditData(),
 }
 
 

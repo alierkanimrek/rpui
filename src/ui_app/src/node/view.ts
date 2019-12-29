@@ -5,6 +5,7 @@ import {RpStack} from "../components/msg"
 
 import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
+import {ControlItem} from "./controlitem"
 
 
 
@@ -14,7 +15,7 @@ const view = `
 baseMainContent
     DIV class=tile is-ancestor
         DIV class=tile is-parent gid=ViewListContainer
-        DIV class=tile is-parent gid=ViewContainer
+        DIV class=tile is-parent gid=ControlViewContainer
 `
 
 
@@ -35,8 +36,8 @@ export class View extends GHTMLControl {
     _: Function
 
     ViewListContainer:HTMLElement
-    ViewContainer:HTMLElement
-
+    ControlViewContainer:HTMLElement
+    controlItem:GHTMLControl
 
 
 
@@ -47,6 +48,7 @@ export class View extends GHTMLControl {
         this.trns = this.store("trns").t.translations(name)
         this._ = this.trns.get_()        
         this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
+        this.controlItem = new ControlItem(this.ControlViewContainer.id)
     }
 
 
@@ -146,23 +148,17 @@ export class ViewData extends GDataObject {
         }
 
 
-        let error:ErrorHandler = (msg:string) => {
-            console.error("[View] "+msg)    
-        }
-
         let data = {"name":vname}
 
         let conn1 = new Connection({
             port:Port.getview, 
             name:name, 
-            responseHandler:responseV,
-            errorHandler:error})
+            responseHandler:responseV})
 
         let conn2 = new Connection({
             port:Port.getviews, 
             name:name, 
-            responseHandler:responseVL,
-            errorHandler:error})
+            responseHandler:responseVL})
 
         conn1.run({ObjectData: data})
         conn2.run({ObjectData: {}})
