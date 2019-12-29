@@ -1,0 +1,22 @@
+any
+  DIV class=field
+    P class=control
+      LABEL gid=titleLabel class=is-left 
+    P class=control
+      INPUT gid=title class=input type=text name=title
+ 
+  DIV class=columns is-mobile is-1 
+    DIV class=column
+      DIV class=field
+        LABEL class=checkbox
+          INPUT gid=editable name=editable type=checkbox
+          SPAN gid=editableLabel
+          | Editable
+        
+    DIV class=column
+      DIV class=field
+        LABEL class=checkbox
+          INPUT gid=autosend name=autosend type=checkbox
+          SPAN gid=autosendLabel
+          | Autosend
+

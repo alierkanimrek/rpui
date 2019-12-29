@@ -1,16 +1,13 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
-
+import {VariableMap, ControlWidgetData} from "../components/view"
+import view from "./cvitemedit.ghtml"
 
 
 
 const name = "cvitemedit"
-const view = `
-any
-    P
-    | Content
-`
+
 
 
 
@@ -56,7 +53,9 @@ export class CVItemEdit extends GHTMLControl {
 
 export class CVItemEditData extends GDataObject {
 	
-	
-
+    title: string
+    widget: string
+    editable: boolean
+    autosend: boolean
 
 }

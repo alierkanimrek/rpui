@@ -34,6 +34,7 @@ export class ControlItem extends GHTMLControl {
 
     editor:GHTMLControl
     widget:GHTMLControl
+    item:HTMLElement
 
     constructor(rootId:string) {
         super({view:view, root:rootId, bindTo:name})
@@ -43,9 +44,10 @@ export class ControlItem extends GHTMLControl {
         this.linkEvents([
           [this.e.editButton, "click", this.toggle],
           [this.e.closeButton, "click", this.toggle],
+          [this.e.addButton, "click", this.addBefore],
         ])
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
-        //this.editor = new CVItemEdit(this.e.editorContainer.id)
+        this.editor = new CVItemEdit(this.e.editorContainer.id)
     }
 
 
@@ -65,7 +67,9 @@ export class ControlItem extends GHTMLControl {
 
 
 
-
+    private addBefore(e:Event):void{
+        this.dispatchEvent("add", this.e.item)
+    }
     
 }
 

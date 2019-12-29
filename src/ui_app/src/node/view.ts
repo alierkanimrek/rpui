@@ -16,6 +16,9 @@ baseMainContent
     DIV class=tile is-ancestor
         DIV class=tile is-parent gid=ViewListContainer
         DIV class=tile is-parent gid=ControlViewContainer
+        DIV class=tile is-parent
+            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
+                i gid=addButton class=fas fa-plus role=button style=float:center; font-size:1.2em; cursor:pointer;
 `
 
 
@@ -48,7 +51,10 @@ export class View extends GHTMLControl {
         this.trns = this.store("trns").t.translations(name)
         this._ = this.trns.get_()        
         this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
-        this.controlItem = new ControlItem(this.ControlViewContainer.id)
+        this.linkEvents([
+          [this.e.addButton, "click", this.addCVItem]
+        ])
+        
     }
 
 
@@ -98,6 +104,16 @@ export class View extends GHTMLControl {
         new NewViewItem(this.ViewListContainer.id)
     }
 
+
+
+
+    addCVItem(e:Event|HTMLElement):void{
+        let cvi = new ControlItem(this.ControlViewContainer.id)
+        cvi.addEventListener("add", this.addCVItem.bind(this))
+        if("tagName" in e){
+            this.ControlViewContainer.insertBefore(cvi.item, e)
+        }
+    }
 }
 
 
