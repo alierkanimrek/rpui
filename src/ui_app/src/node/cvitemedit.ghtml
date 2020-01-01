@@ -1,7 +1,7 @@
 any
   DIV class=field
     P class=control
-      LABEL gid=titleLabel class=is-left 
+      LABEL gid=titleLabel class=is-left has-text-weight-bold
     P class=control
       INPUT gid=title class=input type=text name=title
  
@@ -9,14 +9,25 @@ any
     DIV class=column
       DIV class=field
         LABEL class=checkbox
-          INPUT gid=editable name=editable type=checkbox
-          SPAN gid=editableLabel
-          | Editable
+          INPUT gid=editable name=editable type=checkbox name=editable
+          SPAN gid=editableLabel 
         
     DIV class=column
       DIV class=field
         LABEL class=checkbox
-          INPUT gid=autosend name=autosend type=checkbox
-          SPAN gid=autosendLabel
-          | Autosend
+          INPUT gid=autosend name=autosend type=checkbox name=autosend
+          SPAN gid=autosendLabel 
 
+  DIV class=field
+    P class=control
+      LABEL gid=widgetLabel class=is-left has-text-weight-bold
+    P class=control
+      SELECT gid=widget class=input is-capitalized name=widget
+
+  LABEL gid=varsTitle class=has-text-weight-bold
+  | Variables and Tasks
+  DIV gid=varsContainer class=box
+
+  LABEL gid=staticTitle class=has-text-weight-bold
+  | Static variables
+  DIV gid=svarsContainer class=box

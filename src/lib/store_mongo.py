@@ -251,8 +251,9 @@ class RpMongoClient(object):
 
 
 
-    async def getTasks(self, uname, nname):
-        cursor = self._tasks.find({"uname": uname, "nname": nname})
+    async def getTasks(self, uname, nname=False):
+        if(nname):  cursor = self._tasks.find({"uname": uname, "nname": nname})
+        else:   cursor = self._tasks.find({"uname": uname})
         r = await cursor.to_list(None)
         result = []
         if(type(r) is list):

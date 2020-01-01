@@ -29,7 +29,6 @@ export class ControlItem extends GHTMLControl {
 
 
 	bindingStore:ControlItemData
-    trns: GetText
     _: Function
 
     editor:GHTMLControl
@@ -39,8 +38,9 @@ export class ControlItem extends GHTMLControl {
     constructor(rootId:string) {
         super({view:view, root:rootId, bindTo:name})
         //this.store("base").nname = ""
-        this.trns = this.store("trns").t.translations(name)
-        this._ = this.trns.get_()
+        let trns = this.store("trns").t.translations(name)
+        this._ = trns.get_()
+        trns.updateStatics(this)
         this.linkEvents([
           [this.e.editButton, "click", this.toggle],
           [this.e.closeButton, "click", this.toggle],

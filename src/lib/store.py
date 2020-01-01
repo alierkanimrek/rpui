@@ -241,7 +241,7 @@ class Store(object):
 
 
 
-    async def getTasks(self, uname, nname):
+    async def getTasks(self, uname, nname=False):
         data = await self._db.getTasks(uname, nname)
         if(data):   return(data)
         else:   return(False)

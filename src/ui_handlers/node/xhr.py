@@ -358,4 +358,32 @@ class XHRViews(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhrviews")
+
+
+
+
+
+
+
+
+class XHRNodeVars(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        
+        self.__log = self.log.job("XHRNodeVars")
+        resp = {"result" : False}
+        
+        try:
+            tasklist = await self.db.getTasks(uname=self.current_user)
+            lst = []
+            for task in tasklist:
+                lst.append(task["nname"]+"/"+task["tname"])
+            resp = {"nodevars": lst}
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrnodevars")
  

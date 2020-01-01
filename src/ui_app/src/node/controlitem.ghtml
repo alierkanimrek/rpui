@@ -5,11 +5,10 @@ any
         DIV class=column is-narrow
           i gid=upButton class=fas fa-arrow-up role=button style=float:left; font-size:1.2em; cursor:pointer;
         DIV class=column style=text-align:center;
-          label 
-          | Edit your control
+          LABEL gid=editTitle 
         DIV class=column is-narrow
           i gid=closeButton class=fas fa-window-close role=button style=float:right; font-size:1.2em; cursor:pointer;
-      DIV gid=editorContainer
+      DIV gid=editorContainer style=padding:0.5rem;
       DIV class=columns is-mobile is-1 style=background-color:lightgrey; border-bottom-left-radius:6px; border-bottom-right-radius:6px; margin-top:0;
         DIV class=column is-narrow
           i gid=removeButton class=fas fa-trash role=button style=float:left; font-size:1.2em; cursor:pointer;
@@ -24,7 +23,6 @@ any
           i gid=addButton class=fas fa-plus role=button style=float:right; font-size:1.2em; cursor:pointer;
         DIV class=column style=text-align:center;
           label gid=title 
-          | Title
         DIV class=column is-narrow
           i gid=editButton class=fas fa-cog role=button style=float:right; font-size:1.2em; cursor:pointer; 
       DIV gid=widgetContainer

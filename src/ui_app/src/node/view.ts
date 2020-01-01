@@ -2,7 +2,7 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../g
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
-
+import {SendButton} from "../widgets/elements/sendbutton"
 import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
 import {ControlItem} from "./controlitem"
@@ -16,9 +16,12 @@ baseMainContent
     DIV class=tile is-ancestor
         DIV class=tile is-parent gid=ViewListContainer
         DIV class=tile is-parent gid=ControlViewContainer
-        DIV class=tile is-parent
+        DIV class=tile is-parent gid=FooterContainer
             DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
                 i gid=addButton class=fas fa-plus role=button style=float:center; font-size:1.2em; cursor:pointer;
+            DIV gid=saveContainer
+            P class=has-text-grey
+                A gid=nodesLink
 `
 
 
@@ -35,12 +38,13 @@ export class View extends GHTMLControl {
 
 
 	bindingStore:ViewData
-    trns: GetText
     _: Function
 
     ViewListContainer:HTMLElement
     ControlViewContainer:HTMLElement
+    saveContainer:HTMLElement
     controlItem:GHTMLControl
+    saveButton:SendButton
 
 
 
@@ -48,13 +52,23 @@ export class View extends GHTMLControl {
     constructor() {
         super({view:view, bindTo:name})
         //this.store("base").nname = ""
-        this.trns = this.store("trns").t.translations(name)
-        this._ = this.trns.get_()        
+        let trns = this.store("trns").t.translations(name)
+        this._ = trns.get_()
+        trns.updateStatics(this)
         this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.linkEvents([
-          [this.e.addButton, "click", this.addCVItem]
+          [this.e.addButton, "click", this.addCVItem],
+          [this.e.nodesLink, "click", this.nav]
         ])
-        
+        this.saveButton = new SendButton({
+            rootId: this.saveContainer.id,
+            clickCall: this.save.bind(this),
+            buttonLabel: this._("saveBtnLabel"),
+            sendingMsg: this._("saving"),
+            successMsg: this._("saveSuccess"),
+            errorMsg: this._("saveError"),
+            classx: "button is-block is-info is-medium"
+        })        
     }
 
 
@@ -94,7 +108,7 @@ export class View extends GHTMLControl {
 
 
     nav(name:string):void{
-        this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
+        this.gDoc.navigate("/"+this.gDoc.gData("session").user)
     }
 
 
@@ -114,6 +128,16 @@ export class View extends GHTMLControl {
             this.ControlViewContainer.insertBefore(cvi.item, e)
         }
     }
+
+
+
+
+    save(e:Event):void{
+        this.ControlViewContainer.childNodes.forEach((dom:ChildNode|any)=>{
+            console.log(dom.control.editor.data)
+        })
+        this.saveButton.success()
+    }
 }
 
 
@@ -128,6 +152,7 @@ export class ViewData extends GDataObject {
 	
 
     viewnames: Array<string> = []
+    nodevars: Array<string> = []
 
 
 
@@ -163,6 +188,15 @@ export class ViewData extends GDataObject {
             }
         }
 
+        let responseNV:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){
+                console.error("[View] Server error")
+            }
+            else{
+                this.nodevars = stack.dataVar("nodevars")
+            }
+        }
+
 
         let data = {"name":vname}
 
@@ -176,9 +210,15 @@ export class ViewData extends GDataObject {
             name:name, 
             responseHandler:responseVL})
 
+        let conn3 = new Connection({
+            port:Port.getnodevars, 
+            name:name, 
+            responseHandler:responseNV})
+
+
         conn1.run({ObjectData: data})
         conn2.run({ObjectData: {}})
-
+        conn3.run({ObjectData: {}})
     }
 
 

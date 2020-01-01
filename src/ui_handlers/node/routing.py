@@ -45,6 +45,7 @@ nodeRouting = [
     (r"/xhr/createtask", xhr.XHRCreateTask),
     (r"/xhr/deltask", xhr.XHRRemoveTask),
     (r"/xhr/getviews", xhr.XHRViews),
-    (r"/xhr/createview", xhr.XHRViewCreate)
+    (r"/xhr/createview", xhr.XHRViewCreate),
+    (r"/xhr/getnodevars", xhr.XHRNodeVars)
     ]
   
