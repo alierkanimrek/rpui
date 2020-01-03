@@ -40,8 +40,8 @@ export class TxtInput extends GHTMLControl {
 
 
 
-    constructor(p:InputParameters) {
-        super({view:view, root:p.rootId, bindToExternal:new TxtInputData()}) 
+    constructor(p:InputParameters) { 
+        super({view:view, root:p.rootId, bindToLocal:new TxtInputData()}) 
         this.e.label.textContent = p.label
         this._name = p.name
         this.callBack = p.inputCall

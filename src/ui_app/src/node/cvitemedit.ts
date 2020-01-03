@@ -28,7 +28,7 @@ export class CVItemEdit extends GHTMLControl {
     viewData:ViewData
     _: Function
     vars: Array<GHTMLControl> = []
-
+    svars: Array<GHTMLControl> = []
     
 
 
@@ -67,7 +67,7 @@ export class CVItemEdit extends GHTMLControl {
                       }))
                 })
                 staticVars.forEach((vname:string)=>{
-                    this.vars.push( new TxtInput({
+                    this.svars.push( new TxtInput({
                       rootId: this.e.svarsContainer.id,
                       name: vname,
                       label: vname,
@@ -83,7 +83,13 @@ export class CVItemEdit extends GHTMLControl {
 
 
     get data():ControlWidgetData{
-        let data = this.bindingStore.data
+        let data = this.bindingStore.data 
+        this.vars.forEach((selector:Selector)=>{
+            data.map[selector.name] = selector.value
+        })
+        this.svars.forEach((selector:Selector)=>{
+            data.static[selector.name] = selector.value
+        })
         return(data)
     }
 
@@ -100,7 +106,7 @@ export class CVItemEditData extends GDataObject {
 	
     title: string = ""
     widget: string = "default"
-    widget_list: Array<String> = metaData.names
+    widget_options: Array<String> = metaData.names
     editable: boolean = false   
     autosend: boolean = false
 

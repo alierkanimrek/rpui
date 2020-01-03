@@ -43,17 +43,18 @@ export class Selector extends GHTMLControl {
 
 
     constructor(p:SelectorParameters) {
-        super({view:view, root:p.rootId, bindToExternal:new SelectorData()})
+        super({view:view, root:p.rootId, bindToLocal:new SelectorData()})
         this.e.label.textContent = p.label
         this._name = p.name
         this.callBack = p.inputCall
-        this.bindingStore.value_list = p.options
+        this.bindingStore.value_options = p.options
 
         /*p.options.forEach((val:string)=>{
             this.e.selector.add("option", {"value": val}).textContent = val
         })*/
         if(p.value){    this.selector.value = p.value    }
         this.up()
+    
     }
 
 
@@ -87,5 +88,5 @@ export class Selector extends GHTMLControl {
 class SelectorData extends GDataObject {
     
     value: string = ""
-    value_list: Array<string> = []
+    value_options: Array<string> = []
 }

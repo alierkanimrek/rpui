@@ -49,8 +49,9 @@ export class View extends GHTMLControl {
 
 
 
-    constructor() {
-        super({view:view, bindTo:name})
+
+    constructor() { 
+        super({view:view, bindTo:name}) 
         //this.store("base").nname = ""
         let trns = this.store("trns").t.translations(name)
         this._ = trns.get_()
