@@ -75,7 +75,22 @@ class View():
         self.vname = vname
         self.uname = uname
         self.desc = ""
-        
+        self.items = []
+
+
+
+
+class ViewItem():
+
+    def __init__(self, title, order, widget, editable, autosend, map, static):
+        self.title = title
+        self.order = order
+        self.widget = widget
+        self.editable = editable
+        self.autosend = autosend
+        self.map = map
+        self.static = static
+
 
 
 
@@ -284,3 +299,11 @@ class Store(object):
     async def getViews(self, uname):
         data = await self._db.getUserViews(uname)
         return(data)
+
+
+
+
+    async def updateView(self, view):
+        result = await self._db.updateView(vars(view))
+        if(result): return(True)
+        else:   return(None)

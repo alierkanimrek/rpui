@@ -11,7 +11,7 @@ import tornado
 
 from .base import BaseHandler
 from lib.session import getSessionData
-from lib.store import Node
+from lib.store import Node, View, ViewItem
 
 
 
@@ -387,3 +387,43 @@ class XHRNodeVars(BaseHandler):
         
         await self.stackAppendAndSend(resp, "xhrnodevars")
  
+
+
+
+
+
+
+
+class XHRViewUpdate(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"vname":...}
+        self.__log = self.log.job("XHRViewUpdate")
+        resp = {"result" : False}
+        
+        try:
+            view = View(self.cstack.stack[0]["data"]["vname"], self.current_user)
+            for item in self.cstack.stack[0]["data"]["items"]:
+                vi = ViewItem(
+                    item["title"],
+                    item["order"], 
+                    item["widget"], 
+                    item["editable"], 
+                    item["autosend"], 
+                    item["map"], 
+                    item["static"])
+                view.items.append(vars(vi))
+
+            # Update view
+            result = await self.db.updateView( view)
+            if(result):
+                resp = {"result" : True}
+            else:
+                self.__log.w("View not updated", view["uname"], view["vname"])
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrupdateview")

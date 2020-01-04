@@ -6,7 +6,7 @@ import {RpStack} from "../components/msg"
 import view from "./controlitem.ghtml"
 
 import {CVItemEdit} from "./cvitemedit"
-
+import {ControlWidgetData} from "../components/view"
 
 
 
@@ -31,7 +31,7 @@ export class ControlItem extends GHTMLControl {
 	bindingStore:ControlItemData
     _: Function
 
-    editor:GHTMLControl
+    editor:CVItemEdit
     widget:GHTMLControl
     item:HTMLElement
 
@@ -71,6 +71,12 @@ export class ControlItem extends GHTMLControl {
         this.dispatchEvent("add", this.e.item)
     }
     
+
+
+
+    get data():ControlWidgetData{
+        return(this.editor.data)
+    }
 }
 
 

@@ -33,7 +33,7 @@ export class SessionUpdater extends GDataObject {
         document.addEventListener("mousemove", this.awake.bind(this))
         document.addEventListener("keypress", this.awake.bind(this))
 
-        this.up()
+        this.upSession()
 
         setInterval(this.up.bind(this), this.interval)
     }
@@ -41,7 +41,7 @@ export class SessionUpdater extends GDataObject {
 
 
 
-    private up(){
+    private upSession(){
         
         // Check session cookie
         if(!cookie.get("selector")){    

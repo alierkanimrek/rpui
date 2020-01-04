@@ -1,4 +1,4 @@
-import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
+import {GHTMLControl, GDataObject, GHTMLElement, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
@@ -6,6 +6,7 @@ import {SendButton} from "../widgets/elements/sendbutton"
 import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
 import {ControlItem} from "./controlitem"
+import {ControlWidgetData} from "../components/view"
 
 
 
@@ -43,7 +44,7 @@ export class View extends GHTMLControl {
     ViewListContainer:HTMLElement
     ControlViewContainer:HTMLElement
     saveContainer:HTMLElement
-    controlItem:GHTMLControl
+    controlItem:ControlItem
     saveButton:SendButton
 
 
@@ -109,7 +110,7 @@ export class View extends GHTMLControl {
 
 
     nav(name:string):void{
-        this.gDoc.navigate("/"+this.gDoc.gData("session").user)
+        this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
     }
 
 
@@ -123,10 +124,10 @@ export class View extends GHTMLControl {
 
 
     addCVItem(e:Event|HTMLElement):void{
-        let cvi = new ControlItem(this.ControlViewContainer.id)
-        cvi.addEventListener("add", this.addCVItem.bind(this))
+        this.controlItem = new ControlItem(this.ControlViewContainer.id)
+        this.controlItem.addEventListener("add", this.addCVItem.bind(this))
         if("tagName" in e){
-            this.ControlViewContainer.insertBefore(cvi.item, e)
+            this.ControlViewContainer.insertBefore(this.controlItem.item, e)
         }
     }
 
@@ -134,10 +135,24 @@ export class View extends GHTMLControl {
 
 
     save(e:Event):void{
-        this.ControlViewContainer.childNodes.forEach((dom:ChildNode|any)=>{
-            console.log(dom.control.editor.data)
-        })
-        this.saveButton.success()
+
+        let items:Array<any> = <any>this.ControlViewContainer.childNodes
+        let wdata:ControlWidgetData
+        let data:Array<ControlWidgetData> = []
+
+        for (let i = 0; i < items.length; i++) {
+            wdata =  items[i].control.data
+            wdata.order = i
+            data.push(wdata)
+        }
+        this.bindingStore.save(this.store("base").name, data, this.saved.bind(this))
+    }
+
+
+
+    saved(result:boolean):void{
+        if(result){    this.saveButton.success()    }
+        else{    this.saveButton.error()    }
     }
 }
 
@@ -222,5 +237,28 @@ export class ViewData extends GDataObject {
         conn3.run({ObjectData: {}})
     }
 
+
+
+
+    save(name:string, data:Array<ControlWidgetData>, cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){    cb(stack.dataVar("result"))    }
+            else{    
+                console.error("[View] Server error")
+                cb(false)
+            }
+        }
+
+
+        let parms = { vname:name, items:data}
+
+        let conn = new Connection({
+            port:Port.saveview, 
+            name:name,
+            responseHandler:response})
+        
+        conn.run({ObjectData: parms})
+    }
 
 }

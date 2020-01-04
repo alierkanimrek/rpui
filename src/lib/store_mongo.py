@@ -315,3 +315,14 @@ class RpMongoClient(object):
                 del t["_id"]
                 result.append(t)
         return(result)
+
+
+
+
+    async def updateView(self, view):
+        result = await self._views.find_one_and_replace({
+            "uname":view["uname"], "vname":view["vname"]}, view)
+        if(result):
+            return(True)
+        else:
+            return(None)

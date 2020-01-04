@@ -35,7 +35,7 @@ export class CVItemEdit extends GHTMLControl {
 
 
     constructor(rootId:string) {
-        super({view:view, root:rootId, bindTo:name})
+        super({view:view, root:rootId, bindToLocal:new CVItemEditData()})
         //this.store("base").nname = ""
         let trns = this.store("trns").t.translations(name)
         trns.updateStatics(this)
@@ -94,6 +94,7 @@ export class CVItemEdit extends GHTMLControl {
     }
 
 }
+
 
 
 
