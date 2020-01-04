@@ -35,7 +35,7 @@ export class ControlItem extends GHTMLControl {
     widget:GHTMLControl
     item:HTMLElement
 
-    constructor(rootId:string) {
+    constructor(rootId:string, widgetData?:ControlWidgetData) {
         super({view:view, root:rootId, bindTo:name})
         //this.store("base").nname = ""
         let trns = this.store("trns").t.translations(name)
@@ -47,7 +47,7 @@ export class ControlItem extends GHTMLControl {
           [this.e.addButton, "click", this.addBefore],
         ])
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
-        this.editor = new CVItemEdit(this.e.editorContainer.id)
+        this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
     }
 
 

@@ -47,6 +47,7 @@ nodeRouting = [
     (r"/xhr/getviews", xhr.XHRViews),
     (r"/xhr/createview", xhr.XHRViewCreate),
     (r"/xhr/getnodevars", xhr.XHRNodeVars),
-    (r"/xhr/saveview", xhr.XHRViewUpdate)
+    (r"/xhr/saveview", xhr.XHRViewUpdate),
+    (r"/xhr/getview", xhr.XHRView),
     ]
   

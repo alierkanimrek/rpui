@@ -307,3 +307,10 @@ class Store(object):
         result = await self._db.updateView(vars(view))
         if(result): return(True)
         else:   return(None)
+
+
+
+
+    async def getView(self, uname, vname):
+        data = await self._db.getUserView(uname, vname)
+        return(data)

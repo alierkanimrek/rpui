@@ -23,4 +23,11 @@ export interface ControlWidgetData{
 }
 
 
+export interface ControlView{
+    vname: string,
+    uname: string,
+    decs: string,
+    items: Array<ControlWidgetData>
+}
+
 

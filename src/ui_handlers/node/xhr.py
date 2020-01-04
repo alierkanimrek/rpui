@@ -427,3 +427,28 @@ class XHRViewUpdate(BaseHandler):
             self.__log.e("Runtime error", type(inst), inst.args)
         
         await self.stackAppendAndSend(resp, "xhrupdateview")
+
+
+
+
+class XHRView(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        
+        self.__log = self.log.job("XHRView")
+        resp = {"result" : False}
+        
+        try:
+
+            view = await self.db.getView(
+                uname=self.current_user, 
+                vname=self.cstack.stack[0]["data"]["vname"])
+            if(view):
+                resp = {"view": view, "result": True}                
+
+        except Exception as inst:
+            self.__log.e("Runtime error", type(inst), inst.args)
+        
+        await self.stackAppendAndSend(resp, "xhrview")

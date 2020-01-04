@@ -45,7 +45,8 @@ export class TxtInput extends GHTMLControl {
         this.e.label.textContent = p.label
         this._name = p.name
         this.callBack = p.inputCall
-        if(p.value){    this.e.inputt.textContent = p.value    }
+        if(p.value){    this.bindingStore.value = p.value    }
+        this.up()
     }  
 
 

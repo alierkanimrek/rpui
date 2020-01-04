@@ -326,3 +326,12 @@ class RpMongoClient(object):
             return(True)
         else:
             return(None)
+
+
+
+
+    async def getUserView(self, uname, vname):
+        data = await self._views.find_one({"uname" : uname, "vname" : vname})
+        del data["_id"]
+        if(data):   return(data)
+        else:   return(False)

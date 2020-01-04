@@ -48,13 +48,8 @@ export class Selector extends GHTMLControl {
         this._name = p.name
         this.callBack = p.inputCall
         this.bindingStore.value_options = p.options
-
-        /*p.options.forEach((val:string)=>{
-            this.e.selector.add("option", {"value": val}).textContent = val
-        })*/
-        if(p.value){    this.selector.value = p.value    }
+        if(p.value){    this.bindingStore.value = p.value    }
         this.up()
-    
     }
 
 

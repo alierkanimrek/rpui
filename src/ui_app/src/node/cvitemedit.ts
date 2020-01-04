@@ -34,14 +34,15 @@ export class CVItemEdit extends GHTMLControl {
 
 
 
-    constructor(rootId:string) {
+    constructor(rootId:string, widgetData?:ControlWidgetData) {
         super({view:view, root:rootId, bindToLocal:new CVItemEditData()})
         //this.store("base").nname = ""
         let trns = this.store("trns").t.translations(name)
         trns.updateStatics(this)
-        this._ = trns.get_()           
+        this._ = trns.get_()
         this.viewData = this.store("view")
-        this.up()  
+        this.up()
+        if(widgetData){ this.bindingStore.setData(widgetData)    }
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
     }
 
@@ -62,6 +63,7 @@ export class CVItemEdit extends GHTMLControl {
                       rootId: this.e.varsContainer.id,
                       name: vname,
                       label: vname,
+                      value: this.bindingStore.getMap(vname),
                       inputCall: this.input,
                       options: this.viewData.nodevars
                       }))
@@ -71,10 +73,10 @@ export class CVItemEdit extends GHTMLControl {
                       rootId: this.e.svarsContainer.id,
                       name: vname,
                       label: vname,
+                      value: this.bindingStore.getStatic(vname),
                       inputCall: this.input
                       }))
                 })
-            
         }
         
     }
@@ -103,13 +105,15 @@ export class CVItemEdit extends GHTMLControl {
 
 
 
-export class CVItemEditData extends GDataObject {
+class CVItemEditData extends GDataObject {
 	
     title: string = ""
     widget: string = "default"
     widget_options: Array<String> = metaData.names
     editable: boolean = false   
     autosend: boolean = false
+    map: VariableMap
+    static: VariableMap
 
 
 
@@ -128,5 +132,35 @@ export class CVItemEditData extends GDataObject {
         return(data)
     }
 
+
+
+
+    setData(wdata:ControlWidgetData):void{
+        this.title = wdata.title
+        this.editable = wdata.editable
+        this.autosend = wdata.autosend
+        this.map = wdata.map
+        this.static = wdata.static
+        this.up()
+        this.widget = wdata.widget
+        this.up({name:"widget", triggerInput:true})
+    }
+
+
+
+
+    getMap(vname:string):string{
+        if(Object.getOwnPropertyNames(this.map).indexOf(vname) > -1){
+            return(this.map[vname])
+        }
+    }
+
+
+
+    getStatic(vname:string):string{
+        if(Object.getOwnPropertyNames(this.static).indexOf(vname) > -1){
+            return(this.static[vname])
+        }
+    }
 
 }

@@ -6,7 +6,7 @@ import {SendButton} from "../widgets/elements/sendbutton"
 import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
 import {ControlItem} from "./controlitem"
-import {ControlWidgetData} from "../components/view"
+import {ControlWidgetData, ControlView} from "../components/view"
 
 
 
@@ -44,7 +44,6 @@ export class View extends GHTMLControl {
     ViewListContainer:HTMLElement
     ControlViewContainer:HTMLElement
     saveContainer:HTMLElement
-    controlItem:ControlItem
     saveButton:SendButton
 
 
@@ -76,18 +75,15 @@ export class View extends GHTMLControl {
 
 
 
-    loadedV(viewData:Array<any>){
-        //this.NodeListContainer.childNodes.forEach((c:HTMLElement)=>{
-        //    this.NodeListContainer.removeChild(c)
-        //})
-        /*nodelist.forEach((node:any) =>{
-            this.items.push(new NodeItem(this.NodeListContainer.id, node.nname, node.desc))
-        })
-        new NewNodeItem(this.NodeListContainer.id)
-        if(this.items.length > 0){
-            this.bindingStore.checkAliveNodes(this.statusLoaded.bind(this))
-        }*/
-        console.log(viewData)
+    loadedV(view:ControlView){
+        
+        for (let i = 0; i < view.items.length; i++) {
+            view.items.forEach((item:ControlWidgetData)=>{
+                if(item.order == i){    
+                    new ControlItem(this.ControlViewContainer.id, item)
+                }
+            })
+        }
     }
 
 
@@ -124,10 +120,10 @@ export class View extends GHTMLControl {
 
 
     addCVItem(e:Event|HTMLElement):void{
-        this.controlItem = new ControlItem(this.ControlViewContainer.id)
-        this.controlItem.addEventListener("add", this.addCVItem.bind(this))
+        let controlItem = new ControlItem(this.ControlViewContainer.id)
+        controlItem.addEventListener("add", this.addCVItem.bind(this))
         if("tagName" in e){
-            this.ControlViewContainer.insertBefore(this.controlItem.item, e)
+            this.ControlViewContainer.insertBefore(controlItem.item, e)
         }
     }
 
@@ -168,28 +164,14 @@ export class ViewData extends GDataObject {
 	
 
     viewnames: Array<string> = []
-    nodevars: Array<string> = []
+    nodevars: Array<string> = []    //cvitemedit use it
+    view: ControlView
 
 
 
     load(vname:string, cbV:Function, cbVL:Function):void{
 
-
-
-        let responseV:ResponseHandler = (stack:RpStack) => {
-            if(stack.dataVar("result")){
-                console.error("[View] Server error")
-            }
-            else{
-                /*this.nodenames = []
-                let nodelist:Array<any> = stack.dataVar("nodelist")
-                nodelist.forEach((node:any) =>{
-                    this.nodenames.push(node.nname)
-                })*/
-                cbV(stack)
-            }
-        }
-
+        // Load ViewList
         let responseVL:ResponseHandler = (stack:RpStack) => {
             if(stack.dataVar("result")){
                 console.error("[View] Server error")
@@ -201,40 +183,43 @@ export class ViewData extends GDataObject {
                     this.viewnames.push(view.vname)
                 })
                 cbVL(viewlist)
-            }
+
+
+                // Load Nodevars
+                let responseNV:ResponseHandler = (stack:RpStack) => {
+                    if(stack.dataVar("result")){
+                        console.error("[View] Server error")
+                    }
+                    else{
+                        this.nodevars = stack.dataVar("nodevars")
+
+
+                        // Load View
+                        let responseV:ResponseHandler = (stack:RpStack) => {
+                            if(stack.dataVar("result")){
+                                this.view = stack.dataVar("view")
+                                cbV(this.view)
+                            }
+                            else{
+                                console.error("[View] Server error")
+                            }
+                        }
+                        new Connection({
+                            port:Port.getview, 
+                            name:name, 
+                            responseHandler:responseV}).run({ObjectData: {"vname":vname}})
+                    }
+                }
+                new Connection({
+                    port:Port.getnodevars, 
+                    name:name, 
+                    responseHandler:responseNV}).run({ObjectData: {}})
+                    }
         }
-
-        let responseNV:ResponseHandler = (stack:RpStack) => {
-            if(stack.dataVar("result")){
-                console.error("[View] Server error")
-            }
-            else{
-                this.nodevars = stack.dataVar("nodevars")
-            }
-        }
-
-
-        let data = {"name":vname}
-
-        let conn1 = new Connection({
-            port:Port.getview, 
-            name:name, 
-            responseHandler:responseV})
-
-        let conn2 = new Connection({
+        new Connection({
             port:Port.getviews, 
             name:name, 
-            responseHandler:responseVL})
-
-        let conn3 = new Connection({
-            port:Port.getnodevars, 
-            name:name, 
-            responseHandler:responseNV})
-
-
-        conn1.run({ObjectData: data})
-        conn2.run({ObjectData: {}})
-        conn3.run({ObjectData: {}})
+            responseHandler:responseVL}).run({ObjectData: {}})
     }
 
 
@@ -249,7 +234,6 @@ export class ViewData extends GDataObject {
                 cb(false)
             }
         }
-
 
         let parms = { vname:name, items:data}
 
