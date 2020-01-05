@@ -5,16 +5,32 @@ import {ControlWidgetData} from "../../../components/view"
 
 
 
+interface TestCWVars{
+    width: number,
+    height: number,
+    depth: number,
+    color: string
+}
+
+
+interface TestCWStaticVars{
+    sv1: string,
+    sv2: number
+}
+
 
 export let meta = getControlWidgetData({
-    name:"default", 
-    vars:[],
-    creator:create})
+    name:"test", 
+    vars:["width","height","depth", "color"],
+    staticVars:["sv1", "sv2"],
+    creator:create
+})
+
 
 const view = `
 any
     P
-    | Default Widget
+    | Test Widget
 `
 
 
@@ -23,7 +39,7 @@ any
 
 
 
-export class DefaultCW extends GHTMLControl {
+export class TestCW extends GHTMLControl {
 
 
 
@@ -42,6 +58,7 @@ export class DefaultCW extends GHTMLControl {
 
 
 
+
 function create(parm:Creator):GHTMLControl{
-    return(new DefaultCW(parm.rootId, parm.wdata))
+    return(new TestCW(parm.rootId, parm.wdata))
 }

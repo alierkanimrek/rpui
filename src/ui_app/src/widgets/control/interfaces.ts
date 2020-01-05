@@ -1,3 +1,4 @@
+import {ControlWidgetData} from "../../components/view"
 
 
 
@@ -8,6 +9,17 @@ export interface ControlWidgetMeta{
     static: Array<string>,
     creator: Function
 }
+
+
+
+
+export interface Creator{
+    rootId: string,
+    wdata: ControlWidgetData
+}
+
+
+
 
 export function getControlWidgetData(parm:{
     name:string,
@@ -21,3 +33,5 @@ export function getControlWidgetData(parm:{
     if(parm.staticVars){    res.static = parm.staticVars    }
     return(res)
 }
+
+

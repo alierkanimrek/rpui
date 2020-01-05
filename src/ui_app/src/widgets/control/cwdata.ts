@@ -1,7 +1,9 @@
-import {ControlWidgetMeta} from "./interfaces"
+import {GHTMLControl} from "../../glider/glider"
+import {ControlWidgetMeta, Creator} from "./interfaces"
+import {ControlWidgetData} from "../../components/view"
 
-import {defalut_meta} from "./widgets/default"
-import {test_meta} from "./widgets/test"
+import {meta as defaultMeta} from "./widgets/default"
+import {meta as testMeta} from "./widgets/test"
 
 
 
@@ -17,8 +19,8 @@ interface CWNames {
 
 
 const lst = [
-    defalut_meta,
-    test_meta]
+    defaultMeta,
+    testMeta]
 
 
 
@@ -34,6 +36,8 @@ class CWMetaData {
 
     private _metadata: MetaData = {}
     private _names: Array<string> = []
+    public default: string = "default"
+
 
 
 
@@ -71,3 +75,15 @@ class CWMetaData {
 
 
 export let metaData = new CWMetaData()
+
+
+
+
+export function createCW(parm:Creator):GHTMLControl{
+    if(metaData.names.indexOf(parm.wdata.widget) > -1){
+        return(metaData.getData(parm.wdata.widget).creator({rootId:parm.rootId, wdata:parm.wdata}))
+    }
+    else{
+        return(metaData.getData(metaData.default).creator({rootId:parm.rootId, wdata:parm.wdata}))
+    }
+}

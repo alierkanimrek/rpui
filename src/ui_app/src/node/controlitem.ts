@@ -7,6 +7,7 @@ import view from "./controlitem.ghtml"
 
 import {CVItemEdit} from "./cvitemedit"
 import {ControlWidgetData} from "../components/view"
+import {createCW} from "../widgets/control/cwdata"
 
 
 
@@ -52,6 +53,7 @@ export class ControlItem extends GHTMLControl {
         ])
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
+        this.widget = createCW({rootId: this.e.controlContainer.id, wdata:widgetData})
     }
 
 
@@ -93,6 +95,8 @@ export class ControlItem extends GHTMLControl {
 
     save(e:Event){
         this.editor.save()
+        this.widget.clear()
+        this.widget = createCW({rootId: this.e.controlContainer.id, wdata:this.editor.data})
         this.toggle()
     }
 
