@@ -42,7 +42,15 @@ export class CVItemEdit extends GHTMLControl {
         this._ = trns.get_()
         this.viewData = this.store("view")
         this.up()
-        if(widgetData){ this.bindingStore.setData(widgetData)    }
+        if(widgetData){ 
+            this.bindingStore.data = widgetData
+            this.upWidgetVars(widgetData.widget)
+        }
+        else{
+            this.upWidgetVars("default")           
+        }
+        this.up()
+        this.bindingStore.saveData()
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
     }
 
@@ -52,31 +60,8 @@ export class CVItemEdit extends GHTMLControl {
     input(event:GHTMLInputEvent):void{
         switch (event.name) {
             case "widget":
-                this.vars.forEach((selector:GHTMLControl)=>{
-                    selector.clear()
-                })
-                this.vars = []
-                let metaVars = metaData.getData(event.value).vars
-                let staticVars = metaData.getData(event.value).static
-                metaVars.forEach((vname:string)=>{
-                    this.vars.push( new Selector({
-                      rootId: this.e.varsContainer.id,
-                      name: vname,
-                      label: vname,
-                      value: this.bindingStore.getMap(vname),
-                      inputCall: this.input,
-                      options: this.viewData.nodevars
-                      }))
-                })
-                staticVars.forEach((vname:string)=>{
-                    this.svars.push( new TxtInput({
-                      rootId: this.e.svarsContainer.id,
-                      name: vname,
-                      label: vname,
-                      value: this.bindingStore.getStatic(vname),
-                      inputCall: this.input
-                      }))
-                })
+                this.bindingStore.adjustWidgetVars(event.value)
+                this.upWidgetVars(event.value)
         }
         
     }
@@ -84,17 +69,73 @@ export class CVItemEdit extends GHTMLControl {
 
 
 
-    get data():ControlWidgetData{
-        let data = this.bindingStore.data 
-        this.vars.forEach((selector:Selector)=>{
-            data.map[selector.name] = selector.value
+    private upWidgetVars(wname:string):void{
+        this.vars.forEach((selector:GHTMLControl)=>{
+            selector.clear()
         })
-        this.svars.forEach((selector:Selector)=>{
-            data.static[selector.name] = selector.value
+        this.svars.forEach((ti:GHTMLControl)=>{
+            ti.clear()
         })
-        return(data)
+        this.vars = []
+        this.svars = []
+        let metaVars = metaData.getData(wname).vars
+        let staticVars = metaData.getData(wname).static
+        metaVars.forEach((vname:string)=>{
+            this.vars.push( new Selector({
+              rootId: this.e.varsContainer.id,
+              name: vname,
+              label: vname,
+              value: this.bindingStore.getMap(vname),
+              inputCall: this.input,
+              options: this.viewData.nodevars
+              }))
+        })
+        staticVars.forEach((vname:string)=>{
+            this.svars.push( new TxtInput({
+              rootId: this.e.svarsContainer.id,
+              name: vname,
+              label: vname,
+              value: this.bindingStore.getStatic(vname),
+              inputCall: this.input
+              }))
+        })
     }
 
+
+
+
+    get data():ControlWidgetData{
+        return(this.bindingStore.data)
+    }
+
+
+
+
+    map():VariableMap{
+        let map:VariableMap = {} 
+        this.vars.forEach((selector:Selector)=>{
+            map[selector.name] = selector.value
+        })
+        return(map)
+    }
+
+
+
+
+    static():VariableMap{
+        let st:VariableMap = {} 
+        this.svars.forEach((ti:TxtInput)=>{
+            st[ti.name] = ti.value
+        })
+        return(st)
+    }
+
+
+
+
+    save(){
+        this.bindingStore.saveData()
+    }
 }
 
 
@@ -107,45 +148,50 @@ export class CVItemEdit extends GHTMLControl {
 
 class CVItemEditData extends GDataObject {
 	
+    control:CVItemEdit
     title: string = ""
     widget: string = "default"
     widget_options: Array<String> = metaData.names
     editable: boolean = false   
     autosend: boolean = false
-    map: VariableMap
-    static: VariableMap
+    map: VariableMap = {}
+    static: VariableMap = {}
+    private _data: ControlWidgetData 
 
 
 
 
     get data():ControlWidgetData{
+        return(this._data)
+    }
 
+
+
+
+    set data(wdata:ControlWidgetData){
+        this.title = wdata.title
+        this.editable = wdata.editable
+        this.autosend = wdata.autosend
+        this.map = wdata.map
+        this.static = wdata.static
+        this.widget = wdata.widget
+    }
+
+
+
+
+    saveData():void{
         let data:ControlWidgetData = {
             title: this.title,
             order: 0,
             widget: this.widget,
             editable: this.editable,
             autosend: this.autosend,
-            map: {},
-            static: {}
+            map: this.control.map(),
+            static: this.control.static()
         }
-        return(data)
+        this._data = data
     }
-
-
-
-
-    setData(wdata:ControlWidgetData):void{
-        this.title = wdata.title
-        this.editable = wdata.editable
-        this.autosend = wdata.autosend
-        this.map = wdata.map
-        this.static = wdata.static
-        this.up()
-        this.widget = wdata.widget
-        this.up({name:"widget", triggerInput:true})
-    }
-
 
 
 
@@ -163,4 +209,17 @@ class CVItemEditData extends GDataObject {
         }
     }
 
+
+
+
+    adjustWidgetVars(widget:string){
+        if(widget == this._data.widget){
+            this.map = this._data.map
+            this.static = this._data.static
+        }
+        else if(widget != this.widget){
+            this.map = {}
+            this.static = {}
+        }
+    }
 }

@@ -45,6 +45,10 @@ export class ControlItem extends GHTMLControl {
           [this.e.editButton, "click", this.toggle],
           [this.e.closeButton, "click", this.toggle],
           [this.e.addButton, "click", this.addBefore],
+          [this.e.okButton, "click", this.save],
+          [this.e.removeButton, "click", this.remove],
+          [this.e.upButton, "click", this.goUpDown],
+          [this.e.downButton, "click", this.goUpDown]
         ])
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
@@ -53,14 +57,13 @@ export class ControlItem extends GHTMLControl {
 
 
 
-    private toggle(e:Event):void{
-        let target = <HTMLElement>e.target
-        if(target.id == this.e.editButton.id){
+    private toggle(e?:Event):void{
+        if(this.e.controlContainer.style.display == ""){
             this.e.controlContainer.style.display = "none"
-            this.e.editContainer.style.display = "block"
+            this.e.editContainer.style.display = ""
         }
         else{
-            this.e.controlContainer.style.display = "block"
+            this.e.controlContainer.style.display = ""
             this.e.editContainer.style.display = "none"
         }
     }
@@ -74,8 +77,29 @@ export class ControlItem extends GHTMLControl {
 
 
 
+    private goUpDown(e:Event){
+        if(e.target == this.e.upButton){    this.dispatchEvent("move", [this.e.item, "up"])    }
+        else{    this.dispatchEvent("move", [this.e.item, "down"])    }
+    }
+
+
+
+
     get data():ControlWidgetData{
         return(this.editor.data)
+    }
+
+
+
+    save(e:Event){
+        this.editor.save()
+        this.toggle()
+    }
+
+
+
+    private remove(e:Event){
+        this.dispatchEvent("remove", this.id)
     }
 }
 

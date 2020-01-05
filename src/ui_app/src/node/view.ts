@@ -80,7 +80,10 @@ export class View extends GHTMLControl {
         for (let i = 0; i < view.items.length; i++) {
             view.items.forEach((item:ControlWidgetData)=>{
                 if(item.order == i){    
-                    new ControlItem(this.ControlViewContainer.id, item)
+                    let ci = new ControlItem(this.ControlViewContainer.id, item)
+                    ci.addEventListener("remove", this.remove.bind(this))
+                    ci.addEventListener("add", this.addCVItem.bind(this))
+                    ci.addEventListener("move", this.moveCVItem.bind(this))
                 }
             })
         }
@@ -105,6 +108,17 @@ export class View extends GHTMLControl {
 
 
 
+    remove(id:any){
+        this.ControlViewContainer.childNodes.forEach((cn:any)=>{
+            if(cn.control.id == id){
+                cn.control.clear()
+            }
+        })
+    }
+
+
+
+
     nav(name:string):void{
         this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
     }
@@ -119,9 +133,28 @@ export class View extends GHTMLControl {
 
 
 
+    moveCVItem(moveIt:Array<any>){
+        let index:number = 0
+        let cns:any = this.ControlViewContainer.childNodes
+        for (let i = 0; i < cns.length; i++) {
+            if(moveIt[0].id == cns[i].id){    index = i    }
+        }
+        if(moveIt[1] == "up" && index > 0){
+            this.ControlViewContainer.insertBefore(moveIt[0], cns[index-1])
+        }
+        else if(moveIt[1] == "down" && index < cns.length-1){
+            this.ControlViewContainer.insertBefore(cns[index+1], moveIt[0])
+        }
+    }
+
+
+
+
     addCVItem(e:Event|HTMLElement):void{
         let controlItem = new ControlItem(this.ControlViewContainer.id)
         controlItem.addEventListener("add", this.addCVItem.bind(this))
+        controlItem.addEventListener("remove", this.remove.bind(this))
+        controlItem.addEventListener("move", this.moveCVItem.bind(this))
         if("tagName" in e){
             this.ControlViewContainer.insertBefore(controlItem.item, e)
         }
