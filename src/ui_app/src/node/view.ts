@@ -51,7 +51,7 @@ export class View extends GHTMLControl {
 
 
     constructor() { 
-        super({view:view, bindTo:name}) 
+        super({view:view, bindTo:name})
         //this.store("base").nname = ""
         let trns = this.store("trns").t.translations(name)
         this._ = trns.get_()
@@ -69,7 +69,7 @@ export class View extends GHTMLControl {
             successMsg: this._("saveSuccess"),
             errorMsg: this._("saveError"),
             classx: "button is-block is-info is-medium"
-        })        
+        })
     }
 
 

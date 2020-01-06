@@ -31,3 +31,15 @@ export interface ControlView{
 }
 
 
+export function getControlWidgetData(widget:string):ControlWidgetData{
+    let res:ControlWidgetData = {
+        title: "",
+        order: 0,
+        widget: widget,
+        editable: false,
+        autosend: false,
+        map: {},
+        static: {}
+    }
+    return(res)
+}
