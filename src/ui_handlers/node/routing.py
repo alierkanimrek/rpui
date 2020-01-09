@@ -49,5 +49,6 @@ nodeRouting = [
     (r"/xhr/getnodevars", xhr.XHRNodeVars),
     (r"/xhr/saveview", xhr.XHRViewUpdate),
     (r"/xhr/getview", xhr.XHRView),
+    (r"/xhr/chkdata", xhr.XHRChkData),
     ]
   

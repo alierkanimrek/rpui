@@ -14,7 +14,8 @@ import datetime
 import tornado
 
 from .base import BaseHandler
-from lib.store import Node
+from lib.store import Node, TaskData, Data
+
 
 
 
@@ -119,14 +120,18 @@ class XHRClientUpdate(BaseHandler):
         try:
             uname = self.cstack.stack[0]["uname"]
             nname = self.cstack.stack[0]["nname"]
+            data = Data(uname, nname)
             self.uri = uname+"/"+nname
             followup = self.cstack.data(self.uri+"/command")["followup"]
             
             self.alive.add(self.uri)
+
             #Save Data
-            for tdata in self.cstack.stack:
-                if(tdata["id"] != self.uri+"/command"):
-                    await self.db.updateTaskData(tdata["id"], tdata["data"])
+            for d in self.cstack.stack:
+                if(d["name"] != "command"):
+                    data.taskdata = d["data"]
+                        
+            await self.db.updateData(data)
 
             #Check owner is online
             if(self.alive.isThere(uname)):

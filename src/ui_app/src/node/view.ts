@@ -1,7 +1,7 @@
 import {GHTMLControl, GDataObject, GHTMLElement, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
-import {RpStack} from "../components/msg"
+import {RpStack, UserData} from "../components/msg"
 import {SendButton} from "../widgets/elements/sendbutton"
 import {SimpleMenu} from "../widgets/elements/simplemenu"
 import {NewViewItem} from "./newview"
@@ -20,8 +20,9 @@ baseMainContent
         DIV class=tile is-parent gid=FooterContainer
             DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
                 i gid=addButton class=fas fa-plus role=button style=float:center; font-size:1.2em; cursor:pointer;
-            DIV gid=saveContainer
-            P class=has-text-grey
+            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
+                DIV gid=saveContainer style=display:inline-grid;
+            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
                 A gid=nodesLink
 `
 
@@ -56,7 +57,6 @@ export class View extends GHTMLControl {
         let trns = this.store("trns").t.translations(name)
         this._ = trns.get_()
         trns.updateStatics(this)
-        this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.linkEvents([
           [this.e.addButton, "click", this.addCVItem],
           [this.e.nodesLink, "click", this.nav]
@@ -70,6 +70,7 @@ export class View extends GHTMLControl {
             errorMsg: this._("saveError"),
             classx: "button is-block is-info is-medium"
         })
+        this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
     }
 
 
@@ -87,6 +88,7 @@ export class View extends GHTMLControl {
                 }
             })
         }
+        this.bindingStore.checkData(this.dataLoaded.bind(this))
     }
 
 
@@ -108,6 +110,15 @@ export class View extends GHTMLControl {
 
 
 
+    dataLoaded(data:UserData):void{
+        this.ControlViewContainer.childNodes.forEach((cn:any)=>{
+            cn.control.taskData = data
+        })
+    }
+
+
+
+
     remove(id:any){
         this.ControlViewContainer.childNodes.forEach((cn:any)=>{
             if(cn.control.id == id){
@@ -119,8 +130,12 @@ export class View extends GHTMLControl {
 
 
 
-    nav(name:string):void{
-        this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
+    nav(name:string|Event):void{
+        if(typeof(name) == typeof("")){
+            this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
+        }else{
+            this.gDoc.navigate("/"+this.gDoc.gData("session").user)
+        }
     }
 
 
@@ -199,6 +214,13 @@ export class ViewData extends GDataObject {
     viewnames: Array<string> = []
     nodevars: Array<string> = []    //cvitemedit use it
     view: ControlView
+    dataCallBack:Function
+    dataConn:Connection = new Connection({
+            port:Port.chkdata, 
+            name:name, 
+            responseHandler:this.dataLoaded.bind(this),
+            errorHandler:this.error,
+            repeat: true})
 
 
 
@@ -277,5 +299,29 @@ export class ViewData extends GDataObject {
         
         conn.run({ObjectData: parms})
     }
+
+
+
+    
+    checkData(cb:Function):void{
+        this.dataCallBack = cb
+        this.dataConn.run({ObjectData: {}})
+    }
+
+
+
+
+    dataLoaded(stack:RpStack):void{
+        let d:any = stack.stack[0]["data"]
+        delete d.result
+        this.dataCallBack(d)    
+    }
+
+
+
+
+    error(msg:string):void{
+        console.error("[AppNodes] "+msg)    
+    }    
 
 }

@@ -58,6 +58,25 @@ class Task():
 
 
 
+class TaskData():
+
+    def __init__(self, tname, data={}):
+        self.tname = tname
+        self.data = data
+
+
+
+
+class Data():
+
+    def __init__(self, uname, nname):
+        self.nname = nname
+        self.uname = uname
+        self.taskdata = {}
+
+
+
+
 class UserProfile():
 
     def __init__(self, uname):
@@ -213,7 +232,9 @@ class Store(object):
 
     async def createNode(self, nname, uname):
         node = Node(nname, uname)
+        data = Data(uname, nname)
         id = await self._db.createNode(vars(node))
+        idata = await self._db.createData(vars(data))
         if(id):     return(str(id))
         else:   return(False)
 
@@ -250,8 +271,33 @@ class Store(object):
             for task in tasklist:
                 await self.removeTask(uname, nname, task["tname"])
             data = await self._db.removeNode(uname, nname)
+            data2 = await self._db.removeData(uname, nname)
             if(data):   return(True)
         return(False)
+
+
+
+
+    async def updateData(self, doc): 
+        #doc = Data(..)
+        data = await self._db.updateData(vars(doc))
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def getNodeData(self, uname, nname):
+        data = await self._db.getNodeData(uname, nname)
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def getUserData(self, uname):
+        data = await self._db.getUserData(uname)
+        return(data)
 
 
 

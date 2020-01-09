@@ -1,5 +1,5 @@
 import {GHTMLControl} from "../../glider/glider"
-import {ControlWidgetMeta, Creator} from "./interfaces"
+import {ControlWidgetMeta, Creator, CWBase} from "./interfaces"
 import {ControlWidgetData, getControlWidgetData} from "../../components/view"
 
 import {meta as defaultMeta} from "./widgets/default"
@@ -14,7 +14,6 @@ interface MetaData {
 interface CWNames {
 
 }
-
 
 
 
@@ -79,7 +78,10 @@ export let metaData = new CWMetaData()
 
 
 
-export function createCW(parm:Creator):GHTMLControl{
+
+
+
+export function createCW(parm:Creator):CWBase{
     if(parm.wdata){
         if(metaData.names.indexOf(parm.wdata.widget) > -1){
             return(metaData.getData(parm.wdata.widget).creator({

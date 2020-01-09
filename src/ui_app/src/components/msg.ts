@@ -62,6 +62,18 @@ export interface RpStackData{
 
 
 
+export interface NodeData{
+    [tname:string]: object
+}
+
+
+
+
+export interface UserData{
+    [nname:string]: NodeData
+}
+
+
 
 
 

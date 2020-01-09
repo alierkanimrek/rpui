@@ -40,6 +40,7 @@ export enum Port{
     "getview" = "/xhr/getview",
     "getnodevars" = "/xhr/getnodevars",
     "saveview" = "/xhr/saveview",
+    "chkdata" = "/xhr/chkdata"
 }
 
 export interface ResponseHandler {
@@ -84,7 +85,7 @@ export class Connection {
     public responseHandler: ResponseHandler
     public errorHandler: ErrorHandler
     private repeat: boolean
-    private minDelay: number = 1000
+    private minDelay: number = 2000
     private lastStart: number
     private timer: any
     private lastCfg: RunConfig

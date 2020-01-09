@@ -1,7 +1,7 @@
 import {GHTMLControl} from "../../../glider/glider"
-import {getControlWidgetData, Creator} from "../interfaces"
+import {getControlWidgetData, Creator, CWBase} from "../interfaces"
 import {ControlWidgetData} from "../../../components/view"
-
+import {UserData, NodeData} from "../../../components/msg"
 
 
 
@@ -13,8 +13,8 @@ export let meta = getControlWidgetData({
 
 const view = `
 any
-    P
-    | Default Widget
+    DIV gid=txt
+
 `
 
 
@@ -23,16 +23,27 @@ any
 
 
 
-export class DefaultCW extends GHTMLControl {
+export class DefaultCW extends CWBase {
 
 
 
 
     constructor(rootId:string, wdata:ControlWidgetData) {
-        super({view:view, root:rootId})
-        
+        super(view, rootId, wdata)
     }
 
+
+    update(){
+        //this.e.txt.textContent = this._data.toString()
+        this.e.txt.innerHTML = ""
+        Object.keys(this._data).forEach((node:string)=>{
+            this.e.txt.innerHTML += node+":<br/>"
+            Object.keys(this._data[node]).forEach((task:string)=>{
+                this.e.txt.innerHTML += "&nbsp;&nbsp;"+task+" = "+this._data[node][task]+"<br/>"
+            })
+
+        })
+    }
 
 }
 
@@ -42,6 +53,6 @@ export class DefaultCW extends GHTMLControl {
 
 
 
-function create(parm:Creator):GHTMLControl{
+function create(parm:Creator):CWBase{
     return(new DefaultCW(parm.rootId, parm.wdata))
 }

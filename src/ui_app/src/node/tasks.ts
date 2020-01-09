@@ -116,7 +116,7 @@ export class Tasks extends GHTMLControl {
                 this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname+"/edit")
                 break;
             case this.nodes:
-                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname)
+                this.gDoc.navigate("/"+this.store("session").user)
                 break;
         }
     }
@@ -137,7 +137,7 @@ export class Tasks extends GHTMLControl {
         switch (event.name) {
             
             case "tname":
-                if( this.bindingStore.tnames.indexOf(this.bindingStore.tname) > -1){
+                if( this.bindingStore.tnames_options.indexOf(this.bindingStore.tname) > -1){
                     this.tnameInput.setCustomValidity(this._("tnameExist"))
                 }
                 if (this.tnameInput.validity.valid){
@@ -226,22 +226,24 @@ export class TasksData extends GDataObject {
 	
 
     tname: String = ""
-    tnames: Array<String> = []
+    tnames: String = ""
+    tnames_options: Array<String> = []
 
 
 
 
     load(nname:string, cb:Function):void{
 
-        this.tnames = [] 
+        this.tnames_options = [] 
 
         let response:ResponseHandler = (stack:RpStack) => {
             if(stack.dataVar("result")){
                 this.tname = ""    
                 let tasks:Array<any> = stack.stack[0].data.result
                 tasks.forEach( (t:any)=>{
-                    this.tnames.push(t.tname)
+                    this.tnames_options.push(t.tname)
                 })
+
 
                 cb(tasks)
             }

@@ -79,7 +79,7 @@ export class NodeEdit extends GHTMLControl {
         let t = <HTMLElement>e.target
         switch (t) {
             case this.back:
-                this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname)
+                this.gDoc.navigate("/"+this.store("session").user)
                 break;
             case this.tasks:
                 this.gDoc.navigate("/"+this.store("session").user+"/"+this.store("base").nname+"/edit/tasks")

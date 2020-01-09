@@ -1,4 +1,6 @@
+import {GHTMLControl} from "../../glider/glider"
 import {ControlWidgetData} from "../../components/view"
+import {UserData, NodeData} from "../../components/msg"
 
 
 
@@ -35,3 +37,42 @@ export function getControlWidgetData(parm:{
 }
 
 
+
+
+
+
+export class CWBase extends GHTMLControl{
+
+
+    protected _data: UserData
+    protected _wdata: ControlWidgetData
+
+
+    
+    constructor(view:string, rootId:string, wdata:ControlWidgetData) {
+        super({view:view, root:rootId})
+        this._wdata = wdata
+    }
+
+
+
+
+    set data(data:UserData){
+        this._data = data
+        this.update()
+    }
+
+
+
+
+    getTaskData(nname:string, tname:string):any{
+        try{    return(this._data[nname][tname])    }
+        catch{  return(null)  }
+    }
+
+
+
+
+    //Override method
+    protected update():void{}
+}

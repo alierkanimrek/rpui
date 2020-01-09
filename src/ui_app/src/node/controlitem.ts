@@ -1,12 +1,13 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent, ValidityMessages} from "../glider/glider"
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
-import {RpStack} from "../components/msg"
+import {RpStack, UserData} from "../components/msg"
 
 import view from "./controlitem.ghtml"
 
 import {CVItemEdit} from "./cvitemedit"
 import {ControlWidgetData} from "../components/view"
+import {CWBase} from "../widgets/control/interfaces"
 import {createCW} from "../widgets/control/cwdata"
 
 
@@ -33,7 +34,7 @@ export class ControlItem extends GHTMLControl {
     _: Function
 
     editor:CVItemEdit
-    widget:GHTMLControl
+    widget:CWBase
     item:HTMLElement
 
     constructor(rootId:string, widgetData?:ControlWidgetData) {
@@ -105,6 +106,14 @@ export class ControlItem extends GHTMLControl {
     private remove(e:Event){
         this.dispatchEvent("remove", this.id)
     }
+
+
+
+    set taskData(data:UserData){
+        this.widget.data = data
+    }
+
+
 }
 
 
@@ -115,8 +124,9 @@ export class ControlItem extends GHTMLControl {
 
 
 export class ControlItemData extends GDataObject {
-	
-	
+
+
+
 
 
 }

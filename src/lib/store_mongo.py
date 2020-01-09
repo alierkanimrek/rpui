@@ -35,6 +35,7 @@ class RpMongoClient(object):
         self._task = None
         self._profiles = None
         self._views = None
+        self._data = None                
 
 
 
@@ -73,6 +74,10 @@ class RpMongoClient(object):
 
             self._views = self._db.views
             self._views.create_index([("uname", 1)])
+
+            self._data = self._db.data
+            self._data.create_index([("uname", 1)])
+            self._data.create_index([("nname", 1)])
 
 
 
@@ -251,6 +256,7 @@ class RpMongoClient(object):
 
 
 
+
     async def getTasks(self, uname, nname=False):
         if(nname):  cursor = self._tasks.find({"uname": uname, "nname": nname})
         else:   cursor = self._tasks.find({"uname": uname})
@@ -292,6 +298,66 @@ class RpMongoClient(object):
             return(True)
         else:
             return(None)
+
+
+
+
+    async def createData(self, data):
+        result = await self._data.insert_one(data)
+        if(result):
+            return(result.inserted_id)
+        else:
+            return(None)
+
+
+
+
+    async def getNodeData(self, uname, nname):
+        data = await self._data.find_one({"uname" : uname, "nname" : nname})
+        del data["_id"]
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
+    async def removeData(self, uname, nname):
+        result = await self._data.delete_many({"uname": uname, "nname": nname})
+        if(result):   return(True)
+        else:   return(False)
+
+
+
+
+    async def updateData(self, doc):
+        result = await self._data.find_one_and_replace({
+            "uname":doc["uname"], "nname":doc["nname"]}, doc)
+        if(result):
+            return(True)
+        else:
+            return(None)
+
+
+
+
+    async def getUserData(self, uname):
+        cursor = self._data.find({"uname": uname})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            for t in r:
+                del t["_id"]
+                result.append(t)
+        return(result)
+
+
+
+
+    async def getNodeData(self, uname, nname):
+        data = await self._data.find_one({"uname" : uname, "nname" : nname})
+        del data["_id"]
+        if(data):   return(data)
+        else:   return(False)
 
 
 
