@@ -4,6 +4,7 @@ import {ControlWidgetData, getControlWidgetData} from "../../components/view"
 
 import {meta as defaultMeta} from "./widgets/default"
 import {meta as testMeta} from "./widgets/test"
+import {meta as swMeta} from "./widgets/switch"
 
 
 
@@ -19,7 +20,8 @@ interface CWNames {
 
 const lst = [
     defaultMeta,
-    testMeta]
+    testMeta,
+    swMeta]
 
 
 

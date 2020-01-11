@@ -2,11 +2,13 @@ import {GHTMLControl, GDataObject, GHTMLElement, GHTMLInputEvent, ValidityMessag
 import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/connection"
 import {RpStack, UserData} from "../components/msg"
+import {parseUri} from "../components/source"
 import {SendButton} from "../widgets/elements/sendbutton"
 import {SimpleMenu} from "../widgets/elements/simplemenu"
+import {CWBase} from "../widgets/control/interfaces"
 import {NewViewItem} from "./newview"
 import {ControlItem} from "./controlitem"
-import {ControlWidgetData, ControlView} from "../components/view"
+import {ControlWidgetData, ControlView, VariableMap} from "../components/view"
 
 
 
@@ -57,6 +59,7 @@ export class View extends GHTMLControl {
         let trns = this.store("trns").t.translations(name)
         this._ = trns.get_()
         trns.updateStatics(this)
+        this.bindingStore.uname = this.gDoc.gData("session").user
         this.linkEvents([
           [this.e.addButton, "click", this.addCVItem],
           [this.e.nodesLink, "click", this.nav]
@@ -85,6 +88,7 @@ export class View extends GHTMLControl {
                     ci.addEventListener("remove", this.remove.bind(this))
                     ci.addEventListener("add", this.addCVItem.bind(this))
                     ci.addEventListener("move", this.moveCVItem.bind(this))
+                    ci.addEventListener("cmd", this.cmdCVItem.bind(this))
                 }
             })
         }
@@ -170,6 +174,7 @@ export class View extends GHTMLControl {
         controlItem.addEventListener("add", this.addCVItem.bind(this))
         controlItem.addEventListener("remove", this.remove.bind(this))
         controlItem.addEventListener("move", this.moveCVItem.bind(this))
+        controlItem.addEventListener("cmd", this.cmdCVItem.bind(this))
         if("tagName" in e){
             this.ControlViewContainer.insertBefore(controlItem.item, e)
         }
@@ -198,6 +203,20 @@ export class View extends GHTMLControl {
         if(result){    this.saveButton.success()    }
         else{    this.saveButton.error()    }
     }
+
+
+
+
+    cmdCVItem(widget:CWBase){
+        if(widget){
+            this.bindingStore.addCmd(widget.cmd)
+        }
+        else{
+            this.ControlViewContainer.childNodes.forEach((cn:any)=>{
+                this.bindingStore.addCmd(cn.widget.cmd)       
+            })
+        }
+    }
 }
 
 
@@ -220,8 +239,10 @@ export class ViewData extends GDataObject {
             name:name, 
             responseHandler:this.dataLoaded.bind(this),
             errorHandler:this.error,
-            repeat: true})
-
+            repeat: true,
+            upData: this.preSend.bind(this)})
+    cmd: VariableMap = {}
+    uname: string = ""
 
 
     load(vname:string, cbV:Function, cbVL:Function):void{
@@ -322,6 +343,32 @@ export class ViewData extends GDataObject {
 
     error(msg:string):void{
         console.error("[AppNodes] "+msg)    
-    }    
+    }
+
+
+
+    addCmd(cmd:VariableMap):void{
+
+        Object.assign(this.cmd, cmd)
+
+    }
+
+
+
+
+    preSend():void{
+        let cmd:VariableMap = {}
+        let names
+        let uri
+
+        Object.keys(this.cmd).forEach((u:string)=>{
+            names = parseUri(this.uname+"/"+u)
+            uri = names.uname+"/"+names.nname+"/"+names.name
+            cmd[uri] = this.cmd[u] 
+        })
+
+        this.dataConn.objectData = cmd
+        this.cmd = {}
+    }
 
 }

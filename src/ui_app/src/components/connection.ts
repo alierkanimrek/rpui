@@ -67,7 +67,8 @@ interface ConnConfig{
     name?:string, 
     responseHandler?:ResponseHandler,
     errorHandler?:ErrorHandler,
-    repeat?: boolean
+    repeat?: boolean,
+    upData?: Function
 }
 
 
@@ -89,6 +90,7 @@ export class Connection {
     private lastStart: number
     private timer: any
     private lastCfg: RunConfig
+    private upData: Function
 
 
 
@@ -108,6 +110,10 @@ export class Connection {
 
         if(cfg.repeat){ this.repeat = cfg.repeat }
         else{ this.repeat = false }
+
+        if(cfg.upData){ this.upData = cfg.upData }
+        else{ this.upData = ():void => {} }
+
     }
 
 
@@ -134,6 +140,10 @@ export class Connection {
         let stack = new RpStack()
         let src = createRpSource(Uname, Nname, this.name)
         
+        if(this.repeat){
+            this.upData()
+        }
+
         if(cfg.ObjectData){
             stack.append(src, cfg.ObjectData)
         }
@@ -159,6 +169,7 @@ export class Connection {
         else{
             xhr.send(JSON.stringify(stack.data(src.id)))
         }
+        this.lastCfg.ObjectData = {}
     }
 
 
@@ -183,8 +194,10 @@ export class Connection {
 
 
 
-    public objectData(od:object):void{
-        this.lastCfg.ObjectData = od
+    set objectData(od:object){
+        try{    this.lastCfg.ObjectData = od    }
+        catch{}
+
     }
 
 

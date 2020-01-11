@@ -1,12 +1,12 @@
 import {GHTMLControl} from "../../../glider/glider"
-import {getControlWidgetData, Creator, CWBase} from "../interfaces"
+import {getControlWidgetMeta, Creator, CWBase} from "../interfaces"
 import {ControlWidgetData} from "../../../components/view"
 import {UserData, NodeData} from "../../../components/msg"
 
 
 
 
-export let meta = getControlWidgetData({
+export let meta = getControlWidgetMeta({
     name:"default", 
     vars:[],
     creator:create})

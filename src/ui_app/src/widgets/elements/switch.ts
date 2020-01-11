@@ -39,6 +39,7 @@ export class Switch extends GHTMLControl {
     right:HTMLButtonElement
     _checked:boolean = false
     freeze:boolean = false
+    changeEvent:boolean = true
 
     eventMap: any = [
         [this.left, "click", this.toggle],
@@ -66,8 +67,10 @@ export class Switch extends GHTMLControl {
             this.left.className = LeftOFF
             this.right.className = RightOFF
             this._checked = false
+
         }
-        this.dispatchEvent("change", this)
+        if(this.changeEvent){    this.dispatchEvent("change", this)    }
+        else{    this.changeEvent = true    }
     }
 
 
@@ -75,6 +78,7 @@ export class Switch extends GHTMLControl {
 
     set checked(checked:boolean){
         if(checked != this._checked){
+            this.changeEvent = false
             this.toggle()
         }
     }

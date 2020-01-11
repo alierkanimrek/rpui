@@ -475,6 +475,13 @@ class XHRChkData(BaseHandler):
         
         try:
             uname = self.current_user
+
+            cmd = self.cstack.stack[0]["data"]
+            
+            for key, value in cmd.items():
+                uri = uname+"/"+key
+                self.cmdUser(uri, value)
+            
             data = await self.db.getUserData(uname)
             if(data):
                 resp = {"result" : True}

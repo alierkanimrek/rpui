@@ -1,7 +1,7 @@
 import {GHTMLControl} from "../../glider/glider"
-import {ControlWidgetData} from "../../components/view"
+import {ControlWidgetData, VariableMap} from "../../components/view"
 import {UserData, NodeData} from "../../components/msg"
-
+import {parseUri} from "../../components/source"
 
 
 export interface ControlWidgetMeta{
@@ -23,7 +23,7 @@ export interface Creator{
 
 
 
-export function getControlWidgetData(parm:{
+export function getControlWidgetMeta(parm:{
     name:string,
     vars: Array<string>,
     creator: Function,
@@ -46,6 +46,7 @@ export class CWBase extends GHTMLControl{
 
     protected _data: UserData
     protected _wdata: ControlWidgetData
+    protected _cmd: VariableMap = {}
 
 
     
@@ -65,9 +66,17 @@ export class CWBase extends GHTMLControl{
 
 
 
-    getTaskData(nname:string, tname:string):any{
-        try{    return(this._data[nname][tname])    }
-        catch{  return(null)  }
+    getTaskData(parm:{uri?:string, nname?:string, tname?:string}):any{
+        if( parm.nname && parm.tname){
+            try{    return(this._data[parm.nname][parm.tname])    }
+            catch{  }
+        }
+        else if (parm.uri) {
+            let uri = parseUri("any/"+parm.uri)
+            try{    return(this._data[uri.nname][uri.name])    }
+            catch{  }
+        }
+        return(null)  
     }
 
 
@@ -75,4 +84,40 @@ export class CWBase extends GHTMLControl{
 
     //Override method
     protected update():void{}
+
+
+
+
+    get autoSend():boolean{
+        return(this._wdata.autosend)
+    }
+
+
+
+
+    get cmd():VariableMap{
+        let ret = this._cmd
+        this._cmd = {}
+        this.sending()
+        return(ret)
+    }
+
+
+
+
+    setCmd(uri:string, val:any){
+        if(this._wdata.editable){
+            this._cmd[uri] = val
+            this.dispatchEvent("cmd", this)
+        }
+    }
+
+
+
+    private sending():void{
+        if(this.autoSend){
+            
+        }
+    }
+
 }

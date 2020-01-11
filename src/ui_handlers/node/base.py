@@ -118,6 +118,14 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
+
+    def cmdUser(self, uri, taskData):
+        cd = CommandData()
+        cd.cmd("command", taskData)
+        self.cmd.add(uri, cd.data)
+
+
+
     
     def stackAppend(self, data, name="user"):
         self.stack.append({
