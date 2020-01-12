@@ -217,6 +217,13 @@ export class View extends GHTMLControl {
             })
         }
     }
+
+
+
+    onRemove(){
+        this.bindingStore.dataConn.pause()
+    }
+
 }
 
 

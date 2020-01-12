@@ -217,10 +217,17 @@ export class NodesData extends GDataObject {
             name:name, 
             responseHandler:response,
             errorHandler:error,
-            repeat: true})
+            repeat: true,
+            upData: this.preSend.bind(this)})
 
         this.chkAliveConn.run({ObjectData: data})
+    }
 
+
+
+
+    preSend():void{
+        this.chkAliveConn.objectData = {"nodenames": this.nodenames}
     }
 
 }

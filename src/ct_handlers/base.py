@@ -149,8 +149,11 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def cmdMerge(self):
         clist = self.cmd.isThere(id=self.uri, delete=True)
-        for c in clist:
-            self.cmds.cmd(list(c)[0], c[list(c)[0]], overwrite=False)
+        if(clist):
+            cmd = {}
+            for c in clist: 
+                cmd[list(c)[0]] = c[list(c)[0]]
+            self.cmds.cmd("task", cmd)
 
 
 

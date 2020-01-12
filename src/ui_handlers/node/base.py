@@ -18,6 +18,7 @@ import datetime
 from lib.msg import *
 from lib.passlock import *
 from lib.session import SessionManager
+from lib.source import get_names_from_uri
 
 
 
@@ -119,10 +120,12 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
-    def cmdUser(self, uri, taskData):
-        cd = CommandData()
-        cd.cmd("command", taskData)
-        self.cmd.add(uri, cd.data)
+    def cmdUser(self, cmds):
+        for key, value in cmds.items():
+            names = get_names_from_uri(key)
+            tname = names[2]
+            node = names[0]+"/"+names[1]
+            self.cmd.add(node, {tname:value})
 
 
 
