@@ -74,6 +74,7 @@ export class View extends GHTMLControl {
             classx: "button is-block is-info is-medium"
         })
         this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
+        this.bindingStore.checkData(this.dataLoaded.bind(this))
     }
 
 
@@ -92,7 +93,7 @@ export class View extends GHTMLControl {
                 }
             })
         }
-        this.bindingStore.checkData(this.dataLoaded.bind(this))
+        this.bindingStore.dataConn.play()   
     }
 
 
@@ -333,7 +334,7 @@ export class ViewData extends GDataObject {
     
     checkData(cb:Function):void{
         this.dataCallBack = cb
-        this.dataConn.run({ObjectData: {}})
+        //this.dataConn.run({ObjectData: {}})
     }
 
 

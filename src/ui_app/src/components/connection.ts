@@ -89,7 +89,7 @@ export class Connection {
     private minDelay: number = 2000
     private lastStart: number
     private timer: any
-    private lastCfg: RunConfig
+    private lastCfg: RunConfig = {}
     private upData: Function
 
 
