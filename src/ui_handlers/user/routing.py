@@ -20,7 +20,7 @@ class LoaderHandler(BaseHandler):
 
     
     async def get(self):
-        await self.session.checkSession(update=True)
+        await self.session.checkSession()
         await self.render_page()
 
 

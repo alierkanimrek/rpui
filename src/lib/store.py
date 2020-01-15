@@ -188,6 +188,14 @@ class Store(object):
 
 
 
+    async def updateSession(self, doc): 
+        data = await self._db.updateSession(doc)
+        if(data):   return(data)
+        else:   return(False)
+
+
+
+
     async def getSessionCode(self, code, uname):
         data = await self._db.getSessionCode(code)
         if(data and data["uname"] == uname):

@@ -137,7 +137,9 @@ class RpMongoClient(object):
 
     async def getSession(self, selector):
         data = await self._auth.find_one({"_id" : ObjectId(selector)})
-        if(data):   return(data)
+        if(data):   
+            del data["_id"]
+            return(data)
         else:   return(False)
 
 
@@ -145,7 +147,9 @@ class RpMongoClient(object):
 
     async def getSessionCode(self, code):
         data = await self._auth.find_one({"code" : code})
-        if(data):   return(data)
+        if(data):   
+            del data["_id"]
+            return(data)
         else:   return(False)
 
 
@@ -153,8 +157,20 @@ class RpMongoClient(object):
 
     async def getSessionUname(self, uname):
         data = await self._auth.find_one({"uname" : uname})
-        if(data):   return(data)
+        if(data):   
+            del data["_id"]
+            return(data)
         else:   return(False)
+
+
+
+
+    async def updateSession(self, data):
+        result = await self._auth.find_one_and_replace({"uname":data["uname"]}, data)
+        if(result):
+            return(True)
+        else:
+            return(None)
 
 
 

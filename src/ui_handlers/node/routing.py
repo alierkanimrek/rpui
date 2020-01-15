@@ -21,7 +21,7 @@ class LoaderHandler(BaseHandler):
 
     @tornado.web.authenticated
     async def get(self, *args):
-        await self.session.checkSession(update=True)
+        await self.session.checkSession()
         await self.render_page()
 
 

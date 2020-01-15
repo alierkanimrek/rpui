@@ -59,7 +59,7 @@ class SessionManager(object):
 
 
 
-    async def checkSession(self, update=False):
+    async def checkSession(self):
         #Get cookies
         try:
             user =self.baseHandler.get_secure_cookie("user").decode()
@@ -71,9 +71,15 @@ class SessionManager(object):
         if(user and selector and validator):
             #Get auth data and check it
             data = await self.db.getSession(selector, user)
-            if(data and checkSessionData(validator, data["hashedValidator"], data["expires"])):
-                if(update):
-                    await self.updateSession()
+            expire = checkSessionData(validator, data["hashedValidator"], data["expires"])
+            if(data and expire > 0):
+                if(expire < 50):
+                    data["expires"] = (datetime.datetime.now() + datetime.timedelta(minutes=int(self.conf.USERS.session_timeout))).timestamp()
+                    if(data["permanent"]):
+                        # Change expired cookie to session cookie
+                        data["permanent"] = False
+                        self.setSession(user, selector, validator)
+                    update = await self.db.updateSession(data)
                 return(True)
             else:
                 self.__log.d("Session invalid or expired")
@@ -85,9 +91,9 @@ class SessionManager(object):
 
     async def setSession(self, uname, selector, validator, persistent=False):
         if(persistent):
-            self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=self.conf.USERS.persistent_session_days)
-            self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=self.conf.USERS.persistent_session_days)
-            self.baseHandler.set_secure_cookie("user", str(uname), expires_days=self.conf.USERS.persistent_session_days)
+            self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=int(self.conf.USERS.persistent_session_days))
+            self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=int(self.conf.USERS.persistent_session_days))
+            self.baseHandler.set_secure_cookie("user", str(uname), expires_days=int(self.conf.USERS.persistent_session_days))
         else:
             self.baseHandler.set_secure_cookie("selector", str(selector), expires_days=None)
             self.baseHandler.set_secure_cookie("validator", str(validator), expires_days=None)
@@ -108,28 +114,6 @@ class SessionManager(object):
 
 
 
-    async def updateSession(self):
-        #Get cookies
-        try:
-            user =self.baseHandler.get_secure_cookie("user").decode()
-            selector =self.baseHandler.get_secure_cookie("selector").decode()
-            validator =self.baseHandler.get_secure_cookie("validator").decode()
-        except:
-            await self.endSession()
-            return(False)
-        if(user and selector and validator):
-            #Get auth data and check it
-            data = await self.db.getSession(selector, user)
-            if(checkSessionData(validator, data["hashedValidator"], data["expires"])):
-                diff = int(data["expires"] - datetime.datetime.now().timestamp())
-                if(diff < (self.conf.USERS.session_timeout * 60) and diff > 0):
-                    # in range of 0-5 minutes update session
-                    await self.createSession(user)
-                    #await self.db.removeSession(selector)
-                    return(True)
-            self.__log.d("Session invalid or expired")
-            await self.endSession()
-            return(False)                
 
 
 
@@ -149,14 +133,15 @@ def getSessionData(persistent=False, days=30, minutes=5):
 
     # timestamp for expires
     if(persistent):
-        expires = datetime.datetime.now() + datetime.timedelta(days=days)
+        expires = datetime.datetime.now() + datetime.timedelta(days=int(days))
     else:
-        expires = datetime.datetime.now() + datetime.timedelta(minutes=minutes)
-
+        expires = datetime.datetime.now() + datetime.timedelta(minutes=int(minutes))
+    
     data = {
     "validator": validator,
     "hashedValidator": hashedValidator,
-    "expires": expires.timestamp()}
+    "expires": expires.timestamp(),
+    "permanent": persistent}
 
     return(data)
 
@@ -176,6 +161,6 @@ def checkSessionData(validator, hashedValidator, expires):
     
     diff = expires - datetime.datetime.now().timestamp()
     if(diff <= 0):
-        return(False)
+        return(diff)
 
-    return(True)
+    return(diff)

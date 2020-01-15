@@ -35,7 +35,7 @@ export class SessionUpdater extends GDataObject {
 
         this.upSession()
 
-        setInterval(this.up.bind(this), this.interval)
+        setInterval(this.upSession.bind(this), this.interval/2)
     }
 
 
@@ -62,15 +62,14 @@ export class SessionUpdater extends GDataObject {
         let updateElapsed = current - this.lastUpdate
 
         //Crack session variable and reload if inactive timeout realese
-        if(inactiveElapsed > this.timeout){
+        /*if(inactiveElapsed > this.timeout){
             console.warn("[Session] Timed out session of "+this.uname)
             cookie.set("validator", "")
             location.reload()
             return
-        }
-
+        }*/
         //Near session timeout then update session
-        if(updateElapsed > (this.timeout - this.interval)){
+        if(updateElapsed > (this.timeout - this.interval) && inactiveElapsed < (this.timeout - this.interval)){
     
             let date = new Date()
             this.lastUpdate = date.getTime()

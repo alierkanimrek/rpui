@@ -151,7 +151,7 @@ class XHRUserLogin(BaseHandler):
             p = PasswordLock()
             if(p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
                 resp = {"result" : True}
-                await self.session.createSession(user["uname"])  
+                await self.session.createSession(user["uname"], data["remember"])  
                 self.__log.i("User logged in", user["uname"])
             else:
                 self.__log.d("Unauthorized login attempt", user["uname"])
@@ -170,7 +170,7 @@ class XHRSessionUpdate(BaseHandler):
 
     
     async def post(self):
-        await self.session.updateSession()
+        await self.session.checkSession()
 
 
 
