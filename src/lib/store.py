@@ -50,17 +50,17 @@ class Task():
         self.tname = tname
         self.uri = uname+"/"+nname+"/"+tname
         self.desc = ""
-        self.access = NODEACCESS_USER
-        self.group = []
-        self.data = {}
-        self.last = 0
+        #self.access = NODEACCESS_USER
+        #self.group = []
+        #self.data = {}
+        #self.last = 0
 
 
 
 
 class TaskData():
 
-    def __init__(self, tname, data={}):
+    def __init__(self, tname, data):
         self.tname = tname
         self.data = data
 
@@ -73,6 +73,9 @@ class Data():
         self.nname = nname
         self.uname = uname
         self.taskdata = {}
+        self.access = NODEACCESS_USER
+        self.group = []
+        self.followup = []
 
 
 
@@ -127,7 +130,6 @@ class Store(object):
 
     def __init__(self):
         self._db = RpMongoClient()   
-
 
 
 
@@ -266,29 +268,31 @@ class Store(object):
 
     async def updateNode(self, doc): 
         #doc = Node(..)
-        data = await self._db.updateNode(vars(doc))
-        if(data):   return(data)
-        else:   return(False)
+        node = await self._db.updateNode(vars(doc))
+        if(node):
+            data = await self._db.updateDataProps(doc.uname, doc.nname, node["access"], node["group"], node["followup"])
+            if(data):
+                return(node)
+        return(False)
 
 
 
 
     async def removeNode(self, uname, nname):
         tasklist = await self.getTasks(uname, nname)
-        if(type(tasklist) is list):                
+        if(type(tasklist) is list):
             for task in tasklist:
                 await self.removeTask(uname, nname, task["tname"])
-            data = await self._db.removeNode(uname, nname)
-            data2 = await self._db.removeData(uname, nname)
-            if(data):   return(True)
+        data2 = await self._db.removeData(uname, nname)
+        data = await self._db.removeNode(uname, nname)
+        if(data):   return(True)
         return(False)
 
 
 
 
-    async def updateData(self, doc): 
-        #doc = Data(..)
-        data = await self._db.updateData(vars(doc))
+    async def updateData(self, uname, nname, data):
+        data = await self._db.updateData(uname, nname, data)
         if(data):   return(data)
         else:   return(False)
 

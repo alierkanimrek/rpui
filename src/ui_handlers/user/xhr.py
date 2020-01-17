@@ -39,7 +39,7 @@ class XHRSignupCheckHandler(BaseHandler):
                 resp = {"result" : False}
             await self.stackAppendAndSend(resp, "xhrsignupcheck")
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
 
 
@@ -72,7 +72,7 @@ class XHRUserCheckHandler(BaseHandler):
                 resp = {"result" : False}
             await self.stackAppendAndSend(resp, "xhrucheck")
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
 
 
@@ -102,7 +102,7 @@ class XHRUserCreateHandler(BaseHandler):
                 self.__log.w("User has or password invalid", data)
                 await self.stackAppendAndSend(resp, "xhrucreate")        
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         # Create User
         result = await self.db.createUser(data, self.conf.SERVER.pass_key)
@@ -156,7 +156,7 @@ class XHRUserLogin(BaseHandler):
             else:
                 self.__log.d("Unauthorized login attempt", user["uname"])
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrulogin")
 
@@ -221,7 +221,7 @@ class XHRUserForgotPassw(BaseHandler):
                     resp = {"result" : True}
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhruforgot")
 
@@ -263,7 +263,7 @@ class XHRUserSendCode(BaseHandler):
                 await self.db.removeSession(str(codeData["_id"]))
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrsendcode")
 
@@ -302,7 +302,7 @@ class XHRUserChangePassw(BaseHandler):
                 self.__log.w("User not found or password invalid", self.current_user)
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhruchangepassw")
 
@@ -337,7 +337,7 @@ class XHRGetCurrentUser(BaseHandler):
                 resp["uname"] = self.current_user
             resp["result"] = True
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrgetuname")
 
@@ -364,7 +364,7 @@ class XHRGetUserProfile(BaseHandler):
                 resp["uname"] = self.current_user
                 resp = data
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrgetuprf")        
 
@@ -408,7 +408,7 @@ class XHRUpdateUserProfile(BaseHandler):
                     self.__log.w("Profile not updated", rec.uname)
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrupdateuprf")
 
@@ -441,6 +441,6 @@ class XHRSendClientCode(BaseHandler):
                     self.__log.e("Mail message not saved", self.current_user)
                 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrsendcc")

@@ -7,6 +7,8 @@
 
 import random
 import datetime
+import traceback
+import sys
 import tornado 
 
 from .base import BaseHandler
@@ -45,7 +47,7 @@ class XHRNodeCreate(BaseHandler):
                 self.__log.e("User not found")
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrcreatenode")
 
@@ -73,7 +75,7 @@ class XHRNodes(BaseHandler):
             resp = {"nodelist": lst}
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrnodes")
 
@@ -106,7 +108,7 @@ class XHRChkNodes(BaseHandler):
             resp = nodestatus
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrchknodes")
 
@@ -136,7 +138,7 @@ class XHRNodeLoad(BaseHandler):
                 self.__log.e("Node not found", self.current_user, nname)
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrnodeload")
 
@@ -174,7 +176,7 @@ class XHRNodeUpdate(BaseHandler):
                         self.__log.i("Node removed", doc.nname)
                         resp = {"result" : True}
                     else:
-                        self.__log.w("Node not removed", nname)
+                        self.__log.w("Node not removed", doc.nname)
                 else:
                     # Update node
                     result = await self.db.updateNode(doc)
@@ -187,7 +189,7 @@ class XHRNodeUpdate(BaseHandler):
                 self.__log.e("User not found")
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrupdatenode")
 
@@ -215,7 +217,7 @@ class XHRNodeTasks(BaseHandler):
                 self.__log.e("Tasks not found", self.current_user, nname)
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrnodetasks")
 
@@ -255,7 +257,7 @@ class XHRCreateTask(BaseHandler):
                 self.__log.e("User not found")
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrcreatetask")
 
@@ -295,7 +297,7 @@ class XHRRemoveTask(BaseHandler):
                 self.__log.e("User not found")
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrremovetask")
 
@@ -327,7 +329,7 @@ class XHRViewCreate(BaseHandler):
                 self.__log.w("View not created", vname)
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrcreateview")
 
@@ -355,7 +357,7 @@ class XHRViews(BaseHandler):
             resp = {"viewlist": lst}
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrviews")
 
@@ -383,7 +385,7 @@ class XHRNodeVars(BaseHandler):
             resp = {"nodevars": lst}
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrnodevars")
  
@@ -424,7 +426,7 @@ class XHRViewUpdate(BaseHandler):
                 self.__log.w("View not updated", view["uname"], view["vname"])
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrupdateview")
 
@@ -453,7 +455,7 @@ class XHRView(BaseHandler):
                 resp = {"view": view, "result": True}                
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrview")
 
@@ -485,6 +487,6 @@ class XHRChkData(BaseHandler):
                     resp[d["nname"]] = d["taskdata"]
 
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrchkdata")

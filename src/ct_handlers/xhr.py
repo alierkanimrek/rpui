@@ -53,7 +53,7 @@ class XHRClientAuth(BaseHandler):
                     self.touch.add(nn)
                 resp = {"result" : True}
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         await self.stackAppendAndSend(resp, "xhrclientauth")
 
 
@@ -98,7 +98,7 @@ class XHRClientPing(BaseHandler):
 
             resp["result"] = True
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         await self.stackAppendAndSend(resp, "xhrclientping")
 
 
@@ -120,7 +120,7 @@ class XHRClientUpdate(BaseHandler):
         try:
             uname = self.cstack.stack[0]["uname"]
             nname = self.cstack.stack[0]["nname"]
-            data = Data(uname, nname)
+            taskdata = {}
             self.uri = uname+"/"+nname
             followup = self.cstack.data(self.uri+"/command")["followup"]
             
@@ -129,9 +129,11 @@ class XHRClientUpdate(BaseHandler):
             #Save Data
             for d in self.cstack.stack:
                 if(d["name"] != "command"):
-                    data.taskdata = d["data"]
+                    taskdata = d["data"]
                         
-            await self.db.updateData(data)
+            data = await self.db.updateData(uname, nname, taskdata)
+            if(data):
+                print(data["followup"])
 
             #Check owner is online
             if(self.alive.isThere(uname)):
@@ -154,6 +156,6 @@ class XHRClientUpdate(BaseHandler):
             
             resp["result"] = True
         except Exception as inst:
-            self.__log.e("Runtime error", type(inst), inst.args)
+            self.__log.e_tb("Runtime error", inst)
         await self.stackAppendAndSend(resp, "xhrclientupdate")
 

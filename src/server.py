@@ -92,7 +92,7 @@ try:
         initStatus)
 
 except Exception as inst:
-    stage1.e("DB connection error", type(inst), str(inst.args))
+    stage1.e_tb("DB connection error", inst)
     sys.exit(-1)
 
 
@@ -106,8 +106,8 @@ def reload():
             conf.reload()
             log.level = conf.LOG.log_level
             stage1.d("Conf updated")
-        except Exception as inst:    
-            stage1.e("Conf updating failed", type(inst), str(inst.args))
+        except Exception as inst:
+            stage1.e_tb("Conf updating failed", inst)
     
 
 

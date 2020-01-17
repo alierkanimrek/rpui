@@ -258,7 +258,7 @@ class RpMongoClient(object):
         result = await self._nodes.find_one_and_replace({
             "uname":doc["uname"], "nname":doc["nname"]}, doc)
         if(result):
-            return(True)
+            return(result)
         else:
             return(None)
 
@@ -281,8 +281,6 @@ class RpMongoClient(object):
         if(type(r) is list):
             for t in r:
                 del t["_id"]
-                del t["data"]
-                del t["last"]
                 result.append(t)
             return(result)
         else:
@@ -345,11 +343,22 @@ class RpMongoClient(object):
 
 
 
-    async def updateData(self, doc):
-        result = await self._data.find_one_and_replace({
-            "uname":doc["uname"], "nname":doc["nname"]}, doc)
-        if(result):
-            return(True)
+    async def updateData(self, uname, nname, data):
+        doc = await self._data.find_one_and_update(
+            {"uname":uname, "nname":nname}, {"$set" : {"taskdata": data}})
+        if(doc):
+            return(doc)
+        else:
+            return(None)
+
+
+
+
+    async def updateDataProps(self, uname, nname, access, group, followup):
+        doc = await self._data.find_one_and_update(
+            {"uname":uname, "nname":nname}, {"$set" : {"access": access, "group": group, "followup": followup}})
+        if(doc):
+            return(doc)
         else:
             return(None)
 
