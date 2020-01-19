@@ -1,5 +1,5 @@
 any
-    DIV class=tile is-child box style=margin: 1rem !important; gid=item
+    DIV class=box style=margin: 1rem !important; gid=item
         DIV class=columns is-mobile is-1 
             DIV class=column is-one-quarter gid=statusContainer
                 DIV style=display:flex; height:100%;

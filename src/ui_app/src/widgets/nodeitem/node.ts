@@ -16,15 +16,15 @@ import {NodeStatus} from "../elements/nodestatus"
 
 const view = `
 any
-    DIV class=tile is-child box style=margin: 1rem !important; gid=item
+    DIV class=box style=min-width:30%; margin: 1rem !important; gid=item
         DIV class=columns is-mobile is-1 
             DIV class=column is-narrow gid=statusContainer
             DIV class=column
-                P gid=name class=title is-size-4 is-capitalized style=margin: 0rem; cursor:default;
+                P gid=name class=title is-size-4 is-capitalized style=margin: 0rem; cursor:default; min-width:12rem;
                 | Name
                 DIV class=columns is-mobile is-1
                     DIV class=column
-                        P gid=desc style=margin: 0rem; cursor:default;
+                        P gid=desc style=margin: 0rem; cursor:default; max-height:4rem; overflow:hidden;
                         | Desc
                     DIV class=column is-narrow
                         i gid=editButton class=fas fa-edit role=button style=float:right; font-size:1.2em; cursor:pointer;

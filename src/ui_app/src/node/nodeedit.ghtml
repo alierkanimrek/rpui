@@ -1,43 +1,65 @@
 baseMainContent
-  section class=hero is-fullheight
-    div class=hero-body
-      div class=container has-text-centered
-        div class=column is-4 is-offset-4
+  DIV class=tile is-ancestor
+    DIV class=tile is-vertical is-parent
+      DIV class=tile is-child 
+        div class=is-4 is-offset-4 has-text-centered
           h3 class=title has-text-gre is-capitalized y gid=title
           p class=subtitle has-text-grey gid=subTitle
-          div class=box
-            form
 
+      DIV class=tile is-child
+        DIV class=columns is-multiline        
+          
+          DIV style=min-width:30%; margin:1rem;
+            DIV
               div class=field
                 p class=control
                   label gid=descLabel class=is-left is-size-5
                 p class=control
-                  textarea gid=descInput class=textarea is-medium name=desc row=2
+                  textarea gid=descInput class=textarea name=desc row=2
+          
+          DIV style=min-width:30%; margin:1rem;
+            div class=field
+              p class=control
+                label class=is-size-5 gid=accessLabel 
+              p class=control
+                div class=columns is-mobile
+                  div class=column
+                    input id=r1 type=radio name=access value=0 
+                    label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
+                  div class=column
+                    input id=r2 type=radio name=access value=1 disabled=true
+                    label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
+                  div class=column 
+                    input id=r3 type=radio name=access value=2 disabled=true
+                    label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
+              p class=control
+                DIV class=tile is-vertical is-parent
+                  DIV class=tile is-child gid=searchContainer1
 
-              div class=field
-                p class=control
-                  label class=is-size-5 gid=accessLabel 
-                p class=control
-                  div class=columns is-mobile
-                    div class=column
-                      input id=r1 type=radio name=access value=0 
-                      label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
-                    div class=column
-                      input id=r2 type=radio name=access value=1 disabled=true
-                      label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
-                    div class=column 
-                      input id=r3 type=radio name=access value=2 disabled=true
-                      label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
+                  DIV class=tile is-child
+                    select class=is-capitalized style=width:100% size=10
+                      option
+                      | ali
+                    BUTTON class=button is-danger
+                    | Remove
 
-              div class=field gid=sendBtnContainer
 
-          p gid=footer class=has-text-grey is-medium
-            a gid=back
-            span
-            | &nbsp;&nbsp;&nbsp;
-            a gid=tasks
-            p style=height: 2em;
-            a gid=remove class=has-text-danger is-size-7
-            div gid=removeMsgContainer style=visibility: hidden;
-              span gid=removeMsg class=has-text-danger
+          DIV style=min-width:30%; margin:1rem;
+            div class=field
+              p class=control
+                label class=is-size-5 gid=followupLabel 
+                | Followup
+
+
+        DIV class=field gid=sendBtnContainer
+      DIV class=tile is-child
+        DIV gid=footer class=has-text-centered has-text-grey is-medium
+          a gid=back
+          span
+          | &nbsp;&nbsp;&nbsp;
+          a gid=tasks
+          p style=height: 2em;
+          a gid=remove class=has-text-danger is-size-7
+          div gid=removeMsgContainer style=visibility: hidden;
+            span gid=removeMsg class=has-text-danger
 

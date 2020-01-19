@@ -5,6 +5,7 @@ import {RpStack} from "../components/msg"
 import view from "./nodeedit.ghtml"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
 import {TaskEdit} from "../widgets/taskeditor/taskeditor"
+import {SearchInput} from "../widgets/elements/searchinput"
 
 
 
@@ -41,13 +42,13 @@ export class NodeEdit extends GHTMLControl {
     remove:HTMLElement
     removeMsgContainer:HTMLElement
     descInput:HTMLInputElement
+    search1: SearchInput
 
-    emap: any = [
+    emap: Array<any> = [
         [this.back, "click", this.footernav],
         [this.tasks, "click", this.footernav],
         [this.remove, "click", this.footernav]
     ]
-
 
 
 
@@ -56,7 +57,15 @@ export class NodeEdit extends GHTMLControl {
         this.trns = this.store("trns").t.translations(name)
         this._ = this.trns.get_()
         this.trns.updateStatics(this)
-        this.linkEvents(this.emap)
+        
+        this.search1 = new SearchInput({
+            rootId: this.e.searchContainer1.id,
+            label: "Search :",
+            buttonLabel: "Add"
+        })
+        this.emap.push([this.search1, "selected", this.search1Selected])
+        this.emap.push([this.search1, "input", this.search1Input])
+
         this.sendButton = new SendButton({
             rootId: this.sendBtnContainer.id,
             clickCall: this.update.bind(this),
@@ -66,11 +75,15 @@ export class NodeEdit extends GHTMLControl {
             errorMsg: this._("updateError"),
             classx: "button is-block is-info is-fullwidth is-medium"
         })
+
         if(this.store("base").nname == ""){
             this.store("base").getNNameFromUri(this.gDoc.path)
         }
         this.bindingStore.load(this.store("base").nname, this.load.bind(this))
+
+        this.linkEvents(this.emap)
     }
+
 
 
 
@@ -128,7 +141,21 @@ export class NodeEdit extends GHTMLControl {
             catch{    null    }
         }
     }
-        
+
+
+
+
+    search1Input(value:string){
+        console.log(value)
+        this.search1.upData(["ali", "veli", "deli"])
+    }    
+
+
+
+
+    search1Selected(value:string){
+        console.log(value)
+    }
 }
 
 

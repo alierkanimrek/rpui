@@ -17,15 +17,18 @@ const name = "view"
 const view = `
 baseMainContent
     DIV class=tile is-ancestor
-        DIV class=tile is-parent gid=ViewListContainer
-        DIV class=tile is-parent gid=ControlViewContainer
-        DIV class=tile is-parent gid=FooterContainer
-            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
-                i gid=addButton class=fas fa-plus role=button style=float:center; font-size:1.2em; cursor:pointer;
-            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
-                DIV gid=saveContainer style=display:inline-grid;
-            DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
-                A gid=nodesLink
+        DIV class=tile is-vertical is-parent
+            DIV class=tile is-child gid=ViewListContainer
+            DIV class=tile is-child
+                DIV class=columns is-multiline gid=ControlViewContainer
+            DIV class=tile is-child
+                DIV class=tile is-vertical is-parent gid=FooterContainer
+                    DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
+                        i gid=addButton class=fas fa-plus role=button style=float:center; font-size:1.2em; cursor:pointer;
+                    DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
+                        DIV gid=saveContainer style=display:inline-grid;
+                    DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
+                        A gid=nodesLink
 `
 
 

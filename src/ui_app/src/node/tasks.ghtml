@@ -1,13 +1,14 @@
 baseMainContent
-  section class=hero is-fullheight
-    div class=hero-body
-      div class=container has-text-centered
-        div class=column is-4 is-offset-4
+  DIV class=tile is-ancestor
+    DIV class=tile is-vertical is-parent
+      DIV class=tile is-child 
+        div class=column is-4 is-offset-4 has-text-centered
           h3 class=title has-text-grey gid=title
           p class=subTitle has-text-grey gid=subTitle
+      DIV class=tile is-child
+        DIV class=columns is-multiline        
           div class=box
             form
-
               div class=field
                 p class=control
                   label gid=listLabel class=is-left is-size-5
@@ -32,8 +33,9 @@ baseMainContent
 
                 div gid=wgtAddButton class=columns style=margin-top: 0.5em;
 
-          p gid=footer class=has-text-grey is-medium
-            a gid=back
-            span
-            | &nbsp;&nbsp;&nbsp;
-            a gid=nodes
+      DIV class=tile is-child
+        DIV gid=footer class=has-text-centered has-text-grey is-medium
+          a gid=back
+          span
+          | &nbsp;&nbsp;&nbsp;
+          a gid=nodes

@@ -9,5 +9,5 @@ approot
             i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
   SECTION class=section baseSection
     DIV class=container baseContainer id=baseMenuContent
-      DIV class=tile is-ancestor id=mainMenuContainer
+      DIV class=columns is-multiline id=mainMenuContainer
     DIV class=container baseContainer id=baseMainContent

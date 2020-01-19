@@ -17,29 +17,29 @@ import {Translator} from "../../i18n/gettext"
 
 const view = `
 mainMenuContainer
-  DIV class = tile is-parent
-    DIV class = tile is-child box
-      P class=title is-5 id=mainMenuLgTitle
-      DIV
-        TABLE class=table is-fullwidth style=margin: 0;
-          TBODY
-            TR
-              TD style=width: 100%; vertical-align: middle; padding-bottom:0;
-                LABEL gid=enLabel
-                | English
-              TD style=padding-bottom:0;
-                A class=button is-light gid=enButton value=en-us
-                | English
-        TABLE class=table is-fullwidth style=margin: 0;
-          TBODY
-            TR
-              TD style=width: 100%; vertical-align: middle; padding-top:0;
-                LABEL gid=trLabel
-                | Türkçe
-              TD style=padding-bottom:0;
-                A class=button is-light gid=trButton value=tr-tr
-                | Turkish
-
+  DIV
+    DIV class = tile is-parent
+      DIV class = tile is-child box
+        P class=title is-5 id=mainMenuLgTitle
+        DIV
+          TABLE class=table is-fullwidth style=margin: 0;
+            TBODY
+              TR
+                TD style=width: 100%; vertical-align: middle; padding-bottom:0;
+                  LABEL gid=enLabel
+                  | English
+                TD style=padding-bottom:0;
+                  A class=button is-light gid=enButton value=en-us
+                  | English
+          TABLE class=table is-fullwidth style=margin: 0;
+            TBODY
+              TR
+                TD style=width: 100%; vertical-align: middle; padding-top:0;
+                  LABEL gid=trLabel
+                  | Türkçe
+                TD style=padding-bottom:0;
+                  A class=button is-light gid=trButton value=tr-tr
+                  | Turkish
 `
 
 

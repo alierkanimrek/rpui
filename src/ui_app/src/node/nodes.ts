@@ -15,11 +15,14 @@ const name = "nodes"
 const nodesView = `
 baseMainContent
     DIV class=tile is-ancestor
-        DIV class=tile is-parent gid=ViewListContainer
-        DIV class=tile is-parent gid=NodeListContainer
-        
+        DIV class=tile is-vertical is-parent
+            DIV class=tile is-child gid=ViewListContainer
+            DIV class=tile is-child
+                DIV class=columns is-multiline gid=NodeListContainer
+            DIV class=tile is-child gid=FooterMenuContainer
 `
 
+                    
 
 
 
