@@ -24,6 +24,7 @@ NODEACCESS_GROUP = 1
 NODEACCESS_ALL = 2
 
 
+USEARCHMODE_SHARE = "share"
 
 
 
@@ -270,7 +271,12 @@ class Store(object):
         #doc = Node(..)
         node = await self._db.updateNode(vars(doc))
         if(node):
-            data = await self._db.updateDataProps(doc.uname, doc.nname, node["access"], node["group"], node["followup"])
+            data = await self._db.updateDataProps(
+                doc.uname, 
+                doc.nname, 
+                doc.access, 
+                doc.group, 
+                doc.followup)
             if(data):
                 return(node)
         return(False)
@@ -372,3 +378,20 @@ class Store(object):
     async def getView(self, uname, vname):
         data = await self._db.getUserView(uname, vname)
         return(data)
+
+
+
+
+    async def searchUsers(self, term, mode, parm=""):
+        result = []
+        if(mode == USEARCHMODE_SHARE):
+            lst = await self._db.getSharedUsers(term)
+            for usr in lst:
+                print(usr["uname"], usr["access"])
+                if(parm == usr["uname"]):
+                    pass
+                elif(usr["access"] == 2):
+                    result.append(usr["uname"])
+                elif(usr["access"] == 1 and parm in usr["group"]):
+                    result.append(usr["uname"])
+        return(result)

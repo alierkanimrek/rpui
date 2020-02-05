@@ -43,11 +43,13 @@ export class NodeEdit extends GHTMLControl {
     removeMsgContainer:HTMLElement
     descInput:HTMLInputElement
     search1: SearchInput
+    userlist: HTMLSelectElement
 
     emap: Array<any> = [
         [this.back, "click", this.footernav],
         [this.tasks, "click", this.footernav],
-        [this.remove, "click", this.footernav]
+        [this.remove, "click", this.footernav],
+        [this.e.ulistRemoveBtn, "click", this.removeUList]
     ]
 
 
@@ -60,8 +62,7 @@ export class NodeEdit extends GHTMLControl {
         
         this.search1 = new SearchInput({
             rootId: this.e.searchContainer1.id,
-            label: "Search :",
-            buttonLabel: "Add"
+            label: "Search :"
         })
         this.emap.push([this.search1, "selected", this.search1Selected])
         this.emap.push([this.search1, "input", this.search1Input])
@@ -82,6 +83,7 @@ export class NodeEdit extends GHTMLControl {
         this.bindingStore.load(this.store("base").nname, this.load.bind(this))
 
         this.linkEvents(this.emap)
+        this.e.userlist.setAttribute("multiple", "true")
     }
 
 
@@ -113,8 +115,13 @@ export class NodeEdit extends GHTMLControl {
 
 
     load():void{
-        this.up()
         this.title.textContent = this.bindingStore.title
+        this.up()
+        this.setUList()
+        if(this.bindingStore.access == "1"){
+            this.e.friendsContainer.style.visibility = "visible"
+            this.e.friendsContainer.style.height = ""
+        }
     }
 
 
@@ -130,6 +137,7 @@ export class NodeEdit extends GHTMLControl {
 
 
 
+
     input(event:GHTMLInputEvent):void{
         if(event.name == "desc" && event.value == "remove"){
             this.descInput.style.color = "red"
@@ -140,22 +148,63 @@ export class NodeEdit extends GHTMLControl {
             try{this.sendButton.submit.style.backgroundColor = ""}
             catch{    null    }
         }
+
+        if(event.name == "access"){
+            if(event.value == "1"){
+                this.e.friendsContainer.style.visibility = "visible"
+                this.e.friendsContainer.style.height = ""
+            }else{
+                this.e.friendsContainer.style.visibility = "hidden"
+                this.e.friendsContainer.style.height = "0"
+
+            }
+        }
+
     }
 
 
 
 
     search1Input(value:string){
-        console.log(value)
-        this.search1.upData(["ali", "veli", "deli"])
+        if(value && this.search1.opts.indexOf(value) == -1){
+            this.bindingStore.searchUser(value, this.users.bind(this))
+        }
     }    
 
 
 
 
-    search1Selected(value:string){
-        console.log(value)
+    users(unamelist:Array<string>){
+        this.search1.upData(unamelist)
     }
+
+
+
+
+    search1Selected(value:string){
+        this.bindingStore.addUserList(value)
+    }
+
+
+
+
+    removeUList(e:Event){
+        this.bindingStore.removeUsers()
+    }
+
+
+
+
+    setUList(){
+        if(this.userlist.options.length > 2){
+            this.userlist.size = this.userlist.options.length
+        }
+        else{
+             this.userlist.size = 2   
+        }
+
+    }
+
 }
 
 
@@ -168,9 +217,12 @@ export class NodeEdit extends GHTMLControl {
 export class NodeEditData extends GDataObject {
 	
 	
+    control: NodeEdit
     title: string = ""
     desc: string = ""
     access: string = "0"
+    userlist: Array<String> = []
+    userlist_options: Array<String> = []
 
 
 
@@ -182,6 +234,7 @@ export class NodeEditData extends GDataObject {
                 this.title = stack.stack[0].data.nname
                 this.desc = stack.stack[0].data.desc
                 this.access = String(stack.stack[0].data.access)
+                this.userlist_options = stack.stack[0].data.group
                 cb()
             }
         }
@@ -205,6 +258,31 @@ export class NodeEditData extends GDataObject {
 
 
 
+    searchUser(term:string, cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("namelist")){
+                cb(stack.dataVar("namelist"))
+            }
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            console.log(msg)    
+        }
+
+        let conn = new Connection({
+            port:Port.srcusr, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: {"term": term, "mode": "share"}})
+
+    }
+
+
+
+
     save(cb:Function):void{
 
         let response:ResponseHandler = (stack:RpStack) => {
@@ -215,7 +293,12 @@ export class NodeEditData extends GDataObject {
             cb(false, msg)    
         }
 
-        let data = {"title": this.title, "desc":this.desc, "access": Number(this.access)}
+        let data = {
+            "title": this.title, 
+            "desc":this.desc, 
+            "access": Number(this.access),
+            "group": this.userlist_options
+        }
 
         let conn = new Connection({
             port:Port.upnode, 
@@ -226,4 +309,29 @@ export class NodeEditData extends GDataObject {
         conn.run({ObjectData: data})
     }
 
+
+
+
+    addUserList(value:string){
+        if(this.userlist_options.indexOf(value) == -1){
+            this.userlist_options.push(value)
+            this.up()
+            this.control.setUList()
+        }
+    }
+
+
+
+
+    removeUsers(){
+        let newlist:Array<string> = []
+        this.userlist_options.forEach((uname:string)=>{
+            if(this.userlist.indexOf(uname) == -1){
+                newlist.push(uname)
+            }
+        })
+        this.userlist_options = newlist
+        this.up()
+        this.control.setUList()
+    }
 }

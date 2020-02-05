@@ -27,20 +27,18 @@ baseMainContent
                     input id=r1 type=radio name=access value=0 
                     label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
                   div class=column
-                    input id=r2 type=radio name=access value=1 disabled=true
+                    input id=r2 type=radio name=access value=1
                     label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
                   div class=column 
-                    input id=r3 type=radio name=access value=2 disabled=true
+                    input id=r3 type=radio name=access value=2
                     label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
-              p class=control
+              p class=control gid=friendsContainer style=visibility:hidden; height:0;
                 DIV class=tile is-vertical is-parent
                   DIV class=tile is-child gid=searchContainer1
 
-                  DIV class=tile is-child
-                    select class=is-capitalized style=width:100% size=10
-                      option
-                      | ali
-                    BUTTON class=button is-danger
+                  DIV class=tile is-child select is-multiple is-fullwidth
+                    SELECT gid=userlist name=userlist class=is-capitalized style=width:100%; size=2
+                    BUTTON gid=ulistRemoveBtn class=button is-danger
                     | Remove
 
 

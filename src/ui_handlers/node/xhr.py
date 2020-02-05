@@ -165,8 +165,8 @@ class XHRNodeUpdate(BaseHandler):
                 uname = user_doc["uname"]
                 doc = Node(self.cstack.stack[0]["data"]["title"], uname)
                 doc.desc = self.cstack.stack[0]["data"]["desc"]
-                doc.access = self.cstack.stack[0]["data"]["access"]
-                #doc.group = 
+                doc.access = int(self.cstack.stack[0]["data"]["access"])
+                doc.group = self.cstack.stack[0]["data"]["group"]
                 #doc.tlist = 
                 
                 if(doc.desc == "remove"):
@@ -490,3 +490,31 @@ class XHRChkData(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrchkdata")
+
+
+
+
+
+
+
+
+class XHRSearchUser(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"term":...}
+        self.__log = self.log.job("XHRSearchUser")
+        resp = {"result" : False}
+        
+        try:
+            term = self.cstack.stack[0]["data"]["term"]
+            mode = self.cstack.stack[0]["data"]["mode"]
+            namelist = await self.db.searchUsers(term, mode, self.current_user)
+            if(namelist):
+                resp["namelist"] = namelist
+
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        
+        await self.stackAppendAndSend(resp, "xhrsrcusr")

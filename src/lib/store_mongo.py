@@ -55,14 +55,15 @@ class RpMongoClient(object):
     def _createCollections(self, f):
         if(not f.exception()):
             self._users = self._db.users
-            self._users.create_index([("uname", 1), ("email", 1)])
+            self._users.create_index([("uname", "text"), ("email", 1)])
             
             self._auth = self._db.auth
             self._auth.create_index([("uname", 1)])
 
             self._nodes = self._db.nodes
+            self._nodes.create_index([("uname", "text")])
             self._nodes.create_index([("nname", 1)])
-            self._nodes.create_index([("uname", 1)])
+            
 
             self._tasks = self._db.tasks
             self._tasks.create_index([("uri", 1)])
@@ -356,7 +357,8 @@ class RpMongoClient(object):
 
     async def updateDataProps(self, uname, nname, access, group, followup):
         doc = await self._data.find_one_and_update(
-            {"uname":uname, "nname":nname}, {"$set" : {"access": access, "group": group, "followup": followup}})
+            {"uname":uname, "nname":nname}, 
+            {"$set" : {"access": access, "group": group, "followup": followup}})
         if(doc):
             return(doc)
         else:
@@ -426,3 +428,27 @@ class RpMongoClient(object):
         del data["_id"]
         if(data):   return(data)
         else:   return(False)
+
+
+
+
+    async def searchUsers(self, term):
+        cursor = self._users.find({"uname": { "$regex" : term}})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            result = r
+        return(result)
+
+
+
+
+    async def getSharedUsers(self, term):
+        cursor = self._nodes.find({
+            "uname": { "$regex" : term}, 
+            "access": {"$in": [1,2]}})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            result = r
+        return(result)
