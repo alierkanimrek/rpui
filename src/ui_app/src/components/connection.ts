@@ -41,7 +41,8 @@ export enum Port{
     "getnodevars" = "/xhr/getnodevars",
     "saveview" = "/xhr/saveview",
     "chkdata" = "/xhr/chkdata",
-    "srcusr" = "/xhr/srcusr"
+    "srcusr" = "/xhr/srcusr",
+    "getshrnodes" = "/xhr/shrnodes"
 }
 
 export interface ResponseHandler {

@@ -6,6 +6,7 @@ import view from "./nodeedit.ghtml"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
 import {TaskEdit} from "../widgets/taskeditor/taskeditor"
 import {SearchInput} from "../widgets/elements/searchinput"
+import {ButtonSelect} from "../widgets/elements/buttonselect"
 
 
 
@@ -43,7 +44,9 @@ export class NodeEdit extends GHTMLControl {
     removeMsgContainer:HTMLElement
     descInput:HTMLInputElement
     search1: SearchInput
+    search2: SearchInput
     userlist: HTMLSelectElement
+    nodeSelect: ButtonSelect
 
     emap: Array<any> = [
         [this.back, "click", this.footernav],
@@ -62,10 +65,20 @@ export class NodeEdit extends GHTMLControl {
         
         this.search1 = new SearchInput({
             rootId: this.e.searchContainer1.id,
-            label: "Search :"
+            label: "Search user:"
         })
         this.emap.push([this.search1, "selected", this.search1Selected])
         this.emap.push([this.search1, "input", this.search1Input])
+
+        this.search2 = new SearchInput({
+            rootId: this.e.searchContainer2.id,
+            label: "Search user:"
+        })
+        this.emap.push([this.search2, "selected", this.search2Selected])
+        this.emap.push([this.search2, "input", this.search2Input])
+
+        this.nodeSelect = new ButtonSelect(this.e.nodeList.id)
+        this.emap.push([this.nodeSelect, "selected", this.nodeSelected])
 
         this.sendButton = new SendButton({
             rootId: this.sendBtnContainer.id,
@@ -167,7 +180,7 @@ export class NodeEdit extends GHTMLControl {
 
     search1Input(value:string){
         if(value && this.search1.opts.indexOf(value) == -1){
-            this.bindingStore.searchUser(value, this.users.bind(this))
+            this.bindingStore.searchUser(value, this.users.bind(this), "all")
         }
     }    
 
@@ -192,6 +205,38 @@ export class NodeEdit extends GHTMLControl {
         this.bindingStore.removeUsers()
     }
 
+
+
+    search2Input(value:string){
+        if(value && this.search2.opts.indexOf(value) == -1){
+            this.bindingStore.searchUser(value, this.users2.bind(this), "share")
+        }
+    }    
+
+
+
+
+    users2(unamelist:Array<string>){
+        this.search2.upData(unamelist)
+    }
+
+
+
+
+    search2Selected(value:string){
+        let loaded = (nodes:Array<string>) =>{
+            this.nodeSelect.options = nodes
+            this.e.nodeContainer.style.visibility = "visible"
+            this.e.nodeContainer.style.height = ""
+        }
+        this.bindingStore.getNodes(value, loaded.bind(this))
+    }
+
+
+
+    nodeSelected(value:string){
+        console.log(value)
+    }
 
 
 
@@ -258,7 +303,7 @@ export class NodeEditData extends GDataObject {
 
 
 
-    searchUser(term:string, cb:Function):void{
+    searchUser(term:string, cb:Function, mode:string):void{
 
         let response:ResponseHandler = (stack:RpStack) => {
             if(stack.dataVar("namelist")){
@@ -276,7 +321,32 @@ export class NodeEditData extends GDataObject {
             responseHandler:response,
             errorHandler:error})
 
-        conn.run({ObjectData: {"term": term, "mode": "share"}})
+        conn.run({ObjectData: {"term": term, "mode": mode}})
+
+    }
+
+
+
+
+    getNodes(uname:string, cb:Function):void{
+
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("namelist")){
+                cb(stack.dataVar("namelist"))
+            }
+        }
+
+        let error:ErrorHandler = (msg:string) => {
+            console.log(msg)
+        }
+
+        let conn = new Connection({
+            port:Port.getshrnodes, 
+            name:name, 
+            responseHandler:response,
+            errorHandler:error})
+
+        conn.run({ObjectData: {"uname": uname}})
 
     }
 

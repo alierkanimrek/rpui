@@ -47,6 +47,14 @@ baseMainContent
               p class=control
                 label class=is-size-5 gid=followupLabel 
                 | Followup
+              p class=control
+                DIV class=tile is-vertical is-parent
+                  DIV class=tile is-child gid=searchContainer2
+                  DIV class=tile is-child gid=nodeContainer style=visibility:hidden; height:0;
+                    LABEL
+                    | Select node
+                    DIV gid=nodeList
+
 
 
         DIV class=field gid=sendBtnContainer

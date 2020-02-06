@@ -452,3 +452,16 @@ class RpMongoClient(object):
         if(type(r) is list):
             result = r
         return(result)
+
+
+
+
+    async def getSharedNodes(self, uname):
+        cursor = self._nodes.find({
+            "uname": uname, 
+            "access": {"$in": [1,2]}})
+        r = await cursor.to_list(None)
+        result = []
+        if(type(r) is list):
+            result = r
+        return(result)

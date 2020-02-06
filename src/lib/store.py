@@ -25,6 +25,7 @@ NODEACCESS_ALL = 2
 
 
 USEARCHMODE_SHARE = "share"
+USEARCHMODE_ALL = "all"
 
 
 
@@ -387,11 +388,30 @@ class Store(object):
         if(mode == USEARCHMODE_SHARE):
             lst = await self._db.getSharedUsers(term)
             for usr in lst:
-                print(usr["uname"], usr["access"])
                 if(parm == usr["uname"]):
                     pass
                 elif(usr["access"] == 2):
                     result.append(usr["uname"])
                 elif(usr["access"] == 1 and parm in usr["group"]):
                     result.append(usr["uname"])
+        if(mode == USEARCHMODE_ALL):
+            lst = await self._db.searchUsers(term)
+            for usr in lst:
+                if(parm == usr["uname"]):
+                    pass
+                else:
+                    result.append(usr["uname"])
+        return(result)
+
+
+
+
+    async def getSharedNodes(self, uname, parm):
+        result = []
+        lst = await self._db.getSharedNodes(uname)
+        for node in lst:
+            if(node["access"] == 2):
+                result.append(node["nname"])
+            elif(node["access"] == 1 and parm in node["group"]):
+                result.append(node["nname"])
         return(result)

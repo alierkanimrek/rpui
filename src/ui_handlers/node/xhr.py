@@ -518,3 +518,28 @@ class XHRSearchUser(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrsrcusr")
+
+
+
+
+
+
+class XHRSharedNodes(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"term":...}
+        self.__log = self.log.job("XHRSharedNodes")
+        resp = {"result" : False}
+        
+        try:
+            uname = self.cstack.stack[0]["data"]["uname"]
+            namelist = await self.db.getSharedNodes(uname, self.current_user)
+            if(namelist):
+                resp["namelist"] = namelist
+
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        
+        await self.stackAppendAndSend(resp, "xhrshrnode")
