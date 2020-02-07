@@ -42,7 +42,8 @@ export enum Port{
     "saveview" = "/xhr/saveview",
     "chkdata" = "/xhr/chkdata",
     "srcusr" = "/xhr/srcusr",
-    "getshrnodes" = "/xhr/shrnodes"
+    "getshrnodes" = "/xhr/shrnodes",
+    "getshrtasks" = "/xhr/shrtasks"
 }
 
 export interface ResponseHandler {

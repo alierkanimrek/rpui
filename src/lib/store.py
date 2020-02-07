@@ -388,7 +388,7 @@ class Store(object):
         if(mode == USEARCHMODE_SHARE):
             lst = await self._db.getSharedUsers(term)
             for usr in lst:
-                if(parm == usr["uname"]):
+                if(parm == usr["uname"] or usr["uname"] in result):
                     pass
                 elif(usr["access"] == 2):
                     result.append(usr["uname"])
@@ -415,3 +415,13 @@ class Store(object):
             elif(node["access"] == 1 and parm in node["group"]):
                 result.append(node["nname"])
         return(result)
+
+
+
+
+    async def getSharedTasks(self, uname, nname):
+        result = []
+        lst = await self._db.getSharedTasks(uname, nname)
+        for task in lst:
+            result.append(task["tname"])
+        return(result)        

@@ -9,47 +9,28 @@ import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../../glider/glider"
 
 const view = `
 any
-    DIV class=columns is-mobile style=margin-bottom: 0;
-        DIV class=column is-narrow
-            LABEL gid=label
-        DIV class=column
-            INPUT gid=search name=term style=width:100% gdelay=800
     DIV gid=items 
 `
 
 
-export interface SearchInputParameters{
-    rootId: string,
-    label: string,
-}
 
 
 
 
-export class SearchInput extends GHTMLControl {
+export class ButtonSelect extends GHTMLControl {
 
 
 
-    bindingStore: Data
     private callBack:Function
-    private _name:string
     private _options: Array<string> = []
     private _value: string = ""
     private _last: HTMLButtonElement
 
 
 
-    constructor(p:SearchInputParameters) { 
-        super({view:view, root:p.rootId, bindToLocal:new Data()}) 
-        this.e.label.textContent = p.label
+    constructor(rootId:string) { 
+        super({view:view, root:rootId}) 
     }  
-
-
-
-
-    delayedInput():void{
-        this.dispatchEvent("input", this.bindingStore.term)
-    }
 
 
 
@@ -61,16 +42,16 @@ export class SearchInput extends GHTMLControl {
 
 
 
-    get opts():Array<string>{
+    get options():Array<string>{
         return(this._options)
     }
 
 
 
 
-    upData(options: Array<string>){
+    set options(options: Array<string>){
         this._options = options
-        while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
+        this.clear()
         options.forEach((opt:string)=>{
             let btn = this.e.items.add("button", {
                 "class": "button is-rounded is-capitalized", 
@@ -82,7 +63,6 @@ export class SearchInput extends GHTMLControl {
         })
 
     }
-
 
 
 
@@ -100,27 +80,7 @@ export class SearchInput extends GHTMLControl {
 
 
     clear():void{
-        this.bindingStore.term = ""
-        this.up()
-    }
-
-}
-
-
-
-
-
-
-
-class Data extends GDataObject {
-    
-    control: SearchInput
-    term: string = ""
-
-
-
-    input(event:GHTMLInputEvent):void{
-        this.control.delayedInput()
+        while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
     }
 
 }

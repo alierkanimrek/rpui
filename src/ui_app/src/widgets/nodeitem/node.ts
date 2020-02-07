@@ -68,7 +68,7 @@ export class NodeItem extends GHTMLControl {
         this.name.textContent = name
         this._name = name
         this.desc.textContent = desc
-        this.uri = "/"+this.gDoc.gData("session").user+"/"+name
+        this.uri = "/"+this.gDoc.gData("session").user+"/"+name+"/edit"
         //this.trns = this.gDoc.gData("trns").t
         //this.trns.addEventListener("change", this.langChanged.bind(this))
         this.linkEvents(this.eventMap)        

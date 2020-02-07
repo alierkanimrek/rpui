@@ -167,7 +167,8 @@ class XHRNodeUpdate(BaseHandler):
                 doc.desc = self.cstack.stack[0]["data"]["desc"]
                 doc.access = int(self.cstack.stack[0]["data"]["access"])
                 doc.group = self.cstack.stack[0]["data"]["group"]
-                #doc.tlist = 
+                doc.followup = self.cstack.stack[0]["data"]["followup"]
+                 
                 
                 if(doc.desc == "remove"):
                     # Remove Node
@@ -543,3 +544,31 @@ class XHRSharedNodes(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrshrnode")
+
+
+
+
+
+
+
+
+class XHRSharedTasks(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"term":...}
+        self.__log = self.log.job("XHRSharedTasks")
+        resp = {"result" : False}
+        
+        try:
+            uname = self.cstack.stack[0]["data"]["uname"]
+            nname = self.cstack.stack[0]["data"]["nname"]
+            namelist = await self.db.getSharedTasks(uname, nname)
+            if(namelist):
+                resp["namelist"] = namelist
+            print(resp)
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        
+        await self.stackAppendAndSend(resp, "xhrshrtasks")

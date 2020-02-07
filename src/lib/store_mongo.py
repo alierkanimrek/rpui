@@ -433,9 +433,9 @@ class RpMongoClient(object):
 
 
     async def searchUsers(self, term):
+        result = []
         cursor = self._users.find({"uname": { "$regex" : term}})
         r = await cursor.to_list(None)
-        result = []
         if(type(r) is list):
             result = r
         return(result)
@@ -444,11 +444,11 @@ class RpMongoClient(object):
 
 
     async def getSharedUsers(self, term):
+        result = []
         cursor = self._nodes.find({
             "uname": { "$regex" : term}, 
             "access": {"$in": [1,2]}})
         r = await cursor.to_list(None)
-        result = []
         if(type(r) is list):
             result = r
         return(result)
@@ -457,11 +457,24 @@ class RpMongoClient(object):
 
 
     async def getSharedNodes(self, uname):
+        result = []
         cursor = self._nodes.find({
             "uname": uname, 
             "access": {"$in": [1,2]}})
         r = await cursor.to_list(None)
+        if(type(r) is list):
+            result = r
+        return(result)
+
+
+
+
+    async def getSharedTasks(self, uname, nname):
         result = []
+        cursor = self._tasks.find({
+            "uname": uname, 
+            "nname": nname})
+        r = await cursor.to_list(None)
         if(type(r) is list):
             result = r
         return(result)

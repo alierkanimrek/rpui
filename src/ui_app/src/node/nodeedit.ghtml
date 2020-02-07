@@ -37,6 +37,8 @@ baseMainContent
                   DIV class=tile is-child gid=searchContainer1
 
                   DIV class=tile is-child select is-multiple is-fullwidth
+                    LABEL gid=userSelectLabel
+                    | Shared users
                     SELECT gid=userlist name=userlist class=is-capitalized style=width:100%; size=2
                     BUTTON gid=ulistRemoveBtn class=button is-danger
                     | Remove
@@ -49,11 +51,21 @@ baseMainContent
                 | Followup
               p class=control
                 DIV class=tile is-vertical is-parent
-                  DIV class=tile is-child gid=searchContainer2
-                  DIV class=tile is-child gid=nodeContainer style=visibility:hidden; height:0;
-                    LABEL
+                  DIV class=tile gid=searchContainer2
+                  DIV class=tile gid=nodeContainer style=visibility:hidden; height:0;
+                    LABEL gid=nodeSelectLabel
                     | Select node
-                    DIV gid=nodeList
+                    DIV gid=nodeSelect
+                  DIV class=tile is-child gid=taskContainer style=visibility:hidden; height:0;
+                    LABEL gid=taskSelectLabel
+                    | Select task for followup
+                    DIV gid=taskSelect
+                  DIV class=tile is-child select is-multiple is-fullwidth
+                    LABEL gid=taskListLabel
+                    | Followed tasks
+                    SELECT gid=tasklist name=tasklist class=is-capitalized style=width:100%; size=2
+                    BUTTON gid=tlistRemoveBtn class=button is-danger
+                    | Remove
 
 
 

@@ -51,6 +51,7 @@ nodeRouting = [
     (r"/xhr/getview", xhr.XHRView),
     (r"/xhr/chkdata", xhr.XHRChkData),
     (r"/xhr/srcusr", xhr.XHRSearchUser),
-    (r"/xhr/shrnodes", xhr.XHRSharedNodes)
+    (r"/xhr/shrnodes", xhr.XHRSharedNodes),
+    (r"/xhr/shrtasks", xhr.XHRSharedTasks)
     ]
   
