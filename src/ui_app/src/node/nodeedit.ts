@@ -138,6 +138,7 @@ export class NodeEdit extends GHTMLControl {
         this.title.textContent = this.bindingStore.title
         this.up()
         this.setUList()
+        this.setTList()
         if(this.bindingStore.access == "1"){
             this.e.friendsContainer.style.visibility = "visible"
             this.e.friendsContainer.style.height = ""
@@ -186,6 +187,7 @@ export class NodeEdit extends GHTMLControl {
 
 
     search1Input(value:string){
+        this.search1.clear()
         let loaded = (unamelist:Array<string>) =>{
             this.search1.upData(unamelist)
         }
@@ -205,10 +207,14 @@ export class NodeEdit extends GHTMLControl {
 
 
     search2Input(value:string){
+        this.search2.clear()
+        this.nodeSelector.clear()
+        this.taskSelector.clear()
         let loaded = (unamelist:Array<string>) =>{
             this.search2.upData(unamelist)
-            this.nodeSelector.clear()
-            this.taskSelector.clear()
+            if(unamelist.length == 1 ){
+                this.search2Selected(unamelist[0])
+            }
         }
         if(value && this.search2.opts.indexOf(value) == -1){
             this.bindingStore.searchUser(value, loaded.bind(this), "share")
@@ -219,11 +225,15 @@ export class NodeEdit extends GHTMLControl {
 
 
     search2Selected(value:string){
+        this.nodeSelector.clear()
+        this.taskSelector.clear()
         let loaded = (nodes:Array<string>) =>{
             this.nodeSelector.options = nodes
             this.e.nodeContainer.style.visibility = "visible"
             this.e.nodeContainer.style.height = ""
-            this.taskSelector.clear()
+            if(nodes.length == 1){
+                this.nodeSelected(nodes[0])
+            }
         }
         this.bindingStore.getNodes(value, loaded.bind(this))
     }
@@ -232,6 +242,7 @@ export class NodeEdit extends GHTMLControl {
 
 
     nodeSelected(value:string){
+        this.taskSelector.clear()
         let loaded = (tasks:Array<string>) =>{
             this.taskSelector.options = tasks
             this.e.taskContainer.style.visibility = "visible"
@@ -315,6 +326,7 @@ export class NodeEditData extends GDataObject {
                 this.desc = stack.stack[0].data.desc
                 this.access = String(stack.stack[0].data.access)
                 this.userlist_options = stack.stack[0].data.group
+                this.tasklist_options = stack.stack[0].data.followup
                 cb()
             }
         }

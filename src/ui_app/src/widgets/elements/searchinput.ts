@@ -70,7 +70,7 @@ export class SearchInput extends GHTMLControl {
 
     upData(options: Array<string>){
         this._options = options
-        while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
+        this.clear()
         options.forEach((opt:string)=>{
             let btn = this.e.items.add("button", {
                 "class": "button is-rounded is-capitalized", 
@@ -100,7 +100,7 @@ export class SearchInput extends GHTMLControl {
 
 
     clear():void{
-        this.bindingStore.term = ""
+        while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
         this.up()
     }
 

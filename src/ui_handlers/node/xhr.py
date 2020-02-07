@@ -567,7 +567,7 @@ class XHRSharedTasks(BaseHandler):
             namelist = await self.db.getSharedTasks(uname, nname)
             if(namelist):
                 resp["namelist"] = namelist
-            print(resp)
+
         except Exception as inst:
             self.__log.e_tb("Runtime error", inst)
         

@@ -2,34 +2,34 @@ baseMainContent
   DIV class=tile is-ancestor
     DIV class=tile is-vertical is-parent
       DIV class=tile is-child 
-        div class=is-4 is-offset-4 has-text-centered
+        DIV class=is-4 is-offset-4 has-text-centered
           h3 class=title has-text-gre is-capitalized y gid=title
           p class=subtitle has-text-grey gid=subTitle
 
       DIV class=tile is-child
         DIV class=columns is-multiline        
           
-          DIV style=min-width:30%; margin:1rem;
-            DIV
-              div class=field
+          DIV class=box style=min-width:30%; margin:1rem;
+            DIV style=height:100%;
+              DIV class=field style=height:100%;
                 p class=control
                   label gid=descLabel class=is-left is-size-5
-                p class=control
-                  textarea gid=descInput class=textarea name=desc row=2
+                p class=control style=height:100%;
+                  textarea gid=descInput class=textarea name=desc row=2 style=height:100%;
           
-          DIV style=min-width:30%; margin:1rem;
-            div class=field
+          DIV class=box style=min-width:30%; margin:1rem;
+            DIV class=field
               p class=control
                 label class=is-size-5 gid=accessLabel 
               p class=control
-                div class=columns is-mobile
-                  div class=column
+                DIV class=columns is-mobile
+                  DIV class=column
                     input id=r1 type=radio name=access value=0 
                     label gid=prvAccLabel for=r1 style=padding-left: 0.3rem;
-                  div class=column
+                  DIV class=column
                     input id=r2 type=radio name=access value=1
                     label gid=frdAccLabel for=r2 style=padding-left: 0.3rem;
-                  div class=column 
+                  DIV class=column 
                     input id=r3 type=radio name=access value=2
                     label gid=pubAccLabel for=r3 style=padding-left: 0.3rem;
               p class=control gid=friendsContainer style=visibility:hidden; height:0;
@@ -38,36 +38,26 @@ baseMainContent
 
                   DIV class=tile is-child select is-multiple is-fullwidth
                     LABEL gid=userSelectLabel
-                    | Shared users
                     SELECT gid=userlist name=userlist class=is-capitalized style=width:100%; size=2
                     BUTTON gid=ulistRemoveBtn class=button is-danger
-                    | Remove
 
-
-          DIV style=min-width:30%; margin:1rem;
-            div class=field
+          DIV class=box style=min-width:30%; margin:1rem;
+            DIV class=field
               p class=control
                 label class=is-size-5 gid=followupLabel 
-                | Followup
               p class=control
-                DIV class=tile is-vertical is-parent
-                  DIV class=tile gid=searchContainer2
-                  DIV class=tile gid=nodeContainer style=visibility:hidden; height:0;
+                DIV class=tile is-vertical is-parent 
+                  DIV class=tile is-child gid=searchContainer2 style=width:100%; margin:0 !important;
+                  DIV class=tile is-child gid=nodeContainer style=visibility:hidden; height:0; margin:0 !important;
                     LABEL gid=nodeSelectLabel
-                    | Select node
                     DIV gid=nodeSelect
-                  DIV class=tile is-child gid=taskContainer style=visibility:hidden; height:0;
+                  DIV class=tile is-child gid=taskContainer style=visibility:hidden; height:0; 
                     LABEL gid=taskSelectLabel
-                    | Select task for followup
                     DIV gid=taskSelect
                   DIV class=tile is-child select is-multiple is-fullwidth
                     LABEL gid=taskListLabel
-                    | Followed tasks
                     SELECT gid=tasklist name=tasklist class=is-capitalized style=width:100%; size=2
                     BUTTON gid=tlistRemoveBtn class=button is-danger
-                    | Remove
-
-
 
         DIV class=field gid=sendBtnContainer
       DIV class=tile is-child
@@ -78,6 +68,6 @@ baseMainContent
           a gid=tasks
           p style=height: 2em;
           a gid=remove class=has-text-danger is-size-7
-          div gid=removeMsgContainer style=visibility: hidden;
+          DIV gid=removeMsgContainer style=visibility: hidden;
             span gid=removeMsg class=has-text-danger
 
