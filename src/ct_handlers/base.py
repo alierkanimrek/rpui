@@ -135,8 +135,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
-    def cmdFollowup(self, flist):
-        self.cmds.cmd("followup", flist)
+    def cmdFollowup(self, fup):
+        self.cmds.cmd("followup", fup)
 
 
 

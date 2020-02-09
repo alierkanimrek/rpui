@@ -14,7 +14,7 @@ import motor
 
 from .passlock import PasswordLock
 from .store_mongo import RpMongoClient
-
+from .source import get_names_from_uri
 
 
 
@@ -114,6 +114,43 @@ class ViewItem():
         self.autosend = autosend
         self.map = map
         self.static = static
+
+
+
+
+class FollowupData():
+
+
+    def __init__(self):
+        #{"<uname>": {"<nname>": {"<tname>", ...}, ...}, ... }
+        self.__data = {}
+
+
+    def add(self, uri, data={}):
+        uname, nname, tname = get_names_from_uri(uri)
+        if(uname not in self.__data):
+            self.__data[uname] = {}
+        if(nname not in self.__data[uname]):
+            self.__data[uname][nname] = {}
+        self.__data[uname][nname][tname] = data
+
+
+    @property
+    def data(self):
+        result = {}
+        for uname, nodes in self.__data.items():
+            for nname, tasks in nodes.items():
+                for tname, data in tasks.items():
+                    result[uname+"/"+nname+"/"+tname] = data
+        return(result)
+
+
+    def set(self, uname, nname, tname, data):
+        self.__data[uname][nname][tname] = data
+
+
+
+
 
 
 
@@ -424,4 +461,31 @@ class Store(object):
         lst = await self._db.getSharedTasks(uname, nname)
         for task in lst:
             result.append(task["tname"])
-        return(result)        
+        return(result)
+
+
+
+
+    async def getFollowData(self, user, urilist):
+        udata = {}  #User node data stack [{}, ...]
+        data = FollowupData()
+        for uri in urilist:
+            uname, nname, tname = get_names_from_uri(uri)
+            # Get user nodes
+            if(uname not in udata):
+                unodes = await self._db.getUserData(uname)
+                if(unodes):
+                    udata[uname] = unodes
+            #Loaded or ready
+            if(uname in udata):
+                # Search
+                for node in udata[uname]:
+                    if(node["nname"] == nname):
+                        if(tname in node["taskdata"]):
+                            # Check Sharing opts
+                            if(node["access"] == 2):
+                                data.add(uri, node["taskdata"][tname])
+                            elif(node["access"] == 1 and user in node["group"]):
+                                data.add(uri, node["taskdata"][tname])
+        
+        return(data.data)

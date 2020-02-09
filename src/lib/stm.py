@@ -59,7 +59,7 @@ class STM(object):
         if not t:    t=int(time.time())
         else:   t=int(t)
         for s in self._set.keys():
-            #print(t, s)
+            #print(t, self._set)
             #if t - self.lifetime > s and self.lifetime > 0: Zero Fix
             if t - self.lifetime > s and s not in self._dellist:
                 self._dellist.append(s)
@@ -106,6 +106,13 @@ class STM(object):
                         l.append(k)
         return(len(l))
 
+
+
+
+
+    @property
+    def set(self):
+        return self._set
 
 
 

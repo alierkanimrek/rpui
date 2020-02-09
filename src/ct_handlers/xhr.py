@@ -14,8 +14,8 @@ import datetime
 import tornado
 
 from .base import BaseHandler
-from lib.store import Node, TaskData, Data
-
+from lib.store import Node, TaskData, Data, FollowupData
+from lib.source import get_names_from_uri
 
 
 
@@ -48,9 +48,13 @@ class XHRClientAuth(BaseHandler):
                 tasks = await self.db.getTasks(uname, nname)
                 node = await self.db.getNode(uname, nname)
                 if(tasks):  self.cmdTasklist(tasks)
-                if(node):  self.cmdFollowup(node["followup"])
-                for nn in node["followup"]:
-                    self.touch.add(nn)
+                if(node):
+                    followup = FollowupData()
+                    for uri in node["followup"]:
+                        uname2, nname, tname = get_names_from_uri(uri)
+                        self.touch.add(uname2+"/"+nname)
+                        followup.add(uri)
+                    self.cmdFollowup(followup.data)
                 resp = {"result" : True}
         except Exception as inst:
             self.__log.e_tb("Runtime error", inst)
@@ -89,12 +93,14 @@ class XHRClientPing(BaseHandler):
                     resp["awake"] = True                
             
             #Check my followings is alive
-            for nn in followup:
-                self.touch.add(nn)
-                if(not resp["awake"]):
-                    if(self.alive.isThere(nn)):
-                        self.__log.d("A following is online", self.uri, nn)
-                        resp["awake"] = True
+            if(not resp["awake"]):
+                for uri in followup:
+                    uname2, nname, tname = get_names_from_uri(uri)
+                    self.touch.add(uname2+"/"+nname)
+                    if(not resp["awake"]):
+                        if(self.alive.isThere(uname2+"/"+nname)):
+                            self.__log.d("A following is online", self.uri, uname2+"/"+nname)
+                            resp["awake"] = True
 
             resp["result"] = True
         except Exception as inst:
@@ -122,7 +128,6 @@ class XHRClientUpdate(BaseHandler):
             nname = self.cstack.stack[0]["nname"]
             taskdata = {}
             self.uri = uname+"/"+nname
-            followup = self.cstack.data(self.uri+"/command")["followup"]
             
             self.alive.add(self.uri)
 
@@ -132,8 +137,18 @@ class XHRClientUpdate(BaseHandler):
                     taskdata = d["data"]
                         
             data = await self.db.updateData(uname, nname, taskdata)
+            
             if(data):
-                print(data["followup"])
+                #Get Followup data
+                fup = await self.db.getFollowData(uname, data["followup"])
+                self.cmdFollowup(fup)
+                #Check my followings is alive
+                for uri in data["followup"]:
+                    uname2, nname, tname = get_names_from_uri(uri)
+                    self.touch.add(uname2+"/"+nname)
+                    if(not resp["awake"]):
+                        if(self.alive.isThere(uname2+"/"+nname)):
+                            resp["awake"] = True
 
             #Check owner is online
             if(self.alive.isThere(uname)):
@@ -143,16 +158,11 @@ class XHRClientUpdate(BaseHandler):
             if(not resp["awake"]):
                 if(self.touch.isThere(self.uri)):
                     resp["awake"] = True                
-            
-            #Check my followings is alive
-            for nn in followup:
-                self.touch.add(nn)
-                if(not resp["awake"]):
-                    if(self.alive.isThere(nn)):
-                        resp["awake"] = True
-            
+                        
             if(not resp["awake"]):
                 self.__log.d("Node going to sleep", self.uri)
+
+            print(self.alive.set,"\n")
             
             resp["result"] = True
         except Exception as inst:
