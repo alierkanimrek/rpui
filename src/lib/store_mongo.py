@@ -94,14 +94,8 @@ class RpMongoClient(object):
 
 
 
-    async def createUser(self, uname, email, passw, ccode):
-        rec = {
-            "uname" : uname,
-            "email" : email,
-            "passw" : passw,
-            "ccode" : ccode
-        }
-        result = await self._users.insert_one(rec)
+    async def createUser(self, user):
+        result = await self._users.insert_one(user)
         if(result):
             return(result.inserted_id)
         else:
@@ -110,17 +104,21 @@ class RpMongoClient(object):
 
 
 
-    async def updateUser(self, rec, passw):
-        rec["passw"] = passw
-        id = rec["_id"]
-        del rec["_id"]
+    async def updatePassw(self, rec, passw):
+        result = await self._users.find_one_and_update(
+            {"_id":rec["_id"]}, {"$set" : {"passw": passw}})
+        if(result): return(True)
+        else:       return(None)
 
-        #result = await self._users.find_one_and_update({"_id":id}, {"$set" : {"passw": rec["passw"]}})
-        result = await self._users.find_one_and_replace({"_id":id}, rec)
-        if(result):
-            return(True)
-        else:
-            return(None)
+
+
+
+    async def updateUserGroup(self, uname, groups):
+        result = await self._users.find_one_and_update(
+            {"uname":rec["uname"]}, {"$set" : {"ugroup": groups}})
+        if(result): return(True)
+        else:       return(None)
+
 
 
 

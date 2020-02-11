@@ -27,6 +27,36 @@ NODEACCESS_ALL = 2
 USEARCHMODE_SHARE = "share"
 USEARCHMODE_ALL = "all"
 
+USERGROUP_ROOT = "rt"
+USERGROUP_ADMIN = "ad"
+USERGROUP_MODERATOR = "md"
+USERGROUP_TESTER = "ts"
+USERGROUP_PREMIUM = "pr"
+USERGROUP_STANDARD = "st"
+
+BANNED_UNAMES = [
+    "root", 
+    "admin", 
+    "administrator",
+    "user",
+    "xhr",
+    "static",
+    "rplexus",
+    "moderator",
+    "manager"]
+
+
+
+
+
+class User():
+    
+    def __init__(self, uname, email):    
+        self.uname = uname
+        self.email = email
+        self.passw = ""
+        self.ccode = ""
+        self.ugroup = USERGROUP_STANDARD
 
 
 
@@ -89,6 +119,7 @@ class UserProfile():
         self.firstname = ""
         self.lastname = ""
         self.about = ""
+        self.ugroup = USERGROUP_STANDARD
 
 
 
@@ -187,24 +218,22 @@ class Store(object):
 
 
     async def createUser(self, data, passwKey):
+        if(data["uname"] in BANNED_UNAMES): return(False)
+        user = User(data["uname"], data["email"])
         p = PasswordLock()
-        chiper = p.hashAndEncrypt(data["passw"], passwKey)
-        ccode = str(p.hash(str(time.time()), str(random.random())))
-        id = await self._db.createUser(data["uname"], data["email"], chiper, ccode)
+        user.passw = p.hashAndEncrypt(data["passw"], passwKey)
+        user.ccode = str(p.hash(str(time.time()), str(random.random())))
+        id = await self._db.createUser(vars(user))
         if(id):            return(True)
         else:            return(False)
 
 
 
 
-    async def changeUserPassw(self, passw, passwKey, doc=None, uname=None):
-        if(not doc and uname):
-            doc = await self.getUser(uname=uname)
-            if(not doc):
-                return(False)
+    async def changeUserPassw(self, passw, passwKey, doc):
         p = PasswordLock()
         chiper = p.hashAndEncrypt(passw, passwKey)
-        id = await self._db.updateUser(doc, chiper)
+        id = await self._db.updatePassw(doc, chiper)
         if(id):            return(True)
         else:            return(False)
 
@@ -273,6 +302,7 @@ class Store(object):
     async def updateUProfile(self, doc): 
         #doc = UserProfile(..)
         data = await self._db.updateUProfile(vars(doc))
+        data2 = await self._db.updateUserGroup(doc.uname, doc.ugroup)
         if(data):   return(data)
         else:   return(False)
 

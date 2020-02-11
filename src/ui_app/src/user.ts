@@ -67,27 +67,36 @@ function exitIfHasNotSession() {
 
 
 function login():void{
-    exitIfHasSession(store.session.user)
-    let base = new Base()
-    let login = new Login()
+    if( store.session.hasSession){
+        location.assign("/"+store.session.user)
+    }else{
+        let base = new Base()
+        let login = new Login()
+    }
 }
 
 
 
 
 function signup():void{
-    exitIfHasSession(store.session.user)
-    let base = new Base()
-    let signup = new Signup()
+    if( store.session.hasSession){
+        location.assign("/"+store.session.user)
+    }else{
+        let base = new Base()
+        let signup = new Signup()
+    }
 }
 
 
 
 
 function forgot():void{
-    exitIfHasSession(store.session.user)
-    let base = new Base()
-    let forgot = new Forgot()
+    if( store.session.hasSession){
+        location.assign("/"+store.session.user)
+    }else{
+        let base = new Base()
+        let forgot = new Forgot()
+    }
 }
 
 
@@ -95,9 +104,12 @@ function forgot():void{
 
 
 function changepassw():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let chp = new ChangePassw()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let chp = new ChangePassw()
+    }
 }
 
 
@@ -105,9 +117,12 @@ function changepassw():void{
 
 
 function settings():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let usettings = new UserSettings()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let usettings = new UserSettings()
+    }
 }
 
 

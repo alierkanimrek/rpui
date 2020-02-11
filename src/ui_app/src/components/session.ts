@@ -18,6 +18,7 @@ export class SessionUpdater extends GDataObject {
     private lastActive:number
     private lastUpdate: number
     private uname: string
+    private group: string
     private interval: number = 10000 
     private timeout:  number = 300000 // = 5 min, it should be same value with server session timeout
 
@@ -89,6 +90,7 @@ export class SessionUpdater extends GDataObject {
         let resp = (stack:RpStack) => {
             if(stack.dataVar("result")){
                 this.uname = stack.dataVar("uname")
+                this.group = stack.dataVar("ugroup")
                 console.info("[Session] Hi "+this.uname)
             }
             else{
@@ -100,7 +102,7 @@ export class SessionUpdater extends GDataObject {
             port:Port.getuser, 
             name:"getuser",
             responseHandler: resp.bind(this)})
-        conn.run({ObjectData: {}})
+        conn.run({ObjectData: {"all":""}})
     }
 
 
@@ -116,6 +118,12 @@ export class SessionUpdater extends GDataObject {
 
     get user():string{
         return(this.uname)
+    }
+
+
+
+    get userGroup():string{
+        return(this.group)
     }
 
 

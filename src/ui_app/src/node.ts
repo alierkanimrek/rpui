@@ -49,14 +49,6 @@ function appReady():boolean {
 
 
 
-function exitIfHasNotSession() {
-    if( !store.session.hasSession ){
-        location.assign("/user/login")
-    }
-}
-
-
-
 
 function userApp():void{
     location.reload() 
@@ -66,36 +58,48 @@ function userApp():void{
 
 
 function nodess():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let nodes = new Nodes()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let nodes = new Nodes()
+    }
 }
 
 
 
 
 function edit():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let edit = new NodeEdit()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let edit = new NodeEdit()
+    }
 }
 
 
 
 
 function edittasks():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let edit = new Tasks()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let edit = new Tasks()
+    }
 }
 
 
 
 
 function view():void{
-    exitIfHasNotSession()
-    let base = new Base()
-    let view = new View()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let view = new View()
+    }
 }
 
 
