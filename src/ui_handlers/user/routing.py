@@ -31,7 +31,6 @@ class LoaderHandler(BaseHandler):
 
 
 userRouting = [
-    (r"/", LoaderHandler),
     (r"/user/login", LoaderHandler),
     (r"/user/signup", LoaderHandler),
     (r"/user/forgotpassw", LoaderHandler),

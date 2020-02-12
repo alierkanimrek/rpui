@@ -41,3 +41,4 @@ fi
 
 mkdir -p ../../dist/app/css
 cp -aRv css/* ../../dist/app/css
+cp -aRv bulma/css/bulma.min.css ../../dist/app/css

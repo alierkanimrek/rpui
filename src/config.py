@@ -51,6 +51,18 @@ SERVER["path"] = {
 	"default" : path+"/outgoing"
 	}
 
+SERVER["template_path"] = {
+	"type" : "str", 
+	"values": [],	
+	"default" : path+"/template"
+	}
+
+SERVER["heap_path"] = {
+	"type" : "str", 
+	"values": [],
+	"default" : path+"/heap"
+	}
+
 SERVER["db_ip"] = {
 	"type" : "str", 
 	"values": [],

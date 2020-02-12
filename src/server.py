@@ -22,6 +22,7 @@ from lib.store import Store
 from lib.stm import STM
 from lib.buffer import Buffer
 
+from ui_handlers.front import frontRouting
 from ui_handlers.user.routing import userRouting
 from ui_handlers.node.routing import nodeRouting
 from ct_handlers.routing import clientRouting
@@ -113,7 +114,7 @@ def reload():
 
 
 
-routing = userRouting + nodeRouting + clientRouting
+routing = frontRouting + userRouting + nodeRouting + clientRouting
 
 
 
@@ -125,7 +126,7 @@ application = web.Application(
     db = db,
     cookie_secret = conf.SERVER.cookie_key,
     xsrf_cookies = True, 
-    template_path = "template",
+    template_path = conf.SERVER.template_path,
     login_url = "/user/login",
     alive = STM(),
     touch = STM(),
