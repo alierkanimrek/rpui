@@ -1,0 +1,24 @@
+baseMainContent
+    section style=min-height: 100vh;
+        div class=columns style=margin:1rem;
+            div class=column
+                h1 class=title style=font-size: 3rem; gid=banner
+            div class=column
+                img src=/heap/logo/rplexus-150.png style=width: 60%;
+                ul class=subtitle style=font-size: 1.5rem;
+                    li gid=subli1
+                    li gid=subli2
+                a href=/user/login
+                    button class=button is-link is-medium is-fullwidth gid=btnLogin
+        div class=columns style=margin:1rem;
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=card1title
+                    p class=has-text-justified gid=card1txt
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=card2title
+                    p class=has-text-justified gid=card2txt
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=card3title

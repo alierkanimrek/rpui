@@ -1,1 +1,0 @@
-from .front_main import FrontMain

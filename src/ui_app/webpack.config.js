@@ -4,7 +4,8 @@ module.exports = {
     mode: 'development',
     entry: {
         user: './src/user.ts',
-        node: './src/node.ts'
+        node: './src/node.ts',
+        front: './src/front.ts',
     },
     resolve: {
         extensions: ['.js', '.ts', '.css', '.ghtml']

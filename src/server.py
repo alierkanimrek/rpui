@@ -22,7 +22,7 @@ from lib.store import Store
 from lib.stm import STM
 from lib.buffer import Buffer
 
-from ui_handlers.front import frontRouting
+from ui_handlers.front.routing import frontRouting
 from ui_handlers.user.routing import userRouting
 from ui_handlers.node.routing import nodeRouting
 from ct_handlers.routing import clientRouting

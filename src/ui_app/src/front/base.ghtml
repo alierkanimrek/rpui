@@ -1,0 +1,13 @@
+approot
+  NAV class=navbar is-fixed-top role=navigation aria-label=main navigation
+    DIV class=container
+      DIV class=navbar-brand
+        A class=navbar-item navbrandlogoitem
+          img class=logo src=/heap/logo/rplexus-96.png  
+        DIV class=navmenu
+          A class=navbar-item nmitem id=baseMenuItem
+            i class=fa fa-bars role=button aria-hidden=true id=baseMenuButton
+  SECTION class=section baseSection
+    DIV class=container baseContainer id=baseMenuContent
+      DIV class=columns is-multiline id=mainMenuContainer
+    DIV class=container baseContainer id=baseMainContent
