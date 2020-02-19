@@ -54,8 +54,8 @@ export class NodeItem extends GHTMLControl {
     eventMap: any = [
         [this.editButton, "click", this.edit],
         [this.statusContainer, "click", this.node],
-        [this.name, "click", this.node],
-        [this.desc, "click", this.node]
+        [this.name, "click", this.edit],
+        [this.desc, "click", this.edit]
     ]
 
     private uri: string
@@ -68,7 +68,7 @@ export class NodeItem extends GHTMLControl {
         this.name.textContent = name
         this._name = name
         this.desc.textContent = desc
-        this.uri = "/"+this.gDoc.gData("session").user+"/"+name+"/edit"
+        this.uri = "/"+this.gDoc.gData("session").user+"/"+name
         //this.trns = this.gDoc.gData("trns").t
         //this.trns.addEventListener("change", this.langChanged.bind(this))
         this.linkEvents(this.eventMap)        

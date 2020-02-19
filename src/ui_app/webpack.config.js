@@ -6,6 +6,7 @@ module.exports = {
         user: './src/user.ts',
         node: './src/node.ts',
         front: './src/front.ts',
+        admin: './src/admin.ts'
     },
     resolve: {
         extensions: ['.js', '.ts', '.css', '.ghtml']
