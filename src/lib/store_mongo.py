@@ -476,3 +476,14 @@ class RpMongoClient(object):
         if(type(r) is list):
             result = r
         return(result)
+
+
+
+
+    async def updateUGroups(self, uname, groups):
+        doc = await self._users.find_one_and_update(
+            {"uname":uname}, {"$set" : {"ugroup": groups}})
+        if(doc):
+            return(doc)
+        else:
+            return(None)

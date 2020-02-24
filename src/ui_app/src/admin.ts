@@ -6,7 +6,8 @@ import {LangSelectorData} from "./widgets/lang/selector"
 
 import {Base, BaseData} from "./admin/base"
 import {Main, MainData} from "./admin/main"
-
+import {AdminData} from "./admin/admin"
+import {UGroupData} from "./admin/ugroup"
 
 
 
@@ -23,7 +24,9 @@ let store = {
     session: new SessionUpdater(),
     langselector: new LangSelectorData(),
     trns: translator,
-    main: new MainData()
+    main: new MainData(),
+    admin: new AdminData(),
+    ugroup: new UGroupData()
 }
 
 

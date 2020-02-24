@@ -7,8 +7,8 @@
 
 
 from .base import BaseHandler
-from lib.store import USERGROUP_ADMIN
-
+from lib.store import UGroup
+from . import xhr
 
 
 
@@ -22,7 +22,8 @@ class LoaderHandler(BaseHandler):
         await self.session.checkSession()
         if(self.current_user):
             user = await self.db.getUser(uname=self.current_user)
-            if(user and USERGROUP_ADMIN in user["ugroup"].split(" ")):
+            grp = user["ugroup"].split(" ")
+            if(user and (UGroup.ADMIN.value in grp or UGroup.ROOT.value in grp)):
                 await self.render_page()
             else:
                 self.redirect("/user/settings")
@@ -38,6 +39,8 @@ class LoaderHandler(BaseHandler):
 
 
 adminRouting = [
-    (r"/admin", LoaderHandler)
+    (r"/admin", LoaderHandler),
+    (r"/xhr/getugrp", xhr.XHRUGroup),
+    (r"/xhr/upugrp", xhr.XHRUpUGroup)
     ]
   

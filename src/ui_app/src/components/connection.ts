@@ -43,7 +43,9 @@ export enum Port{
     "chkdata" = "/xhr/chkdata",
     "srcusr" = "/xhr/srcusr",
     "getshrnodes" = "/xhr/shrnodes",
-    "getshrtasks" = "/xhr/shrtasks"
+    "getshrtasks" = "/xhr/shrtasks",
+    "getugrp" = "/xhr/getugrp",
+    "upugrp" = "/xhr/upugrp"
 }
 
 export interface ResponseHandler {

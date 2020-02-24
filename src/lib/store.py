@@ -9,6 +9,7 @@ import time
 import random
 from bson.objectid import ObjectId
 
+from enum import Enum
 import tornado
 import motor
 
@@ -27,12 +28,15 @@ NODEACCESS_ALL = 2
 USEARCHMODE_SHARE = "share"
 USEARCHMODE_ALL = "all"
 
-USERGROUP_ROOT = "rt"
-USERGROUP_ADMIN = "ad"
-USERGROUP_MODERATOR = "md"
-USERGROUP_TESTER = "ts"
-USERGROUP_PREMIUM = "pr"
-USERGROUP_STANDARD = "st"
+
+class UGroup(Enum):
+    ROOT = "rt"
+    ADMIN = "ad"
+    MODERATOR = "md"
+    TESTER = "ts"
+    PREMIUM = "pr"
+
+
 
 BANNED_UNAMES = [
     "root", 
@@ -56,7 +60,8 @@ class User():
         self.email = email
         self.passw = ""
         self.ccode = ""
-        self.ugroup = USERGROUP_STANDARD
+        self.ugroup = ""
+
 
 
 
@@ -119,7 +124,7 @@ class UserProfile():
         self.firstname = ""
         self.lastname = ""
         self.about = ""
-        self.ugroup = USERGROUP_STANDARD
+        self.ugroup = ""
 
 
 
@@ -519,3 +524,11 @@ class Store(object):
                                 data.add(uri, node["taskdata"][tname])
         
         return(data.data)
+
+
+
+
+    async def updateUGroups(self, uname, groups):
+        result = await self._db.updateUGroups(uname, groups)
+        if(result): return(True)
+        else:   return(None)

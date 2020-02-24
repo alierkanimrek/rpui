@@ -9,13 +9,13 @@ any
     DIV class=column
       DIV class=field
         LABEL class=checkbox
-          INPUT gid=editable name=editable type=checkbox name=editable
+          INPUT gid=editable name=editable type=checkbox
           SPAN gid=editableLabel 
         
     DIV class=column
       DIV class=field
         LABEL class=checkbox
-          INPUT gid=autosend name=autosend type=checkbox name=autosend
+          INPUT gid=autosend name=autosend type=checkbox
           SPAN gid=autosendLabel 
 
   DIV class=field

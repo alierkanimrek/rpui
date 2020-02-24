@@ -97,8 +97,6 @@ class BaseHandler(tornado.web.RequestHandler):
 
     async def render_page(self):
         try:
-            #if self.current_user:
-                #db["uname"] = self.current_user
             await self.render("admin.html",
                 xsrf_value = self.xsrf_token)
         except Exception as inst:
