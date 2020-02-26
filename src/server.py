@@ -15,8 +15,8 @@ sys.path.append(os.getcwd())
 
 from tornado import gen, ioloop, web
 
-from kitbox.conf import KBConfig
-from kitbox.log import KBLogger
+from lib.conf import KBConfig
+from lib.log import KBLogger
 
 from lib.store import Store
 from lib.stm import STM

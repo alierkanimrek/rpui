@@ -7,7 +7,7 @@ baseMainContent
           p class=subtitle has-text-grey id=loginSubTitle
           div class=loginbox
             figure class=avatar
-              img src=https://placehold.it/128x128
+              img src=/heap/logo/rplexus-icon-320.png
             form
               div class=field
                 div class=control
