@@ -14,7 +14,11 @@ export enum VPTypes {
 }
 
 
-
+const userAgentTerms = {
+    "hand" : ["Android", "iPhone", "iPad", "iPod", "Windows Mobile"],
+    "desktop" : ["Windows NT", "Macintosh", "X11"],
+    "wall" : ["Xbox"]
+}
 
 
 
@@ -60,8 +64,28 @@ class Viewport  {
             this._current = c
         }
         else{
-            // Discover needs development
-            this._current = defaultVP
+            userAgentTerms.hand.forEach((term:string)=>{
+                if(navigator.userAgent.indexOf(term) > -1){
+                    this._current = VPTypes.Hand
+                }    
+            })
+            if(typeof this._current == "undefined"){
+                userAgentTerms.desktop.forEach((term:string)=>{
+                    if(navigator.userAgent.indexOf(term) > -1){
+                        this._current = VPTypes.Desktop
+                    }    
+                })
+            }
+            if(typeof this._current == "undefined"){
+                userAgentTerms.wall.forEach((term:string)=>{
+                    if(navigator.userAgent.indexOf(term) > -1){
+                        this._current = VPTypes.Wall
+                    }
+                })
+            }
+            if(typeof this._current == "undefined"){
+                this._current = defaultVP
+            }
         }
     }
 

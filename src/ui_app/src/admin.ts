@@ -45,8 +45,12 @@ function appReady():boolean {
 
 
 function main():void{
-    let base = new Base()
-    let main = new Main()
+    if( !store.session.hasSession ){
+        location.assign("/user/login")
+    }else{
+        let base = new Base()
+        let main = new Main()
+    }
 }
 
 

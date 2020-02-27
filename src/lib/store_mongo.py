@@ -137,7 +137,6 @@ class RpMongoClient(object):
     async def getSession(self, selector):
         data = await self._auth.find_one({"_id" : ObjectId(selector)})
         if(data):   
-            del data["_id"]
             return(data)
         else:   return(False)
 
@@ -147,7 +146,6 @@ class RpMongoClient(object):
     async def getSessionCode(self, code):
         data = await self._auth.find_one({"code" : code})
         if(data):   
-            del data["_id"]
             return(data)
         else:   return(False)
 

@@ -53,7 +53,7 @@ export class Main extends GHTMLControl {
 
 
     load(groups:Array<string>){
-        if(groups.indexOf("ad") > -1){
+        if(groups.indexOf("ad") > -1 || groups.indexOf("rt") > -1){
            this.admin = new Admin(this.e.content.id)
         }
     }
@@ -85,7 +85,7 @@ export class MainData extends GDataObject {
         }
 
         let error:ErrorHandler = (msg:string) => {
-            console.log(msg)    
+            console.log(msg)
         }
 
         let conn = new Connection({

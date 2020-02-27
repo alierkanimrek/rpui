@@ -158,7 +158,7 @@ export class ChangePassw extends GHTMLControl {
         }
 
         let nav = ()=>{
-            console.log("Navigate...")
+            this.gDoc.navigate("/user/login")
         }
 
         if(success){

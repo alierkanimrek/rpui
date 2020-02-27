@@ -39,7 +39,6 @@ class UGroup(Enum):
 
 
 BANNED_UNAMES = [
-    "root", 
     "admin", 
     "administrator",
     "user",
@@ -47,7 +46,8 @@ BANNED_UNAMES = [
     "static",
     "rplexus",
     "moderator",
-    "manager"]
+    "manager",
+    "god"]
 
 
 

@@ -15,7 +15,7 @@ def getTmp(lang, tmp):
 
 
 
-def clientCodeMail(lang, uname, to, code, frm=""):
+def clientCodeMail(lang, uname, to, code, frm="noreply@rplexus.net"):
     tmp = getTmp(lang, CCTmp)
     mail = tmp.format(frm=frm, to=to, code=code, uname=uname)
     return(mail)
@@ -23,9 +23,16 @@ def clientCodeMail(lang, uname, to, code, frm=""):
 
 
 
+def userCodeMail(lang, uname, to, code, frm="noreply@rplexus.net"):
+    tmp = getTmp(lang, UCTmp)
+    mail = tmp.format(frm=frm, to=to, code=code, uname=uname)
+    return(mail)
+
+
+
+
 CCTmp = {
-    "en-us": """
-from    : {frm}
+    "en-us": """from    : Rplexus.net Service <{frm}>
 to      : {to}
 subject : Your client code
 
@@ -40,6 +47,22 @@ then start/restart your client for connection to the server.
 """
 }
 
+
+
+
+
+UCTmp = {
+    "en-us": """from    : Rplexus.net Service <{frm}>
+to      : {to}
+subject : Your password recovery code
+
+Hi {uname},
+
+Your password recovery code is;
+{code}
+
+"""
+}
 
 
 

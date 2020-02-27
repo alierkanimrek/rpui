@@ -31,6 +31,8 @@ mainMenuContainer
                 TD style=padding-bottom:0;
                   A class=button is-light gid=enButton value=en-us
                   | English
+`
+/*
           TABLE class=table is-fullwidth style=margin: 0;
             TBODY
               TR
@@ -41,7 +43,7 @@ mainMenuContainer
                   A class=button is-light gid=trButton value=tr-tr
                   | Turkish
 `
-
+*/
 
 
 
@@ -65,12 +67,12 @@ export class LangMenuItem extends GHTMLControl {
 
     enButton:HTMLButtonElement
     enLabel:HTMLLabelElement
-    trButton:HTMLButtonElement
-    trLabel:HTMLLabelElement
+    //trButton:HTMLButtonElement
+    //trLabel:HTMLLabelElement
 
     eventMap: any = [
         [this.enButton, "click", this.toggle],
-        [this.trButton, "click", this.toggle]
+        //[this.trButton, "click", this.toggle]
     ]
 
 
@@ -88,11 +90,11 @@ export class LangMenuItem extends GHTMLControl {
 
 
     private update():void{
-        this.trButton.className = Unselect
+        //this.trButton.className = Unselect
         this.enButton.className = Unselect
         switch (this.trns.current) {
             case "tr-tr":
-                this.trButton.className = Selected
+                //this.trButton.className = Selected
                 break;
             case "en-us":
                 this.enButton.className = Selected

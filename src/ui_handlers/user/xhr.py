@@ -14,7 +14,7 @@ from lib.passlock import PasswordLock
 from lib.session import getSessionData
 from lib.store import UserProfile
 from lib.mail import sendMail
-from .mail import clientCodeMail
+from .mail import clientCodeMail, userCodeMail
 
 
 
@@ -146,15 +146,25 @@ class XHRUserLogin(BaseHandler):
                 user = await self.db.getUser(email=data["uname"]) 
             else:
                 user = await self.db.getUser(uname=data["uname"]) 
-
+            
             #Verify Password
             p = PasswordLock()
-            if(p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
+            if(user and p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
                 resp = {"result" : True}
                 await self.session.createSession(user["uname"], data["remember"])  
                 self.__log.i("User logged in", user["uname"])
             else:
-                self.__log.d("Unauthorized login attempt", user["uname"])
+                self.__log.d("Unauthorized login attempt", data["uname"])
+
+            #Root user creation
+            if(not user and data["uname"] == "root"):
+                self.__log.i("Root user creation")
+                root = {"uname": "root", "email": "root@rplexus.net", "passw":""}
+                rootuser = await self.db.createUser(root, self.conf.SERVER.pass_key)
+                if(rootuser):
+                    rootgrp = await self.db.updateUGroups(root["uname"], "rt")
+                    rootprof = await self.db.createUProfile(root["uname"])
+
         except Exception as inst:
             self.__log.e_tb("Runtime error", inst)
         
@@ -215,9 +225,8 @@ class XHRUserForgotPassw(BaseHandler):
                 if(selector):
                     #Send code to user email
                     self.__log.d("Sending recovery code to email", data["email"])
-                    
-                    # ...
-                    
+                    msg = userCodeMail("en-us", user["uname"],  user["email"], codeData["code"])
+                    send = await sendMail(self.conf.SERVER.outgoing_path, data["email"], msg)
                     resp = {"result" : True}
 
         except Exception as inst:
