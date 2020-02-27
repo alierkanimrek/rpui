@@ -16,7 +16,7 @@ const name = "ugroup"
 
 let View = `
 any
-    DIV class=tile is-child
+    DIV class=tile is-child box
         P gid=title class=title is-size-6
         DIV class=columns is-multiline
             DIV gid=searchContainer class=column style=min-width:45%;

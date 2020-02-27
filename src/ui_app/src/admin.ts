@@ -8,6 +8,7 @@ import {Base, BaseData} from "./admin/base"
 import {Main, MainData} from "./admin/main"
 import {AdminData} from "./admin/admin"
 import {UGroupData} from "./admin/ugroup"
+import {InviteData} from "./admin/invite"
 
 
 
@@ -26,7 +27,8 @@ let store = {
     trns: translator,
     main: new MainData(),
     admin: new AdminData(),
-    ugroup: new UGroupData()
+    ugroup: new UGroupData(),
+    invite: new InviteData()
 }
 
 

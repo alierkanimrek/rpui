@@ -315,11 +315,6 @@ export class SignupData extends GDataObject {
 
     private check(data: any, cb: ResponseHandler):void{
 
-        let conn = new Connection({
-            port:Port.ucheck, 
-            name:name, 
-            responseHandler:cb})
-        conn.run({ObjectData: data})
     }
 
 

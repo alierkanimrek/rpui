@@ -93,29 +93,30 @@ class XHRUserCreateHandler(BaseHandler):
         self.__log = self.log.job("XHRUCreate")
         resp = {"result" : False}
         
-        # Check again
         try:
+            # Check again
             data = self.cstack.stack[0]["data"]
             if(await self.db.getUser(email=data["email"]) or 
                 await self.db.getUser(uname=data["uname"]) or 
                 len(data["passw"]) < 8):
                 self.__log.w("User has or password invalid", data)
-                await self.stackAppendAndSend(resp, "xhrucreate")        
+
+            # Create User
+            if(self.conf.USERS.signup == "yes"):
+                result = await self.db.createUser(data, self.conf.SERVER.pass_key)
+                if(result):
+                    result = await self.db.createUProfile(data["uname"])
+                    if(not result):
+                        self.__log.w("User profile not recorded", data["uname"])
+                    self.__log.i("New user recorded", data["uname"])
+                    await self.session.createSession(data["uname"])                
+                    resp = {"result" : True}
+                else:
+                    self.__log.w("User could not recorded", data["uname"])
+                
         except Exception as inst:
             self.__log.e_tb("Runtime error", inst)
-        
-        # Create User
-        result = await self.db.createUser(data, self.conf.SERVER.pass_key)
-        if(result):
-            result = await self.db.createUProfile(data["uname"])
-            if(not result):
-                self.__log.w("User profile not recorded", data["uname"])
-            self.__log.i("New user recorded", data["uname"])
-            await self.session.createSession(data["uname"])                
-            resp = {"result" : True}
-        else:
-            self.__log.w("User could not recorded", data["uname"])
-        
+
         await self.stackAppendAndSend(resp, "xhrucreate")
 
 

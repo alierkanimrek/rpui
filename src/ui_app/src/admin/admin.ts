@@ -5,6 +5,7 @@ import {RpStack} from "../components/msg"
 //import View from './admin.ghtml'
 
 import {UGroup} from "./ugroup"
+import {Invite} from "./invite"
 
 const name = "admin"
 
@@ -38,6 +39,7 @@ export class Admin extends GHTMLControl {
     _: Function
 
     ugroup: UGroup
+    invite: Invite
 
 
 
@@ -47,6 +49,7 @@ export class Admin extends GHTMLControl {
         this._ = trns.get_()
         trns.updateStatics(this)
         this.ugroup = new UGroup(this.e.container.id)
+        this.invite = new Invite(this.e.container.id)
     }
 
 
