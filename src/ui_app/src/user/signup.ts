@@ -83,8 +83,8 @@ export class Signup extends GHTMLControl {
 
         let response:ResponseHandler = (stack:RpStack) => {
             if(!stack.dataVar("result")){
-                this.form.style.visibility = "hidden"
-                this.form.style.height = "0"
+                //this.form.style.visibility = "hidden"
+                //this.form.style.height = "0"
                 this.blockmsg.style.visibility = "visible"
                 this.blockmsg.style.height = ""
             }
@@ -235,7 +235,7 @@ export class Signup extends GHTMLControl {
         }
 
         let nav = ()=>{
-            console.log("Navigate...")
+            this.gDoc.navigate("/"+this.bindingStore.uname)
         }
 
         if(success){
@@ -282,9 +282,6 @@ export class SignupData extends GDataObject {
     passw : string = ""
     email : string = ""
 
-    inputInterval:number = 800
-
-
 
 
     checkEmail(getStatus:CheckCallback):void{
@@ -292,7 +289,7 @@ export class SignupData extends GDataObject {
         let response:ResponseHandler = (stack:RpStack) => {
             getStatus(stack.dataVar("result"))    
         }
-
+        
         let data = {"type":"email", "data":this.email}
         this.check(data, response.bind(this))
     }
@@ -314,7 +311,11 @@ export class SignupData extends GDataObject {
 
 
     private check(data: any, cb: ResponseHandler):void{
-
+        let conn = new Connection({
+            port:Port.ucheck, 
+            name:name, 
+            responseHandler:cb})
+        conn.run({ObjectData: data})
     }
 
 
@@ -342,7 +343,6 @@ export class SignupData extends GDataObject {
 
         conn.run({ObjectData: data})
      
-         this.passw = ""
     }
 
 }

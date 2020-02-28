@@ -14,7 +14,7 @@ baseMainContent
                 p class=control has-icons-left has-icons-right 
                   label gid=email class=is-left is-size-4
                 p class=control has-icons-left has-icons-right
-                  input gid=emailInput class=input is-medium type=email name=email required=true 
+                  input gid=emailInput class=input is-medium type=email name=email required=true gdelay=500
                   span class=icon is-small is-left
                     i class=fas fa-envelope
                   span class=icon is-small is-right
@@ -26,7 +26,7 @@ baseMainContent
                 p class=control has-icons-left has-icons-right 
                   label gid=uname class=is-left is-size-4
                 p class=control has-icons-left has-icons-right
-                  input gid=unameInput class=input is-medium type=text name=uname required=true
+                  input gid=unameInput class=input is-medium type=text name=uname required=true gdelay=500
                   span class=icon is-small is-left
                     i class=fas fa-user
                   span class=icon is-small is-right

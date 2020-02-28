@@ -92,7 +92,7 @@ class XHRUserCreateHandler(BaseHandler):
         #data = {"uname": ..., "email":..., "passw":...}
         self.__log = self.log.job("XHRUCreate")
         resp = {"result" : False}
-        
+        invited = False
         try:
             # Check again
             data = self.cstack.stack[0]["data"]
@@ -100,19 +100,24 @@ class XHRUserCreateHandler(BaseHandler):
                 await self.db.getUser(uname=data["uname"]) or 
                 len(data["passw"]) < 8):
                 self.__log.w("User has or password invalid", data)
-
-            # Create User
-            if(self.conf.USERS.signup == "yes"):
-                result = await self.db.createUser(data, self.conf.SERVER.pass_key)
-                if(result):
-                    result = await self.db.createUProfile(data["uname"])
-                    if(not result):
-                        self.__log.w("User profile not recorded", data["uname"])
-                    self.__log.i("New user recorded", data["uname"])
-                    await self.session.createSession(data["uname"])                
-                    resp = {"result" : True}
-                else:
-                    self.__log.w("User could not recorded", data["uname"])
+            else:
+                # Check invited user
+                if(self.conf.USERS.signup == "no"):
+                    invited = await self.db.isInvited(data["email"])
+                    if(invited):
+                        self.__log.i("Invited user recording", data["email"], data["uname"])
+                # Create User
+                if(self.conf.USERS.signup == "yes" or invited):
+                    result = await self.db.createUser(data, self.conf.SERVER.pass_key)
+                    if(result):
+                        result = await self.db.createUProfile(data["uname"])
+                        if(not result):
+                            self.__log.w("User profile not recorded", data["uname"])
+                        self.__log.i("New user recorded", data["uname"])
+                        await self.session.createSession(data["uname"])                
+                        resp = {"result" : True}
+                    else:
+                        self.__log.e("User could not recorded", data["uname"])
                 
         except Exception as inst:
             self.__log.e_tb("Runtime error", inst)

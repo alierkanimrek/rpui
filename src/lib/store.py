@@ -532,3 +532,29 @@ class Store(object):
         result = await self._db.updateUGroups(uname, groups)
         if(result): return(True)
         else:   return(None)
+
+
+
+
+    async def invite(self, email):
+        try:
+            fh = open("invite.txt", "a")
+            fh.write(email+"\n")
+            fh.close()
+        except:
+            return(False)
+        return(True)
+
+
+
+
+    async def isInvited(self, email):
+        try:
+            fh = open("invite.txt", "r")
+            for line in fh.readlines():
+                if(line.rstrip("\n") == email):
+                    return(True)
+            fh.close()
+        except:
+            pass
+        return(False)

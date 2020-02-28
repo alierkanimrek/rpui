@@ -41,6 +41,7 @@ class LoaderHandler(BaseHandler):
 adminRouting = [
     (r"/admin", LoaderHandler),
     (r"/xhr/getugrp", xhr.XHRUGroup),
-    (r"/xhr/upugrp", xhr.XHRUpUGroup)
+    (r"/xhr/upugrp", xhr.XHRUpUGroup),
+    (r"/xhr/invite", xhr.XHRUInvite),
     ]
   

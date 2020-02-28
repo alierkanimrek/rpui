@@ -66,7 +66,7 @@ export class Invite extends GHTMLControl {
         
         this.sendButton = new SendButton({
             rootId: this.e.btnContainer.id,
-            clickCall: this.update.bind(this),
+            clickCall: this.send.bind(this),
             buttonLabel: this._("submitBtn"),
             sendingMsg: this._("submitMsg"),
             successMsg: this._("submitReady"),
@@ -109,7 +109,7 @@ export class Invite extends GHTMLControl {
 
 
 
-    update(e:Event){
+    send(e:Event){
 
         let saved = (status:boolean, msg?:string)=>{
             if(status){
@@ -123,6 +123,7 @@ export class Invite extends GHTMLControl {
         this.bindingStore.send(saved.bind(this))
     }
 }
+
 
 
 

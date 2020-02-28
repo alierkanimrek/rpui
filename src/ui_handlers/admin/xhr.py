@@ -73,3 +73,36 @@ class XHRUpUGroup(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrupdateugrp")
+
+
+
+
+
+
+
+
+class XHRUInvite(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+
+        self.__log = self.log.job("XHRUInvite")
+        resp = {"result" : False}
+        
+        try:
+            email = self.cstack.stack[0]["data"]["email"]
+            if(await self.db.getUser(email=email)):
+                self.__log.i("Invited email already user", email)
+            
+            result = await self.db.invite(email)
+            if(result):
+                resp = {"result" : True}
+                self.__log.i("User invited", email)
+            else:
+                self.__log.w("Invite error", email)
+
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        
+        await self.stackAppendAndSend(resp, "xhrinvite")
