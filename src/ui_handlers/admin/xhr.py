@@ -8,7 +8,8 @@
 import tornado 
 
 from .base import BaseHandler
-
+from lib.mail import sendMail
+from ..user.mail import userInvitingMail
 
 
 
@@ -97,6 +98,9 @@ class XHRUInvite(BaseHandler):
             
             result = await self.db.invite(email)
             if(result):
+                # Send code to user email
+                msg = userInvitingMail("en-us", email)
+                send = await sendMail(self.conf.SERVER.outgoing_path, email, msg)
                 resp = {"result" : True}
                 self.__log.i("User invited", email)
             else:

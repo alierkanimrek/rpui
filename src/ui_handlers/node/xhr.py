@@ -513,6 +513,8 @@ class XHRSearchUser(BaseHandler):
             mode = self.cstack.stack[0]["data"]["mode"]
             namelist = await self.db.searchUsers(term, mode, self.current_user)
             if(namelist):
+                if("root" in namelist):
+                    del namelist[namelist.index("root")]
                 resp["namelist"] = namelist
 
         except Exception as inst:

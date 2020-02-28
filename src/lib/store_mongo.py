@@ -115,7 +115,7 @@ class RpMongoClient(object):
 
     async def updateUserGroup(self, uname, groups):
         result = await self._users.find_one_and_update(
-            {"uname":rec["uname"]}, {"$set" : {"ugroup": groups}})
+            {"uname":uname}, {"$set" : {"ugroup": groups}})
         if(result): return(True)
         else:       return(None)
 
