@@ -28,7 +28,31 @@ class LoaderHandler(BaseHandler):
 
 
 
+class XHRStatus(BaseHandler):
+
+
+    
+    async def post(self):
+        self.__log = self.log.job("XHRStatus")
+        status = {"status" : {"server" : False, "signup": False}}
+        try:
+            if(self.conf.USERS.signup == "yes"):
+                status["status"]["signup"] = True
+            if(self.conf.SERVER.maintenance == "no"):
+                status["status"]["server"] = True
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        await self.stackAppendAndSend(status, "xhrstatus")
+
+
+
+
+
+
+
+
 frontRouting = [
-    (r"/", LoaderHandler)
+    (r"/", LoaderHandler),
+    (r"/xhr/getst", XHRStatus)
     ]
   

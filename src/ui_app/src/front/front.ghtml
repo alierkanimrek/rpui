@@ -22,3 +22,15 @@ baseMainContent
             div class=column 
                 div class=box
                     h1 class=subtitle gid=card3title
+                    DIV class=tile is-ancestor
+                        DIV class=tile is-parent is-vertical
+                            DIV class=tile is-child
+                                DIV class=columns is-mobile is-1
+                                    DIV class=column
+                                        LABEL gid=serverlabel
+                                    DIV class=column is-narrow gid=serverstatus
+                            DIV class=tile is-child
+                                DIV class=columns is-mobile is-1
+                                    DIV class=column
+                                        LABEL gid=signuplabel
+                                    DIV class=column is-narrow gid=signupstatus

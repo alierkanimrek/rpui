@@ -46,7 +46,8 @@ export enum Port{
     "getshrtasks" = "/xhr/shrtasks",
     "getugrp" = "/xhr/getugrp",
     "upugrp" = "/xhr/upugrp",
-    "invite" = "/xhr/invite"
+    "invite" = "/xhr/invite",
+    "getst" = "/xhr/getst"
 }
 
 export interface ResponseHandler {
