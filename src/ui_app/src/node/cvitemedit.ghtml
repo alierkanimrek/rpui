@@ -25,9 +25,7 @@ any
       SELECT gid=widget class=input is-capitalized name=widget
 
   LABEL gid=varsTitle class=has-text-weight-bold
-  | Variables and Tasks
   DIV gid=varsContainer class=box
 
   LABEL gid=staticTitle class=has-text-weight-bold
-  | Static variables
   DIV gid=svarsContainer class=box

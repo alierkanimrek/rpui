@@ -55,6 +55,7 @@ export class ControlItem extends GHTMLControl {
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
         this.widget = createCW({rootId: this.e.controlContainer.id, wdata:widgetData})
+        this.e.title.textContent = widgetData.title
         this.widget.addEventListener("cmd", this.cmd.bind(this))
     }
 
@@ -99,6 +100,7 @@ export class ControlItem extends GHTMLControl {
         this.editor.save()
         this.widget.clear()
         this.widget = createCW({rootId: this.e.controlContainer.id, wdata:this.editor.data})
+        this.e.title.textContent = this.editor.data.title
         this.toggle()
     }
 

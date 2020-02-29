@@ -186,7 +186,10 @@ class XHRSessionUpdate(BaseHandler):
 
     
     async def post(self):
-        await self.session.checkSession()
+        try:
+            await self.session.checkSession()
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
 
 
 

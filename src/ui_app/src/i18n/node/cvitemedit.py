@@ -14,6 +14,8 @@ def text(_):
                 "editableLabel" : {"textContent":_("Editable")},
                 "autosendLabel" : {"textContent":_("Auto-send")},
                 "widgetLabel" : {"textContent":_("Control widget")},
+                "varsTitle" : {"textContent":_("Variables and Tasks")},
+                "staticTitle" : {"textContent":_("Static variables")}
             },
 
             "dynamic":{

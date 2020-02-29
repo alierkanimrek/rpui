@@ -22,7 +22,7 @@ any
         DIV class=column is-narrow
           i gid=addButton class=fas fa-plus role=button style=float:right; font-size:1.2em; cursor:pointer;
         DIV class=column style=text-align:center;
-          label gid=title 
+          label gid=title class=title is-size-5 
         DIV class=column is-narrow
           i gid=editButton class=fas fa-cog role=button style=float:right; font-size:1.2em; cursor:pointer; 
       DIV gid=widgetContainer

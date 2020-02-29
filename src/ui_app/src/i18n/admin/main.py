@@ -9,6 +9,7 @@ def text(_):
 
             "static":{ 
                 "mainMenuLgTitle" : {"textContent":_("Application Language")},
+                "nodesLink" : {"textContent":_("Nodes")}
             },
 
             "dynamic":{

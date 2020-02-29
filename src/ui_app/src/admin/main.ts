@@ -18,7 +18,10 @@ const name = "main"
 let View = `
 baseMainContent
     SECTION style=min-height: 100vh; 
-        DIV gid=content class=tile is-ancestor 
+        DIV gid=content class=tile is-ancestor
+        DIV class=container has-text-centered
+            p class=has-text-grey style=margin-top:2em;
+                a gid=nodesLink
 `
 
 
@@ -46,7 +49,15 @@ export class Main extends GHTMLControl {
         let trns = this.store("trns").t.translations(name)
         this._ = trns.get_()
         trns.updateStatics(this)
+        this.linkEvents([[this.e.nodesLink, "click", this.footernav]])
         this.bindingStore.load(this.load.bind(this))
+    }
+
+
+
+
+    footernav(e:Event){
+        this.gDoc.navigate("/"+this.store("session").user)
     }
 
 

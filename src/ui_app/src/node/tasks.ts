@@ -102,7 +102,8 @@ export class Tasks extends GHTMLControl {
 
 
     loaded(tasklist:any){
-        this.selector.size = tasklist.length
+        if(tasklist.length = 1){    this.selector.size = 2    }
+        else{    this.selector.size = tasklist.length    }
         this.up()
     }
 
@@ -234,7 +235,8 @@ export class TasksData extends GDataObject {
 
     load(nname:string, cb:Function):void{
 
-        this.tnames_options = [] 
+        this.tnames_options = []
+        this.up()
 
         let response:ResponseHandler = (stack:RpStack) => {
             if(stack.dataVar("result")){
@@ -243,11 +245,9 @@ export class TasksData extends GDataObject {
                 tasks.forEach( (t:any)=>{
                     this.tnames_options.push(t.tname)
                 })
-
-
                 cb(tasks)
             }
-            else{    console.error("[AppTasks] Server error")    }
+            else{    null    }
 
         }
 

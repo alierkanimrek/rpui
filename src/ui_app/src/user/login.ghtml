@@ -24,7 +24,6 @@ baseMainContent
                 span class=icon is-right
                   i class=fas fa-spinner fa-spin gid=loginStatusIcon
                 label id=loginMsg class=is-left
-                | Please wait...              
           p class=has-text-grey
             a id=loginSignup gid=signupLink
             span
