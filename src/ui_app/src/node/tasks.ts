@@ -102,8 +102,7 @@ export class Tasks extends GHTMLControl {
 
 
     loaded(tasklist:any){
-        if(tasklist.length = 1){    this.selector.size = 2    }
-        else{    this.selector.size = tasklist.length    }
+        this.selector.size = tasklist.length + 1
         this.up()
     }
 

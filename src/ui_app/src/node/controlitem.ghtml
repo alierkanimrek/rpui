@@ -17,14 +17,14 @@ any
         DIV class=column is-narrow
           i gid=downButton class=fas fa-arrow-down role=button style=float:right; font-size:1.2em; cursor:pointer;    
    
-    DIV class=tile is-child box style=margin:0.75rem !important; padding: 0.75rem !important; gid=controlContainer
+    DIV class=tile is-child style=margin:0.75rem !important; padding: 0.75rem !important; gid=controlContainer
       DIV class=columns is-mobile is-1 style=margin-bottom:0;
         DIV class=column is-narrow
-          i gid=addButton class=fas fa-plus role=button style=float:right; font-size:1.2em; cursor:pointer;
+          i gid=addButton class=fas fa-plus role=button style=float:right; font-size:1.2em; cursor:pointer; opacity: 0.5;
         DIV class=column style=text-align:center;
           label gid=title class=title is-size-5 
         DIV class=column is-narrow
-          i gid=editButton class=fas fa-cog role=button style=float:right; font-size:1.2em; cursor:pointer; 
+          i gid=editButton class=fas fa-cog role=button style=float:right; font-size:1.2em; cursor:pointer; opacity: 0.5;
       DIV gid=widgetContainer
       DIV gid=sendBar class=columns is-mobile is-1 style=display:none; background-color:lightgrey; border-bottom-left-radius:6px; border-bottom-right-radius:6px; margin-top:0;
         DIV class=column is-narrow

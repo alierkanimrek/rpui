@@ -4,22 +4,15 @@ import {ControlWidgetData} from "../../../components/view"
 import {Switch} from "../../elements/switch"
 
 
-/*
-interface SwitchCWVars{
-    sw1: number|boolean|string,
-    sw2: number|boolean|string,
-    sw3: number|boolean|string,
-    sw4: number|boolean|string
-}
 
 
-interface SwitchCWStaticVars{
-    name1: string,
-    name2: string,
-    name3: string,
-    name4: string,
-}
-*/
+
+
+
+
+
+
+
 interface SwMap{
     [vname:string]: Switch
 }

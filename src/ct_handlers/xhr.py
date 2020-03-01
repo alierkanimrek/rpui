@@ -161,8 +161,6 @@ class XHRClientUpdate(BaseHandler):
                         
             if(not resp["awake"]):
                 self.__log.d("Node going to sleep", self.uri)
-
-            print(self.alive.set,"\n")
             
             resp["result"] = True
         except Exception as inst:
