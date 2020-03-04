@@ -84,7 +84,7 @@ export class View extends GHTMLControl {
 
 
     loadedV(view:ControlView){
-        
+        // View widgets data loaded and create widgets according to order
         for (let i = 0; i < view.items.length; i++) {
             view.items.forEach((item:ControlWidgetData)=>{
                 if(item.order == i){    
@@ -96,6 +96,7 @@ export class View extends GHTMLControl {
                 }
             })
         }
+        // Start data stream from server
         this.bindingStore.dataConn.play()   
     }
 
@@ -103,6 +104,7 @@ export class View extends GHTMLControl {
 
 
     loadedVL(viewlist:Array<any>){
+        // Create view list menu
         let names: Array<string> = []
         viewlist.forEach((view:any) =>{
             names.push(view.vname)
@@ -119,6 +121,7 @@ export class View extends GHTMLControl {
 
 
     dataLoaded(data:UserData):void{
+        // Nodes task data loaded, update every widget
         this.ControlViewContainer.childNodes.forEach((cn:any)=>{
             cn.control.taskData = data
         })
@@ -279,7 +282,6 @@ export class ViewData extends GDataObject {
                     }
                     else{
                         this.nodevars = stack.dataVar("nodevars")
-
 
                         // Load View
                         let responseV:ResponseHandler = (stack:RpStack) => {

@@ -9,7 +9,11 @@ export interface ControlWidgetMeta{
     desc: string,
     vars: Array<string>,
     static: Array<string>,
-    creator: Function
+    creator: Function,
+    editable: boolean,
+    autosend: boolean,
+    editable_default: boolean,
+    autosend_default: boolean
 }
 
 
@@ -28,11 +32,40 @@ export function getControlWidgetMeta(parm:{
     vars: Array<string>,
     creator: Function,
     desc?: string,
-    staticVars?: Array<string>}):ControlWidgetMeta{
+    staticVars?: Array<string>,
+    editable?: boolean,
+    autosend?: boolean,
+    editable_default?: boolean,
+    autosend_default?: boolean}):ControlWidgetMeta{
 
-    let res:ControlWidgetMeta = {name:parm.name, vars:parm.vars, creator:parm.creator, desc:"", static:[]}
+    let res:ControlWidgetMeta = {
+        name:parm.name, 
+        vars:parm.vars, 
+        creator:parm.creator, 
+        desc:"", static:[],
+        editable: false,
+        autosend: false,
+        editable_default: false,
+        autosend_default: false}
     if(parm.desc){    res.desc = parm.desc    }
     if(parm.staticVars){    res.static = parm.staticVars    }
+    if(parm.autosend_default){
+        res.autosend_default = true
+        res.autosend = true
+        res.editable = true
+        res.editable_default = true
+    }
+    if(parm.editable_default){
+        res.editable = true
+        res.editable_default = true        
+    }
+    if(parm.autosend){
+        res.editable = true
+        res.autosend = true
+    }
+    if(parm.editable){
+        res.editable = true
+    }
     return(res)
 }
 
@@ -46,7 +79,8 @@ export class CWBase extends GHTMLControl{
 
     protected _data: UserData
     protected _wdata: ControlWidgetData
-    protected _cmd: VariableMap = {}
+    protected _cmd: VariableMap = {}    //{uri:value,... } for sending
+    protected _up: boolean = true
 
 
     
@@ -60,10 +94,20 @@ export class CWBase extends GHTMLControl{
 
     set data(data:UserData){
         this._data = data
-        this.update()
+        if(this._up){
+            this.update()
+        }
     }
 
 
+    set updating(up:boolean){
+        this._up = up
+    }
+
+
+    get updating():boolean{
+        return(this._up)
+    }
 
 
     getTaskData(parm:{uri?:string, nname?:string, tname?:string}):any{
@@ -104,13 +148,22 @@ export class CWBase extends GHTMLControl{
 
 
 
-
     setCmd(uri:string, val:any){
+        // Update (this)VariableMap for sending command
         if(this._wdata.editable){
             this._cmd[uri] = val
+            // Trigger "cmd" event for sending VariableMap by ControlItem 
             this.dispatchEvent("cmd", this)
         }
     }
+
+
+
+
+    clearCmd(){
+        this._cmd = {}
+    }
+
 
 
 

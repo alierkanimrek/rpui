@@ -1,6 +1,6 @@
 any
   DIV gid=item
-    DIV class=tile is-child box style=display:none; margin:0.75rem !important; padding: 0.75rem !important; gid=editContainer
+    DIV gid=editContainer class=tile is-child box style=display:none; margin:0.75rem !important; padding: 0.75rem !important; 
       DIV class=columns is-mobile is-1 style=background-color:lightgrey; border-top-left-radius:6px; border-top-right-radius:6px; margin-bottom:0;
         DIV class=column is-narrow
           i gid=upButton class=fas fa-arrow-up role=button style=float:left; font-size:1.2em; cursor:pointer;
@@ -17,7 +17,7 @@ any
         DIV class=column is-narrow
           i gid=downButton class=fas fa-arrow-down role=button style=float:right; font-size:1.2em; cursor:pointer;    
    
-    DIV class=tile is-child style=margin:0.75rem !important; padding: 0.75rem !important; gid=controlContainer
+    DIV gid=controlContainer class=tile is-child style=margin:0.75rem !important; padding: 0.75rem !important; 
       DIV class=columns is-mobile is-1 style=margin-bottom:0;
         DIV class=column is-narrow
           i gid=addButton class=fas fa-plus role=button style=float:right; font-size:1.2em; cursor:pointer; opacity: 0.5;

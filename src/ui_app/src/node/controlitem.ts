@@ -50,11 +50,13 @@ export class ControlItem extends GHTMLControl {
           [this.e.okButton, "click", this.save],
           [this.e.removeButton, "click", this.remove],
           [this.e.upButton, "click", this.goUpDown],
-          [this.e.downButton, "click", this.goUpDown]
+          [this.e.downButton, "click", this.goUpDown],
+          [this.e.cancelButton, "click", this.cancelCmd],
+          [this.e.sendButton, "click", this.sendCmd]
         ])
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
-        this.widget = createCW({rootId: this.e.controlContainer.id, wdata:widgetData})
+        this.widget = createCW({rootId: this.e.widgetContainer.id, wdata:widgetData})
         this.e.title.textContent = widgetData.title
         this.widget.addEventListener("cmd", this.cmd.bind(this))
     }
@@ -123,11 +125,35 @@ export class ControlItem extends GHTMLControl {
 
     cmd(widget:CWBase){
         if(widget.autoSend){
+            // Send Variables by View.cmdCVItem
             this.dispatchEvent("cmd", widget)
         }
         else{
-            console.log("Auto send: off")
+            // Show send/cancel bar for sending
+            this.widget.updating = false
+            this.e.sendBar.style.display = ""
+            this.e.sendBar.style.height = ""
         }
+    }
+
+
+
+
+    cancelCmd(e:GHTMLInputEvent){
+        this.widget.updating = true
+        this.widget.clearCmd()
+        this.e.sendBar.style.display = "none"
+        this.e.sendBar.style.height = "0"        
+    }
+
+
+
+    sendCmd(e:GHTMLInputEvent){
+        this.widget.updating = true
+        this.e.sendBar.style.display = "none"
+        this.e.sendBar.style.height = "0"
+        // Send Variables by View.cmdCVItem
+        this.dispatchEvent("cmd", this.widget)
     }
 
 }
