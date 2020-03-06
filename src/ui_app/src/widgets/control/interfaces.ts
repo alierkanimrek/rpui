@@ -2,6 +2,7 @@ import {GHTMLControl} from "../../glider/glider"
 import {ControlWidgetData, VariableMap} from "../../components/view"
 import {UserData, NodeData} from "../../components/msg"
 import {parseUri} from "../../components/source"
+import {metaData} from "./cwdata"
 
 
 export interface ControlWidgetMeta{
@@ -42,7 +43,8 @@ export function getControlWidgetMeta(parm:{
         name:parm.name, 
         vars:parm.vars, 
         creator:parm.creator, 
-        desc:"", static:[],
+        desc:"", 
+        static:[],
         editable: false,
         autosend: false,
         editable_default: false,
@@ -79,14 +81,17 @@ export class CWBase extends GHTMLControl{
 
     protected _data: UserData
     protected _wdata: ControlWidgetData
+    private _meta: ControlWidgetMeta
     protected _cmd: VariableMap = {}    //{uri:value,... } for sending
     protected _up: boolean = true
+
 
 
     
     constructor(view:string, rootId:string, wdata:ControlWidgetData) {
         super({view:view, root:rootId})
         this._wdata = wdata
+        this._meta = metaData.getData(wdata.widget)
     }
 
 
@@ -107,6 +112,11 @@ export class CWBase extends GHTMLControl{
 
     get updating():boolean{
         return(this._up)
+    }
+
+
+    get meta():ControlWidgetMeta{
+        return(this._meta)
     }
 
 

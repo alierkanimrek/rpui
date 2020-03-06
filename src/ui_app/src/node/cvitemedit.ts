@@ -8,6 +8,7 @@ import {metaData} from "../widgets/control/cwdata"
 
 
 
+
 const name = "cvitemedit"
 
 
@@ -29,8 +30,8 @@ export class CVItemEdit extends GHTMLControl {
     _: Function
     vars: Array<GHTMLControl> = []
     svars: Array<GHTMLControl> = []
-    
-
+    editable:HTMLInputElement
+    autosend:HTMLInputElement
 
 
 
@@ -50,6 +51,7 @@ export class CVItemEdit extends GHTMLControl {
             this.upWidgetVars("default")           
         }
         this.up()
+
         this.bindingStore.saveData()
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
     }
@@ -70,6 +72,10 @@ export class CVItemEdit extends GHTMLControl {
 
 
     private upWidgetVars(wname:string):void{
+        let meta = metaData.getData(wname)
+        let metaVars = meta.vars
+        let staticVars = meta.static
+
         this.vars.forEach((selector:GHTMLControl)=>{
             selector.clear()
         })
@@ -78,8 +84,6 @@ export class CVItemEdit extends GHTMLControl {
         })
         this.vars = []
         this.svars = []
-        let metaVars = metaData.getData(wname).vars
-        let staticVars = metaData.getData(wname).static
         metaVars.forEach((vname:string)=>{
             this.vars.push( new Selector({
               rootId: this.e.varsContainer.id,
@@ -99,6 +103,10 @@ export class CVItemEdit extends GHTMLControl {
               inputCall: this.input
               }))
         })
+        this.editable.disabled = !meta.editable
+        this.autosend.disabled = !meta.autosend
+        this.editable.checked = meta.editable_default
+        this.autosend.checked = meta.autosend_default
     }
 
 

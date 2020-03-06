@@ -38,7 +38,8 @@ export let meta = getControlWidgetMeta({
         "prg3max",
         "prg4name", 
         "prg4max"],
-    creator:create
+    creator:create,
+    editable_default: false
 })
 
 

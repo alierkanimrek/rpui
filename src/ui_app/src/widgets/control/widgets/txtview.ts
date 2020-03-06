@@ -11,7 +11,9 @@ export let meta = getControlWidgetMeta({
     name:"Simple Text View", 
     vars:["txt", "file", "row"],
     staticVars:["file", "row"],
-    creator:create})
+    creator:create,
+    autosend_default: false,
+    editable: true})
 
 const view = `
 any

@@ -22,7 +22,9 @@ export let meta = getControlWidgetMeta({
     name:"Simple Switch", 
     vars:["sw1","sw2","sw3","sw4"],
     staticVars:["sw1", "sw2", "sw3", "sw4"],
-    creator:create
+    creator:create,
+    autosend_default: true,
+    editable_default: true
 })
 
 

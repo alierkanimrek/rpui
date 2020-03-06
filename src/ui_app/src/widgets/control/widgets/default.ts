@@ -9,7 +9,8 @@ import {UserData, NodeData} from "../../../components/msg"
 export let meta = getControlWidgetMeta({
     name:"default", 
     vars:[],
-    creator:create})
+    creator:create,
+    editable_default:false})
 
 const view = `
 any
