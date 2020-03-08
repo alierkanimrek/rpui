@@ -101,8 +101,9 @@ export class ControlItem extends GHTMLControl {
     save(e:Event){
         this.editor.save()
         this.widget.clear()
-        this.widget = createCW({rootId: this.e.controlContainer.id, wdata:this.editor.data})
+        this.widget = createCW({rootId: this.e.widgetContainer.id, wdata:this.editor.data})
         this.e.title.textContent = this.editor.data.title
+        this.widget.addEventListener("cmd", this.cmd.bind(this))
         this.toggle()
     }
 
