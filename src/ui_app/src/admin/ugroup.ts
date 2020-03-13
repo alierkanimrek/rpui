@@ -95,7 +95,7 @@ export class UGroup extends GHTMLControl {
     search1Input(value:string){
         this.search1.clear()
         let loaded = (unamelist:Array<string>) =>{
-            this.search1.upData(unamelist)
+            this.search1.options = unamelist
         }
         if(value && value.length > 2){
             this.bindingStore.searchUser(value, loaded.bind(this), "all")

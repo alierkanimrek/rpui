@@ -128,7 +128,7 @@ export class SendButton extends GHTMLControl {
         this.submitMsg.className = " has-text-success"
         this.submitMsg.textContent = this.parm.successMsg
         if(cb){    this.parm.successCb = cb    }
-        setTimeout(this.restore.bind(this, true), 3000)
+        setTimeout(this.restore.bind(this, true), 1500)
     }
 
 
@@ -139,7 +139,7 @@ export class SendButton extends GHTMLControl {
         this.submitMsg.className = " has-text-danger"
         this.submitMsg.textContent = this.parm.errorMsg
         if(cb){    this.parm.errorCb = cb    }
-        setTimeout(this.restore.bind(this, false), 1500)
+        setTimeout(this.restore.bind(this, false), 3000)
     }
 
 

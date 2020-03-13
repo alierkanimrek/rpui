@@ -5,6 +5,7 @@ import {RpStack} from "../components/msg"
 import {rules} from "../components/rules"
 import {TaskEdit} from "../widgets/taskeditor/taskeditor"
 import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
+import {ButtonSelect} from "../widgets/elements/buttonselect"
 import view from "./tasks.ghtml"
 
 const name = "tasks"
@@ -33,7 +34,7 @@ export class Tasks extends GHTMLControl {
     title:HTMLLabelElement
     back:HTMLElement
     nodes:HTMLElement
-    selector:HTMLSelectElement
+    selector:ButtonSelect
     newContainer: HTMLElement
     addBtn: HTMLButtonElement
     tnameInput: HTMLInputElement
@@ -73,6 +74,8 @@ export class Tasks extends GHTMLControl {
         this.tnameInput.pattern = rules.tname
         this.tnameInput_validityMessages = this.store("trns").getValidityMessages(name, "tname")
 
+        this.selector = new ButtonSelect(this.e.selectContainer.id)
+
         this.AddNewBtn = new SendButton({
             rootId: this.wgtAddButton.id,
             clickCall: this.create.bind(this),
@@ -102,7 +105,7 @@ export class Tasks extends GHTMLControl {
 
 
     loaded(tasklist:any){
-        this.selector.size = tasklist.length + 1
+        this.selector.options = this.bindingStore.tnames_options
         this.up()
     }
 
@@ -225,9 +228,9 @@ export class Tasks extends GHTMLControl {
 export class TasksData extends GDataObject {
 	
 
-    tname: String = ""
-    tnames: String = ""
-    tnames_options: Array<String> = []
+    tname: string = ""
+    tnames: string = ""
+    tnames_options: Array<string> = []
 
 
 
@@ -317,10 +320,3 @@ export class TasksData extends GDataObject {
     }
 
 }
-
-
-
-
-
-
-

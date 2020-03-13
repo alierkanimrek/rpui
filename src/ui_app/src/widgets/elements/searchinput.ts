@@ -1,5 +1,5 @@
 import {GHTMLControl, GDataObject, GHTMLInputEvent} from "../../glider/glider"
-
+import {ButtonSelect} from "./buttonselect"
 
 
 
@@ -33,15 +33,14 @@ export class SearchInput extends GHTMLControl {
     bindingStore: Data
     private callBack:Function
     private _name:string
-    private _options: Array<string> = []
-    private _value: string = ""
-    private _last: HTMLButtonElement
-
+    private _select: ButtonSelect
 
 
     constructor(p:SearchInputParameters) { 
         super({view:view, root:p.rootId, bindToLocal:new Data()}) 
         this.e.label.textContent = p.label
+        this._select = new ButtonSelect(this.e.items.id)
+        this.linkEvents([[this._select, "selected", this.select]])
     }  
 
 
@@ -55,52 +54,42 @@ export class SearchInput extends GHTMLControl {
 
 
     get value():string{    
-        return(this._value)
+        return(this._select.value)
     }
 
 
 
 
-    get opts():Array<string>{
-        return(this._options)
+    set value(val:string){
+        this._select.value = val
     }
 
 
 
 
-    upData(options: Array<string>){
-        this._options = options
-        this.clear()
-        options.forEach((opt:string)=>{
-            let btn = this.e.items.add("button", {
-                "class": "button is-rounded is-capitalized", 
-                "value" : opt,
-                "style" : "margin: 0.2rem;"
-            })
-            btn.textContent = opt
-            btn.addEventListener("click", this.select.bind(this))
-        })
-
+    get options():Array<string>{
+        return(this._select.options)
     }
 
 
 
 
-    select(e:Event){
-        if(this._last){
-            this._last.className = "button is-rounded is-capitalized"
-        }
-        this._last = <HTMLButtonElement>e.target
-        this._last.className = "button is-rounded is-capitalized is-light" 
-        this._value = this._last.value
-        this.dispatchEvent("selected", this._last.value)
+    set options(options: Array<string>){
+        this._select.options = options
+    }
+
+
+
+
+    private select(val:string){
+        this.dispatchEvent("selected", val)
     }
 
 
 
 
     clear():void{
-        while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
+        this._select.clear()
         this.up()
     }
 

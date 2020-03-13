@@ -27,9 +27,11 @@ any
                         P gid=desc style=margin: 0rem; cursor:default; max-height:4rem; overflow:hidden;
                         | Desc
                     DIV class=column is-narrow
-                        i gid=editButton class=fas fa-edit role=button style=float:right; font-size:1.2em; cursor:pointer;
+                        DIV style=display:flex; padding-bottom:.5rem;
+                            i gid=editButton class=fas fa-edit role=button style=float:right; font-size:1.2em; cursor:pointer;
+                        DIV style=display:flex;                            
+                            i gid=taskButton class=fas fa-database role=button style=float:right; font-size:1.2em; cursor:pointer;
 `
-
 
 
 
@@ -51,8 +53,10 @@ export class NodeItem extends GHTMLControl {
     name: HTMLParagraphElement
     desc: HTMLParagraphElement
     editButton: HTMLButtonElement
+    taskButton: HTMLButtonElement
     eventMap: any = [
         [this.editButton, "click", this.edit],
+        [this.taskButton, "click", this.taskedit],
         [this.statusContainer, "click", this.node],
         [this.name, "click", this.edit],
         [this.desc, "click", this.edit]
@@ -67,7 +71,7 @@ export class NodeItem extends GHTMLControl {
         super({view:view, root:rootId})
         this.name.textContent = name
         this._name = name
-        this.desc.textContent = desc
+        this.desc.textContent = desc.slice(0,64)
         this.uri = "/"+this.gDoc.gData("session").user+"/"+name
         //this.trns = this.gDoc.gData("trns").t
         //this.trns.addEventListener("change", this.langChanged.bind(this))
@@ -88,6 +92,14 @@ export class NodeItem extends GHTMLControl {
     public edit(e:Event):void{
         this.store("base").nname = this.name.textContent
         this.gDoc.navigate(this.uri+"/edit")
+    }
+
+
+
+
+    public taskedit(e:Event):void{
+        this.store("base").nname = this.name.textContent
+        this.gDoc.navigate(this.uri+"/edit/tasks")
     }
 
 

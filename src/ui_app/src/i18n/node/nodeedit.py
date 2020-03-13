@@ -24,7 +24,7 @@ def text(_):
                 "taskSelectLabel" : {"textContent":_("Select task for followup")},
                 "taskListLabel" : {"textContent":_("Followed tasks")},
                 "tlistRemoveBtn" : {"textContent":_("Remove")},
-                "back" : {"textContent":_("Back")},
+                "back" : {"textContent":_("Nodes")},
                 "tasks" : {"textContent":_("Tasks")},
                 "remove" : {"textContent":_("Remove")},
                 "removeMsg" : {"textContent":_("Clear description and write 'remove' then update for removing this node.")}

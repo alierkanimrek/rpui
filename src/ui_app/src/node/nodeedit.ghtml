@@ -38,7 +38,7 @@ baseMainContent
 
                   DIV class=tile is-child select is-multiple is-fullwidth
                     LABEL gid=userSelectLabel
-                    SELECT gid=userlist name=userlist class=is-capitalized style=width:100%; size=2
+                    DIV gid=userlistContainer style=width:100%;
                     BUTTON gid=ulistRemoveBtn class=button is-danger
 
           DIV class=box style=min-width:30%; margin:1rem;
@@ -56,7 +56,7 @@ baseMainContent
                     DIV gid=taskSelect
                   DIV class=tile is-child select is-multiple is-fullwidth
                     LABEL gid=taskListLabel
-                    SELECT gid=tasklist name=tasklist class=is-capitalized style=width:100%; size=2
+                    DIV gid=tasklistContainer style=width:100%;
                     BUTTON gid=tlistRemoveBtn class=button is-danger
 
         DIV class=field gid=sendBtnContainer

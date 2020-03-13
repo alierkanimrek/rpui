@@ -42,6 +42,18 @@ export class ButtonSelect extends GHTMLControl {
 
 
 
+    set value(val:string){
+        this.e.items.childNodes.forEach((btn:HTMLButtonElement)=>{
+            console.log(btn.value, val)
+            if(btn.value == val){
+                this.focus(btn)
+            }
+        })
+    }
+
+
+
+
     get options():Array<string>{
         return(this._options)
     }
@@ -54,7 +66,8 @@ export class ButtonSelect extends GHTMLControl {
         this.clear()
         options.forEach((opt:string)=>{
             let btn = this.e.items.add("button", {
-                "class": "button is-rounded is-capitalized", 
+                "class": "button is-rounded is-capitalized",
+                "type" : "button",
                 "value" : opt,
                 "style" : "margin: 0.2rem;"
             })
@@ -67,13 +80,20 @@ export class ButtonSelect extends GHTMLControl {
 
 
     select(e:Event){
+        this.focus(<HTMLButtonElement>e.target)
+        this.dispatchEvent("selected", this._last.value)
+    }
+
+
+
+
+    focus(btn:HTMLButtonElement|GHTMLControl){
         if(this._last){
             this._last.className = "button is-rounded is-capitalized"
         }
-        this._last = <HTMLButtonElement>e.target
+        this._last = <HTMLButtonElement>btn
         this._last.className = "button is-rounded is-capitalized is-light" 
         this._value = this._last.value
-        this.dispatchEvent("selected", this._last.value)
     }
 
 
@@ -82,5 +102,30 @@ export class ButtonSelect extends GHTMLControl {
     clear():void{
         while (this.e.items.childNodes.length > 0) { this.e.items.childNodes[0].remove() }
     }
+
+
+
+    
+    removeSelected(){
+        let newlist:Array<string> = []
+        this._options.forEach((val:string)=>{
+            if(this._value != val){
+                newlist.push(val)
+            }
+        })
+        this.options = newlist
+    }
+
+
+
+
+    add(val:string){
+        let swp = this._options
+        swp.push(val)
+        this.options = swp
+    }
+
+
+
 
 }

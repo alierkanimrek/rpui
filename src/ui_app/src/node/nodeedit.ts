@@ -37,7 +37,6 @@ export class NodeEdit extends GHTMLControl {
     sendBtnContainer: HTMLElement
     sendButton:SendButton
     access:HTMLElement
-    TaskListContainer:HTMLElement
     back:HTMLElement
     tasks:HTMLElement
     remove:HTMLElement
@@ -45,8 +44,8 @@ export class NodeEdit extends GHTMLControl {
     descInput:HTMLInputElement
     search1: SearchInput
     search2: SearchInput
-    userlist: HTMLSelectElement
-    tasklist: HTMLSelectElement
+    userlist: ButtonSelect
+    tasklist: ButtonSelect
     nodeSelector: ButtonSelect
     taskSelector: ButtonSelect
 
@@ -57,7 +56,6 @@ export class NodeEdit extends GHTMLControl {
         [this.e.ulistRemoveBtn, "click", this.removeUList],
         [this.e.tlistRemoveBtn, "click", this.removeTList]
     ]
-
 
 
     constructor() {
@@ -72,6 +70,7 @@ export class NodeEdit extends GHTMLControl {
         })
         this.emap.push([this.search1, "selected", this.search1Selected])
         this.emap.push([this.search1, "input", this.search1Input])
+        this.userlist = new ButtonSelect(this.e.userlistContainer.id)
 
         this.search2 = new SearchInput({
             rootId: this.e.searchContainer2.id,
@@ -85,6 +84,7 @@ export class NodeEdit extends GHTMLControl {
 
         this.taskSelector = new ButtonSelect(this.e.taskSelect.id)
         this.emap.push([this.taskSelector, "selected", this.taskSelected])
+        this.tasklist = new ButtonSelect(this.e.tasklistContainer.id)
 
         this.sendButton = new SendButton({
             rootId: this.sendBtnContainer.id,
@@ -102,8 +102,6 @@ export class NodeEdit extends GHTMLControl {
         this.bindingStore.load(this.store("base").nname, this.load.bind(this))
 
         this.linkEvents(this.emap)
-        this.e.userlist.setAttribute("multiple", "true")
-        this.e.tasklist.setAttribute("multiple", "true")
     }
 
 
@@ -137,8 +135,8 @@ export class NodeEdit extends GHTMLControl {
     load():void{
         this.title.textContent = this.bindingStore.title
         this.up()
-        this.setUList()
-        this.setTList()
+        this.userlist.options = this.bindingStore.userlist_options
+        this.tasklist.options = this.bindingStore.tasklist_options
         if(this.bindingStore.access == "1"){
             this.e.friendsContainer.style.visibility = "visible"
             this.e.friendsContainer.style.height = ""
@@ -189,9 +187,9 @@ export class NodeEdit extends GHTMLControl {
     search1Input(value:string){
         this.search1.clear()
         let loaded = (unamelist:Array<string>) =>{
-            this.search1.upData(unamelist)
+            this.search1.options = unamelist
         }
-        if(value && this.search1.opts.indexOf(value) == -1){
+        if(value && this.search1.options.indexOf(value) == -1){
             this.bindingStore.searchUser(value, loaded.bind(this), "all")
         }
     }    
@@ -200,7 +198,8 @@ export class NodeEdit extends GHTMLControl {
 
 
     search1Selected(value:string){
-        this.bindingStore.addUserList(value)
+        this.userlist.add(value)
+        this.bindingStore.userlist_options = this.userlist.options
     }
 
 
@@ -211,12 +210,13 @@ export class NodeEdit extends GHTMLControl {
         this.nodeSelector.clear()
         this.taskSelector.clear()
         let loaded = (unamelist:Array<string>) =>{
-            this.search2.upData(unamelist)
+            this.search2.options = unamelist
             if(unamelist.length == 1 ){
+                this.search2.value = unamelist[0]
                 this.search2Selected(unamelist[0])
             }
         }
-        if(value && this.search2.opts.indexOf(value) == -1){
+        if(value && this.search2.options.indexOf(value) == -1){
             this.bindingStore.searchUser(value, loaded.bind(this), "share")
         }
     }    
@@ -232,6 +232,7 @@ export class NodeEdit extends GHTMLControl {
             this.e.nodeContainer.style.visibility = "visible"
             this.e.nodeContainer.style.height = ""
             if(nodes.length == 1){
+                this.nodeSelector.value = nodes[0]
                 this.nodeSelected(nodes[0])
             }
         }
@@ -255,45 +256,25 @@ export class NodeEdit extends GHTMLControl {
 
 
     taskSelected(value:string){
-        this.bindingStore.addTaskList(this.search2.value, this.nodeSelector.value, value)
+        this.tasklist.add(value)
+        this.bindingStore.tasklist_options = this.tasklist.options
     }
 
 
 
 
     removeUList(e:Event){
-        this.bindingStore.removeUsers()
+        this.userlist.removeSelected()
+        this.bindingStore.userlist_options = this.userlist.options
     }
 
 
 
     removeTList(e:Event){
-        this.bindingStore.removeTasks()
+        this.tasklist.removeSelected()
+        this.bindingStore.tasklist_options = this.tasklist.options
     }
 
-
-
-
-    setUList(){
-        if(this.userlist.options.length > 2){
-            this.userlist.size = this.userlist.options.length
-        }
-        else{
-             this.userlist.size = 2   
-        }
-    }
-
-
-
-
-    setTList(){
-        if(this.tasklist.options.length > 2){
-            this.tasklist.size = this.tasklist.options.length
-        }
-        else{
-             this.tasklist.size = 2   
-        }
-    }
 
 }
 
@@ -311,10 +292,10 @@ export class NodeEditData extends GDataObject {
     title: string = ""
     desc: string = ""
     access: string = "0"
-    userlist: Array<String> = []
-    userlist_options: Array<String> = []
-    tasklist: Array<String> = []
-    tasklist_options: Array<String> = []
+    userlist: Array<string> = []
+    userlist_options: Array<string> = []
+    tasklist: Array<string> = []
+    tasklist_options: Array<string> = []
 
 
 
@@ -450,58 +431,6 @@ export class NodeEditData extends GDataObject {
             errorHandler:error})
 
         conn.run({ObjectData: data})
-    }
-
-
-
-
-    addUserList(value:string){
-        if(this.userlist_options.indexOf(value) == -1){
-            this.userlist_options.push(value)
-            this.up()
-            this.control.setUList()
-        }
-    }
-
-
-
-
-    removeUsers(){
-        let newlist:Array<string> = []
-        this.userlist_options.forEach((uname:string)=>{
-            if(this.userlist.indexOf(uname) == -1){
-                newlist.push(uname)
-            }
-        })
-        this.userlist_options = newlist
-        this.up()
-        this.control.setUList()
-    }
-
-
-
-    addTaskList(uname:string, nname:string, tname:string){
-        let uri = uname+"/"+nname+"/"+tname
-        if(this.tasklist_options.indexOf(uri) == -1){
-            this.tasklist_options.push(uri)
-            this.up()
-            this.control.setTList()
-        }
-    }
-
-
-
-
-    removeTasks(){
-        let newlist:Array<string> = []
-        this.tasklist_options.forEach((uri:string)=>{
-            if(this.tasklist.indexOf(uri) == -1){
-                newlist.push(uri)
-            }
-        })
-        this.tasklist_options = newlist
-        this.up()
-        this.control.setTList()
     }
 
 }
