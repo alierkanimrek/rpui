@@ -1,0 +1,15 @@
+baseMainContent
+    section style=min-height: 5rem; background-color: #000;
+        div class=columns style=margin:1rem;
+            div class=column
+                img src=/heap/logo/rplexus-150.png style=width: 10rem;
+            div class=column
+                
+            div class=column
+                a href=https://github.com/alierkanimrek/rpui target=_blank
+                    i class=fab fa-github style=margin-right:.5rem;
+                    label gid=codesLabel
+                br
+                a href=https://alierkanimrek.github.io/rplexusdocs/ target=_blank
+                    i class=far fa-file-alt style=margin-right:.5rem;
+                    label gid=docsLabel

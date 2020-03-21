@@ -26,15 +26,12 @@
 
 
 
-import {GDocument, GDataObject} from "./glider/glider"
-import {Translation} from "./components/translation"
-import {viewport, VPTypes} from "./components/viewport"
-import {SessionUpdater} from "./components/session"
-import {LangSelectorData} from "./widgets/lang/selector"
+import {GHTMLControl, GDataObject} from "../glider/glider"
+import {GetText} from "../i18n/gettext"
+import View from './footer.ghtml'
 
-import {Base, BaseData} from "./front/base"
-import {Front, FrontData} from "./front/front"
-import {Footer} from "./front/footer"
+
+const name = "footer"
 
 
 
@@ -43,16 +40,24 @@ import {Footer} from "./front/footer"
 
 
 
-const app = "front"
-const i18npath = "/heap/i18n/"
-const translator = new Translation(i18npath, app)
 
-let store = {
-    base: new BaseData(),
-    session: new SessionUpdater(),
-    langselector: new LangSelectorData(),
-    trns: translator,
-    front: new FrontData()
+
+export class Footer extends GHTMLControl {
+
+
+
+
+
+
+
+
+    constructor() {
+        super({view:View})
+        let trns = this.store("trns").t.translations(name)
+        //this._ = trns.get_()
+        trns.updateStatics(this)
+    }
+
 }
 
 
@@ -62,35 +67,7 @@ let store = {
 
 
 
-function appReady():boolean {
-    if(!translator.t.state  && !translator.t.error){    return(false)}
-    return(true)
-}
+/*
+class FooterData extends GDataObject {
 
-
-
-
-function front():void{
-    let base = new Base()
-    let front = new Front()
-    let footer = new Footer()
-}
-
-
-
-
-
-
-
-
-
-let route = [
-    {path:'/', app: front}
-]
-
-
-
-
-GDocument.setReadyChecker(appReady)
-GDocument.stores(store)
-GDocument.route(route)
+}*/

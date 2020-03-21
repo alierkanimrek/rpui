@@ -8,8 +8,36 @@ baseMainContent
                 ul class=subtitle style=font-size: 1.5rem;
                     li gid=subli1
                     li gid=subli2
-                a href=/user/login
-                    button class=button is-link is-medium is-fullwidth gid=btnLogin
+                    li gid=subli3
+                    li gid=subli4
+                div class=columns
+                    div class=column
+                        a href=/user/login
+                            button class=button is-link is-medium is-fullwidth gid=btnLogin
+                    div class=column
+                        a href=/user/signup
+                            button class=button is-success is-medium is-fullwidth gid=btnSignup
+        div
+            h1 class=title gid=whattitle
+        div class=columns style=margin:1rem;
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=observetitle
+                    img src=/heap/img/raspberry-pi-icon.png style=width:6rem; float:left; margin:.2rem;
+                    p class=has-text-justified gid=observetxt
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=controltitle
+                    img src=/heap/img/mobile-data-icon.png style=width:6rem; float:left; margin:.2rem;
+                    p class=has-text-justified gid=controltxt
+            div class=column 
+                div class=box
+                    h1 class=subtitle gid=automatetitle
+                    img src=/heap/img/smart-home-icon.png style=width:6rem; border-radius: 50%; float:left; margin:.2rem;
+                    p class=has-text-justified gid=automatetxt
+
+        div
+            h1 class=title gid=howtitle
         div class=columns style=margin:1rem;
             div class=column 
                 div class=box

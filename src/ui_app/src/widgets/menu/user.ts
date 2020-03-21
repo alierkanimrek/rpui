@@ -103,10 +103,12 @@ export class UserItem extends GHTMLControl {
             this.unameLabel.textContent = uname
             this.userSection.style.visibility = "visible"
             this.userSection.style.height = ""
+            this.userSection.style.width = ""
         }
         else{
             this.userSection.style.visibility = "hidden"
             this.userSection.style.height = "0"
+            this.userSection.style.width = "0"
         }
     }
 

@@ -76,7 +76,9 @@ export class Login extends GHTMLControl {
         [this.signupLink, "click", this.footer],
         [this.forgotLink, "click", this.footer],
         [this.helpLink, "click", this.footer],
-        [this.loginSubmit, "click", this.send]        
+        [this.loginSubmit, "click", this.send],
+        [this.loginUname, "keyup", this.keyInput],
+        [this.loginPassw, "keyup", this.keyInput]
     ]
 
 
@@ -90,6 +92,17 @@ export class Login extends GHTMLControl {
         this.linkEvents(this.emap)
         this.loginStatus.style.visibility = "hidden"    
     }
+
+
+
+
+    keyInput(e:KeyboardEvent){
+        if(e.keyCode == 13){
+            //Enter
+            this.send(e)
+        }
+    }
+
 
 
 
