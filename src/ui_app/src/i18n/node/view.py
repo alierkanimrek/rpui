@@ -11,6 +11,9 @@ def text(_):
  
             "static":{
                 "nodesLink" : {"textContent":_("Nodes")},
+                "removeMe" : {"textContent":_("Remove")},
+                "removeMsg" : {"textContent":_("Click here for removing your view")}
+
             },
 
             "dynamic":{

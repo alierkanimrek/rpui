@@ -85,7 +85,9 @@ export class ControlItem extends GHTMLControl {
         //this.bindingStore.load(this.store("base").name, this.loadedV.bind(this), this.loadedVL.bind(this))
         this.editor = new CVItemEdit(this.e.editorContainer.id, widgetData)
         this.widget = createCW({rootId: this.e.widgetContainer.id, wdata:widgetData})
-        this.e.title.textContent = widgetData.title
+        if(widgetData){
+            this.e.title.textContent = widgetData.title
+        }
         this.widget.addEventListener("cmd", this.cmd.bind(this))
     }
 

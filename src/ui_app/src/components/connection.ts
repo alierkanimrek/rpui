@@ -75,7 +75,8 @@ export enum Port{
     "getugrp" = "/xhr/getugrp",
     "upugrp" = "/xhr/upugrp",
     "invite" = "/xhr/invite",
-    "getst" = "/xhr/getst"
+    "getst" = "/xhr/getst",
+    "delview" = "/xhr/delview"
 }
 
 export interface ResponseHandler {

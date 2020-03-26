@@ -480,6 +480,12 @@ class Store(object):
 
 
 
+    async def removeView(self, uname, vname):
+        return(await self._db.removeView(uname, vname))
+
+
+
+
     async def searchUsers(self, term, mode, parm=""):
         result = []
         if(mode == USEARCHMODE_SHARE):

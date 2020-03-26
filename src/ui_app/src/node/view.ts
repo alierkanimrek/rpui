@@ -57,6 +57,11 @@ baseMainContent
                         DIV gid=saveContainer style=display:inline-grid;
                     DIV class=tile is-child style=padding: 0.75rem !important; text-align: center;
                         A gid=nodesLink
+                        p style=height: 2em;
+                        a gid=removeMe class=has-text-danger is-size-7
+                        DIV gid=removeMsgContainer style=visibility: hidden;
+                            a gid=removeMsg class=has-text-danger
+
 `
 
 
@@ -93,7 +98,9 @@ export class View extends GHTMLControl {
         this.bindingStore.uname = this.gDoc.gData("session").user
         this.linkEvents([
           [this.e.addButton, "click", this.addCVItem],
-          [this.e.nodesLink, "click", this.nav]
+          [this.e.nodesLink, "click", this.nav.bind(this)],
+          [this.e.removeMe, "click", this.nav.bind(this)],
+          [this.e.removeMsg, "click", this.removeView.bind(this)]
         ])
         this.saveButton = new SendButton({
             rootId: this.saveContainer.id,
@@ -169,12 +176,31 @@ export class View extends GHTMLControl {
 
 
 
-    nav(name:string|Event):void{
+    nav(name:any):void{
         if(typeof(name) == typeof("")){
             this.gDoc.navigate("/"+this.gDoc.gData("session").user+"/view/"+name)
         }else{
-            this.gDoc.navigate("/"+this.gDoc.gData("session").user)
+            if(this.e.nodesLink == name.target){
+                this.gDoc.navigate("/"+this.gDoc.gData("session").user)
+            }
+            else if(this.e.removeMe == name.target){
+                this.e.removeMsgContainer.style.visibility = "visible"
+            }
         }
+    }
+
+
+
+
+    removeView(e:Event){
+        this.bindingStore.remove(this.removed.bind(this))
+    }
+
+
+
+
+    removed(){
+        this.gDoc.navigate("/"+this.gDoc.gData("session").user)
     }
 
 
@@ -412,4 +438,24 @@ export class ViewData extends GDataObject {
         this.cmd = {}
     }
 
+
+
+
+    remove(cb:Function){
+        let response:ResponseHandler = (stack:RpStack) => {
+            if(stack.dataVar("result")){    
+                cb()
+            }
+            else{    
+                console.error("[View] Server error")
+            }
+        }
+
+        let conn = new Connection({
+            port:Port.delview, 
+            name:name,
+            responseHandler:response})
+        
+        conn.run({ObjectData: {"vname": this.view.vname}})
+    }
 }

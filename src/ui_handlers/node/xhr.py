@@ -598,3 +598,35 @@ class XHRSharedTasks(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
         
         await self.stackAppendAndSend(resp, "xhrshrtasks")
+
+
+
+
+
+
+
+
+class XHRRemoveView(BaseHandler):
+
+
+    @tornado.web.authenticated
+    async def post(self):
+        #data = {"nname":...}
+        self.__log = self.log.job("XHRRemoveView")
+        resp = {"result" : False}
+        
+        try:
+            uname=self.current_user 
+            vname=self.cstack.stack[0]["data"]["vname"]
+
+            result = await self.db.removeView(uname, vname)
+            if(result):
+                self.__log.d("View removed", uname, vname)
+                resp = {"result" : True}
+            else:
+                self.__log.w("Task not removed", uname, vname)
+
+        except Exception as inst:
+            self.__log.e_tb("Runtime error", inst)
+        
+        await self.stackAppendAndSend(resp, "xhrremoveview")

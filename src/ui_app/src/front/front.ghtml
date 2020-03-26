@@ -17,7 +17,7 @@ baseMainContent
                     div class=column
                         a href=/user/signup
                             button class=button is-success is-medium is-fullwidth gid=btnSignup
-        div
+        div class=column style=margin:1rem;
             h1 class=title gid=whattitle
         div class=columns style=margin:1rem;
             div class=column 
@@ -36,7 +36,7 @@ baseMainContent
                     img src=/heap/img/smart-home-icon.png style=width:6rem; border-radius: 50%; float:left; margin:.2rem;
                     p class=has-text-justified gid=automatetxt
 
-        div
+        div class=column style=margin:1rem;
             h1 class=title gid=howtitle
         div class=columns style=margin:1rem;
             div class=column 

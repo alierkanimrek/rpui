@@ -444,6 +444,14 @@ class RpMongoClient(object):
 
 
 
+    async def removeView(self, uname, vname):
+        result = await self._views.delete_many({"uname": uname, "vname": vname})
+        if(result):   return(True)
+        else:   return(False)
+
+
+
+
     async def getUserView(self, uname, vname):
         data = await self._views.find_one({"uname" : uname, "vname" : vname})
         del data["_id"]
