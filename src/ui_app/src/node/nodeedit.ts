@@ -35,7 +35,7 @@ import {SendButtonParameters, SendButton} from "../widgets/elements/sendbutton"
 import {TaskEdit} from "../widgets/taskeditor/taskeditor"
 import {SearchInput} from "../widgets/elements/searchinput"
 import {ButtonSelect} from "../widgets/elements/buttonselect"
-
+import {getUri} from "../components/source"
 
 
 
@@ -256,6 +256,9 @@ export class NodeEdit extends GHTMLControl {
         this.nodeSelector.clear()
         this.taskSelector.clear()
         let loaded = (nodes:Array<string>) =>{
+            if(this.store("session").user == this.search2.value){
+                nodes.splice(nodes.indexOf(this.store("base").nname),1)
+            }
             this.nodeSelector.options = nodes
             this.e.nodeContainer.style.visibility = "visible"
             this.e.nodeContainer.style.height = ""
@@ -284,7 +287,7 @@ export class NodeEdit extends GHTMLControl {
 
 
     taskSelected(value:string){
-        this.tasklist.add(value)
+        this.tasklist.add(getUri(this.search2.value, this.nodeSelector.value, value))
         this.bindingStore.tasklist_options = this.tasklist.options
     }
 

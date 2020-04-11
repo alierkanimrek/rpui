@@ -78,16 +78,28 @@ class STM(object):
     def isThere(self, id, t=None, forAdd=False):
         if not t:    t=int(time.time())
         else:   t=int(t)
+        #print("\n", id, t - self.lifetime, self._set) #Debug
         for s in self._set.keys():
-            #print(t, self._set)
+            #print("\t", s) #Debug
             #if t - self.lifetime > s and self.lifetime > 0: Zero Fix
-            if t - self.lifetime > s and s not in self._dellist:
-                self._dellist.append(s)
+
+            #if   expired time   > s:
+            if t - self.lifetime > s:
+
+                if s not in self._dellist:
+                    self._dellist.append(s)
+                    #print("\tDel", self._dellist) #Debug
             else:
-                if id in self._set[s]:
-                    if t - self.lifetime == s and forAdd:
-                        break
-                    return(True)
+                # Hit
+                for x in self._set[s]:
+                    if id == x:
+                        # print("\tHit") #Debug
+                        # Hit but near the expire time
+                        # Using only inside add method for keep the id
+                        if t - self.lifetime == s and forAdd:
+                            #print("Hit but ignore") #Debug
+                            break
+                        return(True)
         self._del()
         return(False)
 
@@ -104,6 +116,7 @@ class STM(object):
 
 
     def _del(self):
+        #print("\nDeleting", self._dellist) #Debug
         for s in self._dellist:
             try:    del self._set[s]
             except: pass

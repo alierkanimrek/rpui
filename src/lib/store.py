@@ -491,12 +491,13 @@ class Store(object):
         if(mode == USEARCHMODE_SHARE):
             lst = await self._db.getSharedUsers(term)
             for usr in lst:
-                if(parm == usr["uname"] or usr["uname"] in result):
-                    pass
-                elif(usr["access"] == 2):
-                    result.append(usr["uname"])
-                elif(usr["access"] == 1 and parm in usr["group"]):
-                    result.append(usr["uname"])
+                if usr["uname"] not in result:
+                    if(parm == usr["uname"]):
+                        result.append(usr["uname"])
+                    elif(usr["access"] == 2):
+                        result.append(usr["uname"])
+                    elif(usr["access"] == 1 and parm in usr["group"]):
+                        result.append(usr["uname"])
         if(mode == USEARCHMODE_ALL):
             lst = await self._db.searchUsers(term)
             for usr in lst:
@@ -511,11 +512,16 @@ class Store(object):
 
     async def getSharedNodes(self, uname, parm):
         result = []
-        lst = await self._db.getSharedNodes(uname)
+        if uname == parm:
+            lst = await self._db.getSharedNodes(uname, "all")
+        else:
+            lst = await self._db.getSharedNodes(uname)
         for node in lst:
             if(node["access"] == 2):
                 result.append(node["nname"])
             elif(node["access"] == 1 and parm in node["group"]):
+                result.append(node["nname"])
+            elif(node["uname"] == parm):
                 result.append(node["nname"])
         return(result)
 

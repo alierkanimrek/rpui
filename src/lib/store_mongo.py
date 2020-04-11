@@ -485,11 +485,14 @@ class RpMongoClient(object):
 
 
 
-    async def getSharedNodes(self, uname):
+    async def getSharedNodes(self, uname, mode=""):
         result = []
-        cursor = self._nodes.find({
-            "uname": uname, 
-            "access": {"$in": [1,2]}})
+        if(mode == "all"):
+            cursor = self._nodes.find({"uname": uname})            
+        else:
+            cursor = self._nodes.find({
+                "uname": uname, 
+                "access": {"$in": [1,2]}})
         r = await cursor.to_list(None)
         if(type(r) is list):
             result = r
