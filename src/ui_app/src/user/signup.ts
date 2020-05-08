@@ -72,7 +72,6 @@ export class Signup extends GHTMLControl {
     blockmsg:HTMLElement
 
     emap: any = [
-        [this.elm.help, "click", this.footerNav],
         [this.elm.login, "click", this.footerNav],
         [this.elm.passwHideBtn, "click", this.passwHideSw],
         [this.elm.submit, "click", this.send]
@@ -136,7 +135,7 @@ export class Signup extends GHTMLControl {
             this.gDoc.navigate("/user/login")
         }
         if(t == this.elm.help){
-            this.gDoc.navigate("/user/help")
+            this.gDoc.navigate("/heap/help.html")
         }
     }
 

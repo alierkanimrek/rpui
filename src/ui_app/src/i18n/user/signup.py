@@ -16,7 +16,7 @@ def text(_):
                 "unameInput" : {"placeholder":_("User name")},
                 "password" : {"textContent":_("Password")},
                 "passwInput" : {"placeholder":_("Password")},
-                "info" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/user/agreement'>User Agreement</a>, <a href='/user/privacyp'>Privacy Policy</a> and <a href='/user/cookiep'>Cookie Policy</a>.")},
+                "info" : {"innerHTML":_("By clicking Get Started now, you agree to Rplexus's <a href='/heap/termsofuse.html' target='_blank'>Terms of Use</a>, <a href='/heap/privacypolicy.html' target='_blank'>Privacy Policy</a> and <a href='/heap/cookiepolicy.html' target='_blank'>Cookie Policy</a>.")},
                 "submit" : {"textContent":_("Get started")},
                 "help" : {"textContent":_("Help")},
                 "login" : {"textContent":_("Login")},

@@ -26,7 +26,7 @@
 
 
 
-import {GHTMLControl, createGHTML, GHTMLElement} from "../../../glider/glider"
+import {GHTMLControl, createGHTML, GHTMLElement, GHTMLInputEvent} from "../../../glider/glider"
 import {getControlWidgetMeta, CWBase, Creator} from "../interfaces"
 import {ControlWidgetData} from "../../../components/view"
 
@@ -41,51 +41,61 @@ import {ControlWidgetData} from "../../../components/view"
 
 
 
-interface PrgMap{
+interface SlMap{
     [vname:string]: GHTMLElement
 }
 
 
 export let meta = getControlWidgetMeta({
-    name:"Simple Progress Bar", 
+    name:"Simple Slider Bar", 
     vars:[
-        "prg1val", 
-        "prg1max", 
-        "prg2val", 
-        "prg2max", 
-        "prg3val",
-        "prg3max",
-        "prg4val",
-        "prg4max"],
+        "sl1val", 
+        "sl1max",
+        "sl1min", 
+        "sl2val", 
+        "sl2max",
+        "sl2min", 
+        "sl3val", 
+        "sl3max",
+        "sl3min", 
+        "sl4val", 
+        "sl4max",
+        "sl4min"],
     staticVars:[
-        "prg1name", 
-        "prg1max", 
-        "prg2name", 
-        "prg2max",
-        "prg3name", 
-        "prg3max",
-        "prg4name", 
-        "prg4max"],
+        "sl1name", 
+        "sl1max",
+        "sl1min",
+        "sl2name", 
+        "sl2max",
+        "sl2min",
+        "sl3name", 
+        "sl3max",
+        "sl3min",
+        "sl4name", 
+        "sl4max",
+        "sl4min",],
     creator:create,
-    editable_default: false
+    editable_default: true,
+    autosend: true
+
 })
 
 
 const view = `
 any
-    DIV gid=pbroot
+    DIV gid=slroot
     
 `
 
-const prgView = `
+const slView = `
 any
     DIV class=columns is-mobile is-1 
         DIV class=column is-narrow
             LABEL gid={label} class=is-capitalized
         DIV class=column
-            PROGRESS gid={prg} labelid={labelval} style=width:100%;
+            INPUT gid={sl} type=range min={slmin} max={slmax} name={slname} labelid={labelval} style=width:100%;
         DIV class=column is-narrow
-            LABEL gid={labelval}            
+            LABEL gid={labelval}
 `
 
 
@@ -93,35 +103,42 @@ any
 
 
 
-class ProgressCW extends CWBase {
+class SliderCW extends CWBase {
 
 
 
 
 
-    map:PrgMap = {}
-    names:Array<string> = ["prg1", "prg2", "prg3", "prg4"]
+    map:SlMap = {}
+    names:Array<string> = ["sl1", "sl2", "sl3", "sl4"]
 
 
     constructor(rootId:string, wdata:ControlWidgetData) {
         super(view, rootId, wdata)
+        //this._wdata Widget properties
+        // .map Variable names
+        // .static Static values
         
         this.names.forEach((name:string)=>{
-            let val = this._wdata.map[name+"val"]
+            let val_src = this._wdata.map[name+"val"]
             let label = this._wdata.static[name+"name"]
-            let labelid = name+"_label"
-            let prgid = name
+            let label_id = name+"_label"
+            let val_min = this._wdata.static[name+"min"]
+            let val_max = this._wdata.static[name+"max"]
             let label_val_id = name+"_labelval"
-            let itemView = prgView.replace("{label}", labelid)
-            itemView = itemView.replace("{prg}", prgid)
+            let itemView = slView.replace("{label}", label_id)
+            itemView = itemView.replace("{sl}", name)
+            itemView = itemView.replace("{slmin}", val_min)
+            itemView = itemView.replace("{slmax}", val_max)
+            itemView = itemView.replace("{slname}", name)
             itemView = itemView.replace("{labelval}", label_val_id)
-            itemView = itemView.replace("{labelval}", label_val_id)
+            itemView = itemView.replace("{labelval}", label_val_id) //for second
             if(label == ""){    label = name    }
             
-            if(val){
-                createGHTML(itemView, this, this.e["pbroot"].id)
-                this.map[name] = this.e[prgid]
-                this.e[labelid].textContent = label
+            if(val_src){
+                createGHTML(itemView, this, this.e["slroot"].id)
+                this.map[name] = this.e[name]
+                this.e[label_id].textContent = label
                 this.e[name].addEventListener("change", this.changed.bind(this))
             }
         })
@@ -138,29 +155,47 @@ class ProgressCW extends CWBase {
 
 
 
+
     
     update(){
         
         Object.keys(this.map).forEach((name:string)=>{
-            let valsrc = this._wdata.map[name+"val"]
-            let maxsrc = this._wdata.map[name+"max"]
-            let prg:any = this.map[name]
-            let val = Number(this.getTaskData({uri:valsrc}))
-            let max:number
+            let val_src = this._wdata.map[name+"val"]
+            let max_src = this._wdata.map[name+"max"]
+            let min_src = this._wdata.map[name+"min"]
+            let sl:any = this.map[name]
             let sl_val_label:any = this.e[name+"_labelval"]
+            let val = Number(this.getTaskData({uri:val_src}))
+            let max:number
+            let min:number
             if(this._wdata.static[name+"max"]){
                max = Number(this._wdata.static[name+"max"])
             }
-            if(this.getTaskData({uri:maxsrc})){
-                max = Number(this.getTaskData({uri:maxsrc}))
+            else if(this.getTaskData({uri:max_src})){
+                max = Number(this.getTaskData({uri:max_src}))
             }
-            prg.max = max
-            prg.value = val
+            if(this._wdata.static[name+"min"]){
+               min = Number(this._wdata.static[name+"min"])
+            }
+            else if(this.getTaskData({uri:min_src})){
+                min = Number(this.getTaskData({uri:min_src}))
+            }
+            sl.max = max
+            sl.min = min
+            sl.value = val 
             sl_val_label.textContent = val.toString()
         })
 
     }
-    
+
+
+
+
+
+    input(e:GHTMLInputEvent){
+        this.setCmd(this._wdata.map[e.name+"val"], e.value)
+    }
+
 }
 
 
@@ -171,5 +206,5 @@ class ProgressCW extends CWBase {
 
 
 function create(parm:Creator):GHTMLControl{
-    return(new ProgressCW(parm.rootId, parm.wdata))
+    return(new SliderCW(parm.rootId, parm.wdata))
 }

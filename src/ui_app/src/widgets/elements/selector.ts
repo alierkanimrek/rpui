@@ -39,10 +39,14 @@ const view = `
 any
   DIV class=field
     DIV class=columns is-mobile
-      DIV class=column is-one-quarter
+      DIV class=column is-one-quarter style=margin:auto;
         LABEL gid=label class=is-left is-capitalized
       DIV class=column
-        SELECT gid=selector class=input is-capitalized name=value
+        DIV class=columns is-mobile 
+          DIV class=column style=margin:auto;
+            SELECT gid=selector class=input is-capitalized name=value
+          DIV class=column is-narrow style=margin:auto; padding-left:0;
+            i gid=eraser class=fas fa-eraser has-text-grey-light style=pointer:cursor;
 `
 
 
@@ -66,6 +70,7 @@ export class Selector extends GHTMLControl {
     private callBack:Function
     private _name:string
     selector:HTMLSelectElement
+    eraser:HTMLElement
 
 
 
@@ -78,6 +83,7 @@ export class Selector extends GHTMLControl {
         this.bindingStore.value_options = p.options
         if(p.value){    this.bindingStore.value = p.value    }
         this.up()
+        this.eraser.addEventListener("click", this.erase.bind(this))
     }
 
 
@@ -87,6 +93,12 @@ export class Selector extends GHTMLControl {
         this.callBack(event)
     }
 
+
+
+    erase(e:Event){
+        this.bindingStore.value = ""
+        this.up()
+    }
 
 
 

@@ -76,7 +76,6 @@ export class Forgot extends GHTMLControl {
     email_validityMessages:ValidityMessages
 
     emap: any = [
-        [this.helplink, "click", this.footer],
         [this.loginlink, "click", this.footer],
         [this.mailsend, "click", this.sendmail],
         [this.resend, "click", this.showMailInput],
@@ -214,9 +213,6 @@ export class Forgot extends GHTMLControl {
         switch (t) {
             case this.loginlink:
                 this.gDoc.navigate("/user/login")
-                break;
-            case this.helplink:
-                this.gDoc.navigate("/user/help")
                 break;
         }
     }

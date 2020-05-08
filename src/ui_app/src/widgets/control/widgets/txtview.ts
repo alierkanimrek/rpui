@@ -29,6 +29,7 @@
 import {GHTMLControl, GHTMLInputEvent} from "../../../glider/glider"
 import {getControlWidgetMeta, Creator, CWBase} from "../interfaces"
 import {ControlWidgetData} from "../../../components/view"
+import {NumberInput} from "../../elements/number"
 
 
 
@@ -48,11 +49,9 @@ any
     DIV
         DIV class=columns is-mobile is-1 style=margin-bottom:0;
             DIV class=column 
-                INPUT gid=file name=file type=text
-            DIV class=column is-narrow
-                INPUT gid=row name=row type=number style=width:3.5rem;
+                INPUT gid=file name=file type=text 
+            DIV gid=rowContainer class=column is-narrow
         TEXTAREA gid=txt style=font-size:0.7rem; padding: 0.3rem; white-space:pre; width:100%
-
 `
 
 
@@ -65,7 +64,7 @@ export class TxtViewCW extends CWBase {
 
 
     file:HTMLInputElement
-    row:HTMLInputElement
+    row:NumberInput
     txt:HTMLTextAreaElement
 
 
@@ -73,6 +72,8 @@ export class TxtViewCW extends CWBase {
 
     constructor(rootId:string, wdata:ControlWidgetData) {
         super(view, rootId, wdata)
+        this.row = new NumberInput(this.e.rowContainer.id)
+        this.row.addEventListener("change", this.input.bind(this))
     }
 
 
@@ -92,11 +93,11 @@ export class TxtViewCW extends CWBase {
             this.txt.innerHTML = txt_val
         }
         if(row_val){
-            this.txt.style.height = row_val+"rem"
+            this.txt.style.height = (Number(row_val)+1).toString()+"rem"
             this.row.value = row_val
         }
         else if(row_stval){
-            this.txt.style.height = row_stval+"rem"
+            this.txt.style.height = (Number(row_stval)+1).toString()+"rem" 
             this.row.value = row_stval
         }
         else{

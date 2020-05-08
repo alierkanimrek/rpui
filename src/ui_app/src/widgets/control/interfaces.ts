@@ -81,13 +81,11 @@ export function getControlWidgetMeta(parm:{
     if(parm.staticVars){    res.static = parm.staticVars    }
     if(parm.autosend_default){
         res.autosend_default = true
-        res.autosend = true
-        res.editable = true
         res.editable_default = true
+        res.editable = true
     }
     if(parm.editable_default){
-        res.editable = true
-        res.editable_default = true        
+        res.editable_default = true
     }
     if(parm.autosend){
         res.editable = true
@@ -98,7 +96,6 @@ export function getControlWidgetMeta(parm:{
     }
     return(res)
 }
-
 
 
 

@@ -120,7 +120,7 @@ export class ButtonSelect extends GHTMLControl {
             this._last.className = "button is-rounded is-capitalized"
         }
         this._last = <HTMLButtonElement>btn
-        this._last.className = "button is-rounded is-capitalized is-light" 
+        this._last.className = "button is-rounded is-capitalized is-active" 
         this._value = this._last.value
     }
 

@@ -30,11 +30,13 @@ import {GHTMLControl} from "../../glider/glider"
 import {ControlWidgetMeta, Creator, CWBase} from "./interfaces"
 import {ControlWidgetData, getControlWidgetData} from "../../components/view"
 
+//import {meta as testMeta} from "./widgets/test"
 import {meta as defaultMeta} from "./widgets/default"
-import {meta as testMeta} from "./widgets/test"
 import {meta as swMeta} from "./widgets/switch"
 import {meta as prgMeta} from "./widgets/progress"
+import {meta as slMeta} from "./widgets/slider"
 import {meta as txtMeta} from "./widgets/txtview"
+
 
 
 
@@ -50,9 +52,9 @@ interface CWNames {
 
 const lst = [
     defaultMeta,
-    testMeta,
     swMeta,
     prgMeta,
+    slMeta,
     txtMeta]
 
 

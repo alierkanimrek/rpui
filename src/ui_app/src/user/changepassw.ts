@@ -80,7 +80,6 @@ export class ChangePassw extends GHTMLControl {
 
 
     emap: any = [
-        [this.help, "click", this.footerNav],
         [this.settings, "click", this.footerNav],
         [this.nodes, "click", this.footerNav],
         [this.passwHideBtn, "click", this.passwHideSw],
@@ -120,9 +119,6 @@ export class ChangePassw extends GHTMLControl {
         }
         if(t == this.nodes){
             this.gDoc.navigate("/"+this.store("session").user)
-        }
-        if(t == this.help){
-            this.gDoc.navigate("/user/help")
         }
     }
 

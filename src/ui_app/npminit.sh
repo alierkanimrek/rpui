@@ -1,10 +1,4 @@
 #!/bin/bash
-npm init
-npm install --save-dev webpack
-npm install --save-dev webpack-cli
-npm install --save-dev typescript
-npm install --save-dev awesome-typescript-loader
-npm install --save-dev style-loader
-npm install --save-dev css-loader
-npm install --save-dev raw-loader
-sudo npm install -g sass
+#npm init
+sudo npm install --save-dev -g webpack webpack-cli typescript awesome-typescript-loader style-loader css-loader raw-loader sass
+npm install

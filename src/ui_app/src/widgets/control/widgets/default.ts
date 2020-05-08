@@ -68,7 +68,10 @@ export class DefaultCW extends CWBase {
         Object.keys(this._data).forEach((node:string)=>{
             this.e.txt.innerHTML += node+":<br/>"
             Object.keys(this._data[node]).forEach((task:string)=>{
-                this.e.txt.innerHTML += "&nbsp;&nbsp;"+task+" = "+this._data[node][task]+"<br/>"
+                let val = this._data[node][task].toString()
+                let more = ""
+                if(val.length > 25){    more = "..."    }
+                this.e.txt.innerHTML += "&nbsp;&nbsp;"+task+" = "+val.slice(0,25)+more+"<br/>"
             })
 
         })

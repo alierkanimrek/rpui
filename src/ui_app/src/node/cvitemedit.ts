@@ -92,8 +92,8 @@ export class CVItemEdit extends GHTMLControl {
             case "widget":
                 this.bindingStore.adjustWidgetVars(event.value)
                 this.upWidgetVars(event.value)
+                this.up()
         }
-        
     }
 
 
@@ -133,8 +133,6 @@ export class CVItemEdit extends GHTMLControl {
         })
         this.editable.disabled = !meta.editable
         this.autosend.disabled = !meta.autosend
-        this.editable.checked = meta.editable_default
-        this.autosend.checked = meta.autosend_default
     }
 
 
@@ -249,13 +247,19 @@ class CVItemEditData extends GDataObject {
 
 
     adjustWidgetVars(widget:string){
+        let meta = metaData.getData(widget)
         if(widget == this._data.widget){
             this.map = this._data.map
             this.static = this._data.static
+            this.editable = this._data.editable
+            this.autosend = this._data.autosend
         }
-        else if(widget != this.widget){
+        else{
             this.map = {}
             this.static = {}
+            this.editable = meta.editable_default
+            this.autosend = meta.autosend_default
         }
+
     }
 }

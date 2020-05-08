@@ -31,4 +31,4 @@ baseMainContent
             a id=loginForgot gid=forgotLink
             span
             | &nbsp;&nbsp;&nbsp;
-            a id=loginHelp gid=helpLink
+            a id=loginHelp gid=helpLink href=/heap/help.html target=_blank

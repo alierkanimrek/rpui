@@ -51,8 +51,7 @@ export let meta = getControlWidgetMeta({
     vars:["sw1","sw2","sw3","sw4"],
     staticVars:["sw1", "sw2", "sw3", "sw4"],
     creator:create,
-    autosend_default: true,
-    editable_default: true
+    autosend_default: true
 })
 
 

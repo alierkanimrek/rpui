@@ -51,7 +51,7 @@ baseMainContent
                   label gid=codeStatusMsg class=is-left
 
           p class=has-text-grey
-            a gid=helplink
+            a gid=helplink href=/heap/help.html target=_blank
             span
             | &nbsp;&nbsp;&nbsp;
             a gid=loginlink

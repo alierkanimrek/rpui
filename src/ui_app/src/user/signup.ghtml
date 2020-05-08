@@ -57,7 +57,7 @@ baseMainContent
                   i class=fas fa-spinner fa-spin gid=submitStatusIcon
                 label gid=submitMsg class=is-left.
           p gid=footer class=has-text-grey
-            a gid=help
+            a gid=help href=/heap/help.html target=_blank
             span
             | &nbsp;&nbsp;&nbsp;
             a gid=login

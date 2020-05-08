@@ -75,7 +75,6 @@ export class Login extends GHTMLControl {
     emap: any = [
         [this.signupLink, "click", this.footer],
         [this.forgotLink, "click", this.footer],
-        [this.helpLink, "click", this.footer],
         [this.loginSubmit, "click", this.send],
         [this.loginUname, "keyup", this.keyInput],
         [this.loginPassw, "keyup", this.keyInput]
@@ -160,9 +159,6 @@ export class Login extends GHTMLControl {
                 break;
             case this.forgotLink:
                 this.gDoc.navigate("/user/forgotpassw")
-                break;
-            case this.helpLink:
-                this.gDoc.navigate("/user/help")
                 break;
         }
     }
