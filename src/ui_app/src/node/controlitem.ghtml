@@ -1,5 +1,5 @@
 any
-  DIV gid=item
+  DIV gid=item style=min-width:33%;
     DIV gid=editContainer class=tile is-child box style=display:none; margin:0.75rem !important; padding: 0.75rem !important; 
       DIV class=columns is-mobile is-1 style=background-color:lightgrey; border-top-left-radius:6px; border-top-right-radius:6px; margin-bottom:0;
         DIV class=column is-narrow

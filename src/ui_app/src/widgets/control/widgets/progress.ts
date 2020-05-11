@@ -82,7 +82,7 @@ any
     DIV class=columns is-mobile is-1 
         DIV class=column is-narrow
             LABEL gid={label} class=is-capitalized
-        DIV class=column
+        DIV class=column style=padding-left:0; padding-right:0;
             PROGRESS gid={prg} labelid={labelval} style=width:100%;
         DIV class=column is-narrow
             LABEL gid={labelval}            
