@@ -127,7 +127,9 @@ export class Nodes extends GHTMLControl {
 
 
     addControl():void{
-        new NewViewItem(this.ViewListContainer.id)
+        if(this.ViewListContainer.childNodes.length < 2){
+            new NewViewItem(this.ViewListContainer.id)
+        }
     }
 
 
