@@ -32,6 +32,7 @@ import {Port, Connection, ResponseHandler, ErrorHandler} from "../components/con
 import {RpStack} from "../components/msg"
 import "./login.css"
 import loginView from './login.ghtml'
+import {oauth} from "../components/oauth"
 
 
 const name = "login"
@@ -69,6 +70,7 @@ export class Login extends GHTMLControl {
     loginStatus: HTMLElement
     loginMsg: HTMLElement
     loginStatusIcon: HTMLElement
+    gsignin: HTMLElement
 
 
 
@@ -77,7 +79,8 @@ export class Login extends GHTMLControl {
         [this.forgotLink, "click", this.footer],
         [this.loginSubmit, "click", this.send],
         [this.loginUname, "keyup", this.keyInput],
-        [this.loginPassw, "keyup", this.keyInput]
+        [this.loginPassw, "keyup", this.keyInput],
+        [this.e["gsignin"], "click", this.gAuth]
     ]
 
 
@@ -87,9 +90,35 @@ export class Login extends GHTMLControl {
         super({view:loginView, bindTo:name})
         this.trns = this.store("trns").t.translations(name)
         this._ = this.trns.get_()
-        this.trns.updateStatics()
+        this.trns.updateStatics(this)
         this.linkEvents(this.emap)
-        this.loginStatus.style.visibility = "hidden"    
+        this.loginStatus.style.visibility = "hidden"
+
+        oauth.init()  
+    }
+
+
+
+
+    gAuth(e:Event){
+        oauth.authorize(this.gAuthResponse.bind(this))
+    }
+
+
+
+
+    gAuthResponse(resp:any){
+        if(resp.error){    
+            console.log("Auth error")
+            return
+        }
+        this.bindingStore.gAuthToken = resp.getAuthResponse().id_token
+        this.loginSubmit.style.visibility = "hidden"
+        this.loginSubmit.style.height = "0"
+        this.loginStatus.style.visibility = "visible"
+        this.loginMsg.textContent = this._("loginMsg")
+        this.loginStatusIcon.className = classSpinnerSpin
+        this.bindingStore.submit(this.loginResult.bind(this))
     }
 
 
@@ -177,7 +206,7 @@ export class LoginData extends GDataObject {
     uname : string = ""
     passw : string = ""
     remember : boolean = false
-
+    gAuthToken:string = ""
 
 
 
@@ -191,7 +220,7 @@ export class LoginData extends GDataObject {
             cb(false, msg)    
         }
 
-        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember}
+        let data = {"uname": this.uname, "passw":this.passw, "remember": this.remember, "gAuthToken": this.gAuthToken}
 
         let conn = new Connection({
             port:Port.ulogin, 

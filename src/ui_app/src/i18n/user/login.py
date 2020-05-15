@@ -17,7 +17,9 @@ def text(_):
                 "loginSignup" : {"textContent":_("Sign up")},
                 "loginForgot" : {"textContent":_("Forgot Password")},
                 "loginHelp" : {"textContent":_("Need Help")},
-                "loginMsg" : {"textContent":_("Logging in...")}
+                "loginMsg" : {"textContent":_("Logging in...")},
+                "gSigninLabel" : {"textContent":_("Sign in with Google")}
+                
 
             },
 

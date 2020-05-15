@@ -31,6 +31,7 @@ import {GetText} from "../i18n/gettext"
 import {Port, Connection, ResponseHandler} from "../components/connection"
 import {RpStack} from "../components/msg"
 import signupView from './signup.ghtml'
+import {oauth} from "../components/oauth"
 
 
 
@@ -74,7 +75,8 @@ export class Signup extends GHTMLControl {
     emap: any = [
         [this.elm.login, "click", this.footerNav],
         [this.elm.passwHideBtn, "click", this.passwHideSw],
-        [this.elm.submit, "click", this.send]
+        [this.elm.submit, "click", this.send],
+        [this.e["gsignup"], "click", this.gAuth]
     ]
 
     email_validityMessages:ValidityMessages
@@ -101,6 +103,31 @@ export class Signup extends GHTMLControl {
         this.elm.submitStatus.style.visibility = "hidden"
 
         this.checkSignup()
+
+        oauth.init()
+    }
+
+
+
+
+    gAuth(e:Event){
+        oauth.authorize(this.gAuthResponse.bind(this))
+    }
+
+
+
+
+    gAuthResponse(resp:any){
+        if(resp.error){    
+            console.log("Auth error")
+            return
+        }
+        this.bindingStore.gAuthToken = resp.getAuthResponse().id_token
+        this.elm.submit.style.visibility = "hidden"
+        this.elm.submit.style.height = "0"
+        this.elm.submitStatus.style.visibility = "visible"
+        this.elm.submitMsg.textContent = this._("submitMsg")
+        this.bindingStore.submit(this.submitResult.bind(this))
     }
 
 
@@ -173,9 +200,13 @@ export class Signup extends GHTMLControl {
                     this.unameInput.setCustomValidity(this._("uname_customError"))
                 }
                 this.elm.unameStatus.className = classBan
+                this.elm.gsignup.style.visibility = "hidden"
+                this.elm.gsignup.style.height = "0"
             }
             else{
                 this.elm.unameStatus.className = classOk
+                this.elm.gsignup.style.visibility = "visible"
+                this.elm.gsignup.style.height = ""
             }
             // Show message
             this.elm.unameMsg.innerText = this.unameInput.validationMessage
@@ -308,6 +339,7 @@ export class SignupData extends GDataObject {
     uname : string = ""
     passw : string = ""
     email : string = ""
+    gAuthToken : string = ""
 
 
 
@@ -361,7 +393,7 @@ export class SignupData extends GDataObject {
             cb(stack.dataVar("result"))    
         }
 
-        let data = {"uname": this.uname, "email":this.email, "passw":this.passw}
+        let data = {"uname": this.uname, "email":this.email, "passw":this.passw, "gAuthToken": this.gAuthToken}
 
         let conn = new Connection({
             port:Port.ucreate, 

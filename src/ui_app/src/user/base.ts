@@ -85,7 +85,10 @@ export class Base extends GHTMLControl {
         this.trns = this.gDoc.gData("trns").t.translations(name)
         //new LangSelector(this.baseMenuContent.id)
         //new Switch(this.baseMenuContent.id)
-        new UserItem()
+        let uname = this.gDoc.gData("session").user
+        if(uname){
+            new UserItem()
+        }
         new LangMenuItem()
         new ViewportMenuItem()
 

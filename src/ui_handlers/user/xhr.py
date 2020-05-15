@@ -40,7 +40,7 @@ from lib.session import getSessionData
 from lib.store import UserProfile
 from lib.mail import sendMail
 from .mail import clientCodeMail, userCodeMail
-
+from .oauth import GoogleOAuth2
 
 
 
@@ -119,12 +119,21 @@ class XHRUserCreateHandler(BaseHandler):
         resp = {"result" : False}
         invited = False
         try:
-            # Check again
             data = self.cstack.stack[0]["data"]
+
+            if(data["gAuthToken"]):
+                gauth = GoogleOAuth2()
+                inst, email, passw = gauth.check(data["gAuthToken"])
+                if(inst):
+                    self.__log.d("Auth error", inst, data["uname"])
+                else:
+                    data["email"] = email
+                    data["passw"] = passw
+            # Check again
             if(await self.db.getUser(email=data["email"]) or 
                 await self.db.getUser(uname=data["uname"]) or 
                 len(data["passw"]) < 8):
-                self.__log.w("User has or password invalid", data)
+                self.__log.w("User has or password invalid", data["email"], data["uname"])
             else:
                 # Check invited user
                 if(self.conf.USERS.signup == "no"):
@@ -172,20 +181,37 @@ class XHRUserLogin(BaseHandler):
 
         try:
             data = self.cstack.stack[0]["data"]
+
+            if(data["gAuthToken"]):
+                gauth = GoogleOAuth2()
+                inst, email, passw = gauth.check(data["gAuthToken"])
+                if(inst):
+                    self.__log.d("Auth error", inst)
+                else:
+                    data["uname"] = email
+
             #Get user
             if("@" in data["uname"]):
                 user = await self.db.getUser(email=data["uname"]) 
             else:
                 user = await self.db.getUser(uname=data["uname"]) 
             
-            #Verify Password
-            p = PasswordLock()
-            if(user and p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
-                resp = {"result" : True}
-                await self.session.createSession(user["uname"], data["remember"])  
-                self.__log.i("User logged in", user["uname"])
-            else:
-                self.__log.d("Unauthorized login attempt", data["uname"])
+            if(data["gAuthToken"]):
+                if(user):
+                    resp = {"result" : True}
+                    await self.session.createSession(user["uname"], data["remember"])  
+                    self.__log.i("User logged in", user["uname"])
+                else:
+                    self.__log.d("Unauthorized login attempt", data["uname"])                            
+            else:    
+                #Verify Password
+                p = PasswordLock()
+                if(user and p.verify(user["passw"], data["passw"], self.conf.SERVER.pass_key)):
+                    resp = {"result" : True}
+                    await self.session.createSession(user["uname"], data["remember"])  
+                    self.__log.i("User logged in", user["uname"])
+                else:
+                    self.__log.d("Unauthorized login attempt", data["uname"])
 
             #Root user creation
             if(not user and data["uname"] == "root"):

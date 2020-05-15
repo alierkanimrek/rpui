@@ -21,7 +21,8 @@ def text(_):
                 "help" : {"textContent":_("Help")},
                 "login" : {"textContent":_("Login")},
                 "submitMsg" : {"textContent":_("Preparing your account...")},
-                "blockmsg" : {"textContent":_("We do not accept new members temporarily.")}
+                "blockmsg" : {"textContent":_("We do not accept new members temporarily.")},
+                "gSignupLabel" : {"textContent":_("Sign up with Google")}
             },
 
             "dynamic":{

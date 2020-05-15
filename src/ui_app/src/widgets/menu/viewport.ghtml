@@ -1,30 +1,29 @@
 mainMenuContainer
-  DIV
-    DIV class = tile is-parent
-      DIV class = tile is-child box
-        P class=title is-5 id=mainMenuVpTitle
-        | View Options
-        DIV
-          TABLE class=table is-fullwidth
-            TBODY
-              TR
-                TD style=width: 100%; vertical-align: middle; padding-bottom:0;
-                  LABEL id=mainMenuVpDesktopLabel
-                TD style=padding-bottom:0;
-                  DIV gid=desktopToggleContainer
-        DIV
-          TABLE class=table is-fullwidth
-            TBODY
-              TR
-                TD style=width: 100%; vertical-align: middle; padding-bottom:0; padding-top:0;
-                  LABEL id=mainMenuVpHandLabel
-                TD style=padding-bottom:0; padding-top:0;
-                  DIV gid=handToggleContainer
-        DIV
-          TABLE class=table is-fullwidth
-            TBODY
-              TR
-                TD style=width: 100%; vertical-align: middle; padding-top:0;
-                  LABEL id=mainMenuVpWallLabel
-                TD style=padding-top:0;
-                  DIV gid=wallToggleContainer
+  DIV class=tile is-parent style=min-width:33%
+    DIV class=tile is-child box
+      P class=title is-5 id=mainMenuVpTitle
+      | View Options
+      DIV
+        TABLE class=table is-fullwidth
+          TBODY
+            TR
+              TD style=width: 100%; vertical-align: middle; padding-bottom:0;
+                LABEL id=mainMenuVpDesktopLabel
+              TD style=padding-bottom:0;
+                DIV gid=desktopToggleContainer
+      DIV
+        TABLE class=table is-fullwidth
+          TBODY
+            TR
+              TD style=width: 100%; vertical-align: middle; padding-bottom:0; padding-top:0;
+                LABEL id=mainMenuVpHandLabel
+              TD style=padding-bottom:0; padding-top:0;
+                DIV gid=handToggleContainer
+      DIV
+        TABLE class=table is-fullwidth
+          TBODY
+            TR
+              TD style=width: 100%; vertical-align: middle; padding-top:0;
+                LABEL id=mainMenuVpWallLabel
+              TD style=padding-top:0;
+                DIV gid=wallToggleContainer

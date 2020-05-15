@@ -24,6 +24,11 @@ baseMainContent
                 span class=icon is-right
                   i class=fas fa-spinner fa-spin gid=loginStatusIcon
                 label id=loginMsg class=is-left
+              div gid=gsignin class=box columns is-mobile is-size-5 style=margin:auto; padding:0; cursor:pointer;
+                div class=column is-narrow
+                  img src=/heap/img/gicon.svg
+                div gid=gSigninLabel class=column has-text-white style=background-color:#4285f4;
+              br
           p class=has-text-grey
             a id=loginSignup gid=signupLink
             span

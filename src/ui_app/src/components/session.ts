@@ -27,10 +27,9 @@
 
 
 import {GDataObject} from "../glider/glider"
-import {Port, Connection, ResponseHandler} from "../components/connection"
-import {cookie} from "../components/cookies"
-import {RpStack} from "../components/msg"
-
+import {Port, Connection, ResponseHandler} from "./connection"
+import {cookie} from "./cookies"
+import {RpStack} from "./msg"
 
 
 
