@@ -151,3 +151,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
 
 
+
+    async def getNodeLimit(self, groups):
+        lmt = 1
+        for nl in self.conf.USERS.node_limit.split(","):
+            g, l = nl.split("-")
+            if g in groups and int(l) > lmt:
+                lmt = int(l)
+        return(lmt)
+
+

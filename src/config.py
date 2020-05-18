@@ -177,8 +177,7 @@ USERS["signup"] = {
 	}
 
 USERS["node_limit"] = {
-	"type" : "int", 
+	"type" : "str", 
 	"values" : [],
-	"range" : [0,5],
-	"default" : 3
+	"default" : ""
 	}

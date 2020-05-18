@@ -57,11 +57,16 @@ class XHRNodeCreate(BaseHandler):
         try:
             nname = self.cstack.stack[0]["data"]["nname"]
             user_doc = await self.db.getUser(uname=self.current_user)
+            nodelist = await self.db.getNodes(uname=self.current_user)
             
-            if(user_doc):                
+            if(user_doc):
                 uname = user_doc["uname"]
-                # Create node
-                result = await self.db.createNode(nname, uname)
+                if(await self.getNodeLimit(user_doc["ugroup"]) <= len(nodelist)):
+                    self.__log.w("Node limit exceed", uname)
+                    result = False
+                else:
+                    # Create node
+                    result = await self.db.createNode(nname, uname)
                 if(result):
                     self.__log.i("New node created", nname)
                     resp = {"result" : True}

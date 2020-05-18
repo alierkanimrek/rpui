@@ -46,6 +46,7 @@ export class SessionUpdater extends GDataObject {
     private lastUpdate: number
     private uname: string
     private group: string
+    private nodelmt: number
     private interval: number = 10000 
     private timeout:  number = 300000 // = 5 min, it should be same value with server session timeout
 
@@ -118,6 +119,7 @@ export class SessionUpdater extends GDataObject {
             if(stack.dataVar("result")){
                 this.uname = stack.dataVar("uname")
                 this.group = stack.dataVar("ugroup")
+                this.nodelmt = stack.dataVar("node_limit")
                 console.info("[Session] Hi "+this.uname)
             }
             else{
@@ -153,6 +155,12 @@ export class SessionUpdater extends GDataObject {
         return(this.group)
     }
 
+
+
+
+    get nodeLimit():number{
+        return(this.nodelmt)
+    }
 
 
 

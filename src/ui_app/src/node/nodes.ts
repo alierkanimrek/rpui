@@ -94,7 +94,9 @@ export class Nodes extends GHTMLControl {
         nodelist.forEach((node:any) =>{
             this.items.push(new NodeItem(this.NodeListContainer.id, node.nname, node.desc))
         })
-        new NewNodeItem(this.NodeListContainer.id)
+        if(this.store("session").nodeLimit > nodelist.length){
+            new NewNodeItem(this.NodeListContainer.id)
+        }
         if(this.items.length > 0){
             this.bindingStore.checkAliveNodes(this.statusLoaded.bind(this))
         }

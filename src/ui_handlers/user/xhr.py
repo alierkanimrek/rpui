@@ -403,6 +403,7 @@ class XHRGetCurrentUser(BaseHandler):
                 del resp["_id"]
                 del resp["passw"]
                 del resp["ccode"]
+                resp["node_limit"] = await self.getNodeLimit(resp["ugroup"])
             else:
                 resp["uname"] = self.current_user
             resp["result"] = True
@@ -410,6 +411,9 @@ class XHRGetCurrentUser(BaseHandler):
             self.__log.e_tb("Runtime error", inst)
 
         await self.stackAppendAndSend(resp, "xhrgetuname")
+
+
+
 
 
 
