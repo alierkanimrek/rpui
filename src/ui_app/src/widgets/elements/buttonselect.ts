@@ -72,7 +72,6 @@ export class ButtonSelect extends GHTMLControl {
 
     set value(val:string){
         this.e.items.childNodes.forEach((btn:HTMLButtonElement)=>{
-            console.log(btn.value, val)
             if(btn.value == val){
                 this.focus(btn)
             }

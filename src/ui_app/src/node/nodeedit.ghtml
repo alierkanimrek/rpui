@@ -15,7 +15,7 @@ baseMainContent
                 p class=control
                   label gid=descLabel class=is-left is-size-5
                 p class=control style=height:100%;
-                  textarea gid=descInput class=textarea name=desc row=2 style=height:100%;
+                  textarea gid=descInput class=textarea name=desc row=2
           
           DIV class=box style=min-width:30%; margin:1rem;
             DIV class=field

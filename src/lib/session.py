@@ -93,19 +93,19 @@ class SessionManager(object):
             data = await self.db.getSession(selector, user)
             if(data):
                 expire = checkSessionData(validator, data["hashedValidator"], data["expires"])
+                self.__log.d("Expire", str(expire))
                 if(expire > 0):
                     if(expire < 50):
                         data["expires"] = (datetime.datetime.now() + datetime.timedelta(minutes=int(self.conf.USERS.session_timeout))).timestamp()
-                        if(data["permanent"]):
+                        #if(data["permanent"]):
                             # Change expired cookie to session cookie
-                            data["permanent"] = False
-                            self.setSession(user, selector, validator)
+                        #    data["permanent"] = False
+                        #    self.setSession(user, selector, validator)
                         update = await self.db.updateSession(data)
                     return(True)
-            else:
-                self.__log.d("Session invalid or expired")
-                await self.endSession()
-                return(False)                
+            self.__log.d("Session invalid or expired")
+            await self.endSession()
+            return(False)
 
 
 
@@ -180,7 +180,7 @@ def checkSessionData(validator, hashedValidator, expires):
     if(hValidator != hashedValidator):
         return(False)
     
-    diff = expires - datetime.datetime.now().timestamp()
+    diff = int(expires - datetime.datetime.now().timestamp())
     if(diff <= 0):
         return(diff)
 
