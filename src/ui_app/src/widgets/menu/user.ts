@@ -53,6 +53,9 @@ mainMenuContainer
             A gid=logoutButton id=mainMenuUrLogoutLink
           DIV class=column is-narrow
             A class=button is-success style=float: right; gid=settingsButton id=mainMenuUrSettingsButton
+            BR
+            BR
+            A class=button is-success style=float: right; visibility:hidden; height:0; gid=adminButton id=mainMenuUrAdminButton
 `
 
 
@@ -76,11 +79,13 @@ export class UserItem extends GHTMLControl {
     logoutButton: HTMLButtonElement
     settingsButton: HTMLButtonElement
     unameLabel: HTMLLabelElement
+    adminButton: HTMLElement
 
 
     eventMap: any = [
         [this.logoutButton, "click", this.logout],
-        [this.settingsButton, "click", this.settings]
+        [this.settingsButton, "click", this.settings],
+        [this.adminButton, "click", this.admin]
     ]
 
 
@@ -88,7 +93,11 @@ export class UserItem extends GHTMLControl {
 
     constructor() {
         super({view:view})
-        
+        if(this.store("session").hasGroup("ad")){
+            this.adminButton.style.visibility = "visible"
+            this.adminButton.style.height = ""
+        }
+
         this.checkSession()
         this.linkEvents(this.eventMap)    
     }
@@ -120,6 +129,12 @@ export class UserItem extends GHTMLControl {
         this.gDoc.gData("session").logout()
     }
 
+
+
+
+    admin(){
+        document.location.href = "/admin"
+    }
 
 
 

@@ -57,6 +57,8 @@ export class SessionUpdater extends GDataObject {
         let selector = cookie.get("selector")
         this.lastActive = date.getTime()
         this.uname = ""
+        this.nodelmt = 1
+        this.group = ""
         if(selector){    this.lastUpdate = this.lastActive    }
         
         document.addEventListener("mousemove", this.awake.bind(this))
@@ -162,6 +164,13 @@ export class SessionUpdater extends GDataObject {
         return(this.nodelmt)
     }
 
+
+
+
+    hasGroup(grp:string):boolean{
+        if(this.group.split(" ").indexOf(grp) > -1){            return(true)        }
+        return(false)
+    }
 
 
     awake(e:Event){

@@ -13,7 +13,7 @@ any
                         p class=control has-icons-left has-icons-right 
                             label gid=vnameLabel class=is-left
                         p class=control has-icons-right
-                            input gid=vname class=input is-medium type=text name=vname required=true
+                            input gid=vname class=input is-medium type=text name=vname required=true autocomplete=off
                             span class=icon is-small is-right
                                 i class=fas fa-ban gid=vnameStatus
                         p class=control has-icons-left

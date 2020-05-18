@@ -15,7 +15,8 @@ def text(_):
                 "mainMenuVpHandLabel" : {"textContent":_("Hand")},
                 "mainMenuVpWallLabel" : {"textContent":_("Wall")},
                 "mainMenuUrSettingsButton" : {"textContent":_("Settings")},
-                "mainMenuUrLogoutLink" : {"textContent":_("Logout")}
+                "mainMenuUrLogoutLink" : {"textContent":_("Logout")},
+                "mainMenuUrAdminButton" : {"textContent":_("Admin")}
             },
 
             "dynamic":{

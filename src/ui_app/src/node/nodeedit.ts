@@ -176,6 +176,9 @@ export class NodeEdit extends GHTMLControl {
     saved(status:boolean, msg?:string){
         if(status){
             this.sendButton.success()
+            if(this.bindingStore.desc = "remove"){
+                this.gDoc.navigate("/"+this.store("session").user)
+            }
         }
         else{
             this.sendButton.error()
