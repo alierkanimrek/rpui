@@ -402,6 +402,7 @@ class XHRGetCurrentUser(BaseHandler):
                 resp = await self.db.getUser(uname=self.current_user)
                 del resp["_id"]
                 del resp["passw"]
+                del resp["ccode"]
             else:
                 resp["uname"] = self.current_user
             resp["result"] = True

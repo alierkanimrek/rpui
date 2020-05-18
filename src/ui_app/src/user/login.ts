@@ -159,7 +159,7 @@ export class Login extends GHTMLControl {
         }
 
         let nav = ()=>{
-            location.href = "/"+this.bindingStore.uname
+            location.href = "/"+this.store("session").user
             
         }
 
@@ -167,6 +167,7 @@ export class Login extends GHTMLControl {
             this.loginStatusIcon.className = classOk + " has-text-success"
             this.loginMsg.className = " has-text-success"
             this.loginMsg.textContent = this._("loginReady")
+            this.store("session").getUser()
             setTimeout(nav.bind(this), 500)
         }
         else{
