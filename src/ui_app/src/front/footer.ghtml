@@ -1,4 +1,4 @@
-baseMainContent
+approot 
     section style=min-height: 5rem; background-color: #000;
         div class=columns style=margin:1rem;
             div class=column
@@ -13,3 +13,7 @@ baseMainContent
                 a href=https://alierkanimrek.github.io/rplexusdocs/ target=_blank
                     i class=far fa-file-alt style=margin-right:.5rem;
                     label gid=docsLabel
+                br
+                a href=https://discord.gg/AnHA2sf target=_blank
+                    i class=fab fa-discord style=margin-right:.5rem;
+                    label gid=discordLabel

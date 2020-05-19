@@ -9,7 +9,8 @@ def text(_):
 
             "static":{ 
                 "codesLabel" : {"textContent":_("Source Codes")},
-                "docsLabel" : {"textContent":_("Documents")}
+                "docsLabel" : {"textContent":_("Documents")},
+                "discordLabel" : {"textContent":_("Discord")}
             },
 
             "dynamic":{

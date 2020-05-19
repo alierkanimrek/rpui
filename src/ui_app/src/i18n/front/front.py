@@ -27,7 +27,7 @@ def text(_):
                 
                 "howtitle" : {"textContent":_("How can you do")},
                 "card1title" : {"textContent":_("For Users")},
-                "card1txt" : {"innerHTML":_("Rplexus is still in testing and we only accept testers. We advise you to check the new user registration status by monitoring the server status.")},
+                "card1txt" : {"innerHTML":_("Rplexus is still being tested, so you may encounter server outages or errors frequently. Rplexus is not a financially supported project, just a personal initiative. New users are only allowed to create 1 client yet for to keep the server load low.   <a href='https://alierkanimrek.github.io/rplexusdocs/getting-started/' target='_blank'><strong>Have fun.</strong></a>")},
                 "card2title" : {"textContent":_("For Coders")},
                 "card2txt" : {"innerHTML":_("If you are familiar to <strong>Raspberry Pi</strong> like devices and write some <strong>Python</strong>, Rplexus is for you. Perhaps you are developing a web interface with <strong>Typescript</strong>. <a href='https://alierkanimrek.github.io/rplexusdocs/getting-started/' target='_blank'><strong>Let's get started.</strong></a>")},
                 "card3title" : {"textContent":_("Server Status")},

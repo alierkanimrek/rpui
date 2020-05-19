@@ -161,7 +161,7 @@ if __name__ == "__main__":
     application.listen(8000)
     stage1.i("Server listening...")
     mainloop = ioloop.IOLoop.instance()
-    #mainloop.reloader = ioloop.PeriodicCallback(reload, 60000)
-    #mainloop.add_callback(reload)
+    mainloop.reloader = ioloop.PeriodicCallback(reload, 600000)
+    mainloop.add_callback(reload)
     mainloop.start()
     

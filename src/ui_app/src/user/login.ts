@@ -151,7 +151,7 @@ export class Login extends GHTMLControl {
 
 
     loginResult(success:boolean, msg?:string){
-
+        this.bindingStore.gAuthToken = ""
         let restore = ()=>{
             this.loginSubmit.style.visibility = "visible"
             this.loginSubmit.style.height = ""

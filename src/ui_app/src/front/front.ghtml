@@ -21,17 +21,17 @@ baseMainContent
             h1 class=title gid=whattitle
         div class=columns style=margin:1rem;
             div class=column 
-                div class=box
+                div class=box style=display:flow-root;
                     h1 class=subtitle gid=observetitle
                     img src=/heap/img/raspberry-pi-icon.png style=width:6rem; float:left; margin:.2rem;
                     p class=has-text-justified gid=observetxt
             div class=column 
-                div class=box
+                div class=box style=display:flow-root;
                     h1 class=subtitle gid=controltitle
                     img src=/heap/img/mobile-data-icon.png style=width:6rem; float:left; margin:.2rem;
                     p class=has-text-justified gid=controltxt
             div class=column 
-                div class=box
+                div class=box style=display:flow-root;
                     h1 class=subtitle gid=automatetitle
                     img src=/heap/img/smart-home-icon.png style=width:6rem; border-radius: 50%; float:left; margin:.2rem;
                     p class=has-text-justified gid=automatetxt

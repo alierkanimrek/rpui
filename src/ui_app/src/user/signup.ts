@@ -285,7 +285,7 @@ export class Signup extends GHTMLControl {
 
 
     submitResult(success:boolean){
-
+        this.bindingStore.gAuthToken = ""
         let restore = ()=>{
             this.elm.submit.style.visibility = "visible"
             this.elm.submit.style.height = ""
