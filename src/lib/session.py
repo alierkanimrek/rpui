@@ -93,7 +93,6 @@ class SessionManager(object):
             data = await self.db.getSession(selector, user)
             if(data):
                 expire = checkSessionData(validator, data["hashedValidator"], data["expires"])
-                self.__log.d("Expire", str(expire))
                 if(expire > 0):
                     if(expire < 50):
                         data["expires"] = (datetime.datetime.now() + datetime.timedelta(minutes=int(self.conf.USERS.session_timeout))).timestamp()
